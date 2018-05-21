@@ -3,6 +3,8 @@ package security.zw.com.securitycheck;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -32,21 +34,33 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import security.zw.com.securitycheck.presenter.LoginPresenter;
+import security.zw.com.securitycheck.utils.toast.ToastUtil;
+import security.zw.com.securitycheck.view.LoginView;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 // 登陆
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView{
 
+
+    public static void launch(Context ctx) {
+        Intent intent = new Intent(ctx, LoginActivity.class);
+        ctx.startActivity(intent);
+    }
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mLoginFormView;
 
+    private LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        presenter = new LoginPresenter(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -104,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        presenter.login(email, password);
 
     }
 
@@ -118,9 +133,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void loginSucc() {
+        ToastUtil.Long("登录成功");
+        MainActivity.launch(this);
+    }
 
+    @Override
+    public void loginFailed(int code, String error) {
+        ToastUtil.Long("用户名或密码错误，请重试");
+        MainActivity.launch(this);
 
-
-
+    }
 }
 

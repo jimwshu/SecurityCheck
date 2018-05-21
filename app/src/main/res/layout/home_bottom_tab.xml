@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff"
+>
+
+    <View
+            android:id="@+id/bottom_view"
+            android:background="#d2d1d5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+    <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+    >
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:id="@+id/home_rel"
+        >
+
+            <TextView
+                    android:includeFontPadding="false"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/home_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="娱乐场"
+                    android:textSize="10dp"
+                    android:layout_marginBottom="2dp"
+            />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/home_img"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@+id/home_name"
+                    android:layout_marginBottom="5dp"
+            />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/my_rel"
+        >
+
+            <TextView
+                    android:includeFontPadding="false"
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/my_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="我的"
+                    android:textSize="10dp"
+                    android:layout_marginBottom="2dp"
+            />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/my_img"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@+id/my_name"
+                    android:layout_marginBottom="5dp"
+            />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/title"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:textColor="#99ffffff"
+                android:textSize="14dp"
+                android:layout_marginBottom="18dp"
+                android:text="衡阳市建设工程安全监管APP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="18dp"
+                android:layout_above="@+id/title"
+                android:visibility="visible"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                android:id="@+id/join"
+                android:text="点击进入"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+
+</RelativeLayout>

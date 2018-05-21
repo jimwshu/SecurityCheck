@@ -13,4 +13,14 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- DateUtil -->
+    <string name="seconds_before">刚刚</string>
+    <string name="minutes_before">%d分钟前</string>
+    <string name="hours_before">%d小时前</string>
+    <string name="days_before">%d天前</string>
+    <string name="nearby_days_before">%d天前</string>
+    <string name="nearby_hours_before">%d小时前</string>
+    <string name="nearby_minutes_before">%d分钟前</string>
+    <string name="browse_large_image_get_avatar_fail">获取头像失败，请稍后重试</string>
 </resources>

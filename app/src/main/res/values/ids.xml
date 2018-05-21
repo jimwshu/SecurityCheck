@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="horizontal_divider" type="id">false</item>
+    <item name="vertical_divider" type="id">false</item>
+    <item name="cancel" type="id">false</item>
+    <item name="sure" type="id">false</item>
+    <item name="tips" type="id">false</item>
+    <item name="edittext" type="id">false</item>
+    <item name="progressBar" type="id">false</item>
+    <item name="loader_layout" type="id">false</item>
+    <item name="content_img" type="id">false</item>
+    <item name="tabs" type="id">false</item>
+    <item name="mcv_pager" type="id"/>
+    <item name="bubble_text" type="id"/>
+    <item name="item_click_support" type="id" />
+</resources>
