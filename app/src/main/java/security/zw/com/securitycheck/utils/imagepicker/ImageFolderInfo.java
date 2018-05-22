@@ -6,14 +6,12 @@ import android.provider.MediaStore;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import qsbk.app.model.QbBean;
 
 /**
  * 图片文件夹的数据模型
  */
 public class ImageFolderInfo implements Serializable {
-    public static final int ID_ALL = -1;
-    public static final String ALBUM_NAME_ALL = "相册";
+
     public int count;
     private int id;
     private String name;
@@ -90,7 +88,7 @@ public class ImageFolderInfo implements Serializable {
             if (info.url.equalsIgnoreCase(path)) {
                 return info;
             }
-        }
+    }
         return null;
     }
 
@@ -107,7 +105,7 @@ public class ImageFolderInfo implements Serializable {
     }
 
     public boolean isAll() {
-        return id == ID_ALL;
+        return id == ImageFolderLoader.ID_ALL;
     }
 
     public static ImageFolderInfo valueOf(Cursor cursor) {

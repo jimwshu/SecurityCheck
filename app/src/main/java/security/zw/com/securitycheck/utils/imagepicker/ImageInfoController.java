@@ -26,7 +26,7 @@ import android.support.v4.content.Loader;
 import java.lang.ref.WeakReference;
 
 public class ImageInfoController implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int LOADER_ID = 1;
+    private static final int LOADER_ID = -10;
     private static final String STATE_CURRENT_SELECTION = "state_current_selection";
     private WeakReference<Context> mContext;
     private LoaderManager mLoaderManager;
@@ -40,7 +40,7 @@ public class ImageInfoController implements LoaderManager.LoaderCallbacks<Cursor
         if (context == null) {
             return null;
         }
-        return ImageInfoLoader.newInstance(context, id, id == ImageInfoLoader.ID_ALL);
+        return ImageInfoLoader.newInstance(context, this.id, this.id == ImageInfoLoader.ID_ALL);
     }
 
     @Override

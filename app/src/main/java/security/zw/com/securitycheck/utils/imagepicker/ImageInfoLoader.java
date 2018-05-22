@@ -29,7 +29,7 @@ import android.support.v4.content.CursorLoader;
  */
 public class ImageInfoLoader extends CursorLoader {
 
-    private static final int MIN_FILE_SIZE = 16 * 1024;
+    private static final int MIN_FILE_SIZE = 0;
 
     public static final int ITEM_ID_CAPTURE = Integer.MIN_VALUE;
     public static final String ITEM_DISPLAY_NAME_CAPTURE = "camera";
@@ -82,11 +82,11 @@ public class ImageInfoLoader extends CursorLoader {
 
         if (id == ID_ALL) {
             selection = SELECTION_ALL;
-            enableCapture = capture;
+            enableCapture = true;
         } else {
             selection = SELECTION_ALBUM;
             selectionArgs = getSelectionArgsForBucket(id);
-            enableCapture = false;
+            enableCapture = true;
         }
         return new ImageInfoLoader(context, selection, selectionArgs, enableCapture);
     }

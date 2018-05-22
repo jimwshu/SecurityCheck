@@ -19,7 +19,10 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.utils.QBImageView;
+import security.zw.com.securitycheck.utils.image.FrescoImageloader;
 import security.zw.com.securitycheck.utils.imagepicker.recyclerview.CursorRecyclerViewAdapter;
+import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 
 public class ImageGridAdapter extends CursorRecyclerViewAdapter {
@@ -74,13 +77,13 @@ public class ImageGridAdapter extends CursorRecyclerViewAdapter {
                             if (!mOnMediaCheckedListener.isMaxCount() && !mOnMediaCheckedListener.isMediaSelected(imageInfo)) {
                                 if (imageInfo.isOverSize()) {
                                     view.setChecked(false);
-                                    ToastAndDialog.makeNegativeToast(QsbkApp.mContext, String.format("图片不能大于%s", imageInfo.getMaxSize())).show();
+                                    ToastUtil.Long( String.format("图片不能大于%s", imageInfo.getMaxSize()));
                                 } else {
                                     mOnMediaCheckedListener.select(imageInfo);
                                 }
                             } else {
                                 view.setChecked(false); // 不能选择，就回退
-                                ToastAndDialog.makeNegativeToast(view.getContext(), String.format("最多只能选取%s张图片哦", mOnMediaCheckedListener.getMaxChooseCount()), Toast.LENGTH_SHORT).show();
+                                ToastUtil.Long(String.format("最多只能选取%s张图片哦", mOnMediaCheckedListener.getMaxChooseCount()));
                             }
                         } else {
                             mOnMediaCheckedListener.unSelect(imageInfo);
@@ -103,11 +106,7 @@ public class ImageGridAdapter extends CursorRecyclerViewAdapter {
                 .setOldController(simpleDraweeView.getController())
                 .setImageRequest(request)
                 .build();
-        if (format == MediaFormat.IMAGE_LONG) {
-            simpleDraweeView.getHierarchy().setActualImageScaleType(FrescoImageloader.SCALE_CENTER_TOP);
-        } else {
-            simpleDraweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
-        }
+        simpleDraweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
         simpleDraweeView.setController(controller);
         simpleDraweeView.setTypeImageResouce(MediaFormat.getFormatTagImage(format));
     }
@@ -129,7 +128,7 @@ public class ImageGridAdapter extends CursorRecyclerViewAdapter {
             image = itemView.findViewById(R.id.image_folder_image);
             image.setChecked(false);
             image.setCheckable(false);
-            image.setImageResource(R.drawable.image_picker_camera);
+            image.setImageResource(R.mipmap.image_picker_camera);
             image.setBackgroundColor(0xff444444);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,7 +136,7 @@ public class ImageGridAdapter extends CursorRecyclerViewAdapter {
                     if (!mOnMediaCheckedListener.isMaxCount()) {
                         mOnMediaCheckedListener.startCamera();
                     } else {
-                        ToastAndDialog.makeNegativeToast(QsbkApp.mContext, String.format("最多只能选取%s张图片哦", mOnMediaCheckedListener.getMaxChooseCount()), Toast.LENGTH_SHORT).show();
+                        ToastUtil.Long(String.format("最多只能选取%s张图片哦", mOnMediaCheckedListener.getMaxChooseCount()));
                     }
                 }
             });

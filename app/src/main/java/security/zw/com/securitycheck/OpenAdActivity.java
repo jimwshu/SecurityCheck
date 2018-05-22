@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.utils.imagepicker.ImagesPickerActivity;
 
 
 /**
@@ -49,6 +50,6 @@ public class OpenAdActivity extends BaseSystemBarTintActivity {
 
     private void gotoMain() {
         finish();
-        LoginActivity.launch(OpenAdActivity.this);
+        ImagesPickerActivity.launch(OpenAdActivity.this, 3);
     }
 }

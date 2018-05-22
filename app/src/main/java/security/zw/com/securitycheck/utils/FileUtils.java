@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -792,6 +793,50 @@ public class FileUtils {
 			intent.setData(uri);
 			context.getApplicationContext().sendBroadcast(intent);
 		}
+	}
+
+	/**
+	 * 通知手机，存储文件发生变化
+	 */
+	public static void notifyFileChanged(Context context, File file) {
+		try {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+				MediaScannerConnection.scanFile(
+						context,
+						new String[]{file.getAbsolutePath()},
+						null,
+						new MediaScannerConnection.OnScanCompletedListener() {
+							public void onScanCompleted(String path, Uri uri) {
+							}
+						});
+			} else {
+				final Intent intent = new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory()));
+				context.sendBroadcast(intent);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 获取android 相机拍摄的默认文件夹地址
+	 */
+	public static File getExternalDCIMDir(Context context) {
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+			if (directory != null) {
+				File qsbkDCIM = new File(directory, "security");
+				if (!qsbkDCIM.exists()) {
+					qsbkDCIM.mkdir();
+				}
+				return qsbkDCIM;
+			}
+		}
+
+		File path = new File(Environment.getExternalStorageDirectory(), context.getPackageName());
+		if (!path.exists())
+			path.mkdir();
+		return path;
 	}
 
 }

@@ -8,8 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,19 +36,13 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import java.io.File;
 import java.util.ArrayList;
 
-import qsbk.app.R;
-import qsbk.app.activity.base.BaseActionBarActivity;
-import qsbk.app.adapter.ImageGridAdapter;
-import qsbk.app.fragments.ImagePickFragment;
-import qsbk.app.image.FrescoImageloader;
-import qsbk.app.model.media.MediaFormat;
-import qsbk.app.utils.FileUtils;
-import qsbk.app.utils.LogUtil;
-import qsbk.app.utils.ResultActivityListener;
-import qsbk.app.widget.BlackProgressDialog;
-import qsbk.app.widget.recyclerview.CursorRecyclerViewAdapter;
-import qsbk.app.widget.recyclerview.ItemClickSupport;
+import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.base.BaseActivity;
+import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.utils.FileUtils;
+import security.zw.com.securitycheck.utils.imagepicker.recyclerview.CursorRecyclerViewAdapter;
+import security.zw.com.securitycheck.utils.imagepicker.recyclerview.ItemClickSupport;
+import security.zw.com.securitycheck.utils.imagepreview.ImagePreviewActivity;
 
 /**
  * 图片选择
@@ -57,6 +53,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
     public static final String CHECKED_ARRAY_KEY = "checkedArray";
     public static final int KEY_PRIVIEW = 99;
     public static final int KEY_DIRECTOR_RETURN = 999;
+    public static final int KEY_CAMARE = 1999;
     public static int maxCount = 6;
     private FolderListAdapter folderAdapter;
     private ArrayList<ImageInfo> checkedArray = new ArrayList<ImageInfo>();
@@ -77,36 +74,12 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
 
     ImageFolderController imageFolderController = new ImageFolderController();
 
-
     /**
      * For memory case.
      */
     private int from;//1为来自群，2来自chat，默认来自糗友圈发帖
     private Uri mCameraFilePath;
-    /**
-     * 拍照返回图片的listener
-     */
-    private ResultActivityListener onCameraResultListener = new ResultActivityListener() {
-        @Override
-        public void onResult(int requestCode, int resultCode, Intent data) {
-            if (resultCode == RESULT_OK) {
-                dialog.show();
-                FileUtils.notifyFileChanged(ImagesPickerActivity.this, new File(mCameraFilePath.getPath()));
-                ImageInfo cameraInfo = new ImageInfo(mCameraFilePath.toString());
-                checkedArray.add(cameraInfo);
 
-                folderView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageFolderController.restart();
-                        currentFragment.refreshData();
-                        dialog.dismiss();
-                    }
-                }, 300);
-
-            }
-        }
-    };
     private ImageFolderInfo mCurrentFolder;
     private ImagePickFragment currentFragment;
 
@@ -132,19 +105,21 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         return intent;
     }
 
-    @Override
     protected String getCustomTitle() {
         return "图片选择";
     }
 
     @Override
-    protected int getContentViewId() {
+    protected int getLayoutId() {
         return R.layout.fragment_image_picker_copy;
     }
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        setActionbarBackable();
+    protected void initData() {
+        initFolders();
+    }
+
+    protected void init() {
         maxCount = getIntent().getIntExtra(COUNT_KEY, 0);
         from = getIntent().getIntExtra("KEY_PICK_IAMGE", 0);
         ArrayList<ImageInfo> intentCheck = (ArrayList<ImageInfo>) getIntent().getSerializableExtra(CHECKED_ARRAY_KEY);
@@ -154,12 +129,10 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         if (maxCount <= 0) {
             finish();
         }
-        initView();
         initAnim();
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         imageWidth = (int) ((metrics.widthPixels - 5 * 4 * metrics.density) / 4);
         setResult(RESULT_CANCELED);
-        initFolders();
     }
 
     @Override
@@ -167,7 +140,9 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         super.onResume();
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
+        init();
         folderAdapter = new FolderListAdapter(this, null);
 
         folderView = findViewById(R.id.image_folder_list);
@@ -202,6 +177,12 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         });
 
         picker_preview = (TextView) findViewById(R.id.picker_preview);
+        picker_preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         if (checkedArray.size() > 0) {
             picker_preview.setClickable(true);
             picker_preview.setTextColor(0xffffffff);
@@ -340,11 +321,47 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == KEY_CAMARE && resultCode == RESULT_OK) {
+            dialog.show();
+            FileUtils.notifyFileChanged(ImagesPickerActivity.this, new File(mCameraFilePath.getPath()));
+            ImageInfo cameraInfo = new ImageInfo(mCameraFilePath.toString());
+            checkedArray.add(cameraInfo);
+
+            folderView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imageFolderController.restart();
+                    currentFragment.refreshData();
+                    dialog.dismiss();
+                }
+            }, 300);
+
+            refreshCheckState();
+        }
+        /*
+        todo start activity 返回
+        if (resultCode == RESULT_OK) {
+            dialog.show();
+            FileUtils.notifyFileChanged(ImagesPickerActivity.this, new File(mCameraFilePath.getPath()));
+            ImageInfo cameraInfo = new ImageInfo(mCameraFilePath.toString());
+            checkedArray.add(cameraInfo);
+
+            folderView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imageFolderController.restart();
+                    currentFragment.refreshData();
+                    dialog.dismiss();
+                }
+            }, 300);
+
+        }*/
+
+
+
         // 从ImagePreviewActivity点击完成返回来的，直接关闭页面，返回paths
         if (resultCode == KEY_DIRECTOR_RETURN) {
-            LogUtil.e("set result ok");
             ArrayList<ImageInfo> paths = (ArrayList<ImageInfo>) data.getSerializableExtra(ImagesPickerActivity.PATH_KEY);
-            ;
             Intent intent = new Intent();
             intent.putExtra(PATH_KEY, paths);
             setResult(RESULT_OK, intent);
@@ -361,7 +378,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
                 picker_preview.setClickable(false);
                 picker_preview.setTextColor(0xffededed);
             }
-
+            currentFragment.notifyDataChange();
         }
 
 
@@ -409,11 +426,14 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         Intent getImageByCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mCameraFilePath = Uri.fromFile(getCameraOutputPath(this));
         getImageByCamera.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFilePath);
-        startActivityWithCallback(getImageByCamera, onCameraResultListener);
+        startActivityForResult(getImageByCamera, KEY_CAMARE);
     }
+
+
 
     @Override
     public void goPreview(ImageFolderInfo folderInfo, ImageInfo imageInfo) {
+        // todo preview activity
         ImagePreviewActivity.launchForResult(this, checkedArray, folderInfo, imageInfo, KEY_PRIVIEW);
     }
 
@@ -434,7 +454,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
      * 获取相机照完后的图片路径
      */
     private File getCameraOutputPath(Context context) {
-        return new File(FileUtils.getExternalDCIMDir(context), "QSBK" + System.currentTimeMillis() + ".jpg");
+        return new File(FileUtils.getExternalDCIMDir(context), "security" + System.currentTimeMillis() + ".jpg");
     }
 
     private void displayFileImage(SimpleDraweeView simpleDraweeView, String uri) {
@@ -452,11 +472,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
                 .setOldController(simpleDraweeView.getController())
                 .setImageRequest(request)
                 .build();
-        if (format == MediaFormat.IMAGE_LONG) {
-            simpleDraweeView.getHierarchy().setActualImageScaleType(FrescoImageloader.SCALE_CENTER_TOP);
-        } else {
-            simpleDraweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
-        }
+        simpleDraweeView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
         simpleDraweeView.setController(controller);
     }
 
@@ -517,4 +533,5 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
             }
         }
     };
+
 }

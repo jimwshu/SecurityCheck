@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -65,6 +66,15 @@
                 android:screenOrientation="portrait"
         />
 
+        <activity
+                android:name=".utils.imagepicker.ImagesPickerActivity"
+                android:screenOrientation="portrait"
+                ></activity>
+
+        <activity
+                android:name=".utils.imagepreview.ImagePreviewActivity"
+                android:screenOrientation="portrait"
+        ></activity>
     </application>
 
 </manifest>

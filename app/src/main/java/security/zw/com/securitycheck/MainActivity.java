@@ -24,6 +24,7 @@ import java.util.List;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.fragment.HomeFragment;
 import security.zw.com.securitycheck.fragment.MyFragment;
+import security.zw.com.securitycheck.utils.imagepicker.ImagesPickerActivity;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 
@@ -124,7 +125,7 @@ public class MainActivity extends BaseSystemBarTintActivity {
         myImg = (SimpleDraweeView) findViewById(R.id.my_img);
         myName = (TextView) findViewById(R.id.my_name);
 
-
+        setSelect(0);
     }
 
 
@@ -188,6 +189,7 @@ public class MainActivity extends BaseSystemBarTintActivity {
 
                 mPager.setCurrentItem(i, false);
 
+                ImagesPickerActivity.launch(this, 6);
                 break;
             case 1:
 

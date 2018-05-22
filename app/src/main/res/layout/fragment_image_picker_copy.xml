@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+    <include
+            layout="@layout/layout_custom_actionbar"
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+    ></include>
+
+    <RelativeLayout
+            android:id="@+id/image_picker_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:background="#eb000000">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+        >
+
+            <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/picker_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="相册"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"/>
+
+
+            <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/picker_preview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="预览"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+            />
+
+
+            <RelativeLayout
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+            >
+
+                <TextView
+                        android:id="@+id/picker_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="完成"
+                        android:textColor="#ffffff"
+                        android:paddingRight="15dp"
+                        android:gravity="center"
+                />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10dp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/select_num_bg"
+                        android:gravity="center"
+                        android:id="@+id/select_num"
+                        android:text="2"
+                        android:layout_toLeftOf="@+id/picker_count"
+                        android:layout_marginRight="8dp"
+                />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+            android:layout_below="@+id/action_bar"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/image_picker_bar"
+            android:padding="4dp">
+
+    </FrameLayout>
+
+    <View
+            android:id="@+id/image_folder_list_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/image_picker_bar"
+            android:visibility="gone"
+            android:background="#b2000000"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/image_folder_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_above="@id/image_picker_bar"
+            android:dividerHeight="0.5dp"
+            android:divider="#888888"
+            android:visibility="gone"
+            android:background="#ffffff">
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

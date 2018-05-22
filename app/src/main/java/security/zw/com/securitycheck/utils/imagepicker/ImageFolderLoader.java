@@ -25,14 +25,16 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 
-import static qsbk.app.core.imagepicker.ImageInfoLoader.ALBUM_NAME_ALL;
-import static qsbk.app.core.imagepicker.ImageInfoLoader.ID_ALL;
+
 
 
 /**
  * Load all albums (grouped by bucket_id) into a single cursor.
  */
 public class ImageFolderLoader extends CursorLoader {
+    public static final int ID_ALL = -1;
+    public static final String ALBUM_NAME_ALL = "相册";
+
     public static final String COLUMN_COUNT = "count";
     private static final Uri QUERY_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private static final String[] COLUMNS = {

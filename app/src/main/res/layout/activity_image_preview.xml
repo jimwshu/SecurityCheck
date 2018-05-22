@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+        >
+
+    <include
+            layout="@layout/layout_custom_actionbar"
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+    ></include>
+
+
+
+            <android.support.v4.view.ViewPager
+                    android:layout_below="@+id/action_bar"
+                    android:id="@+id/priview_viewpager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:background="#000000"
+                    android:unselectedAlpha="1">
+            </android.support.v4.view.ViewPager>
+
+            <RelativeLayout
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/imageviewer_footermask"
+                    >
+
+                <TextView
+                        android:id="@+id/sent_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="完成"
+                        android:textColor="#ffffff"
+                        android:paddingRight="15dp"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10dp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/select_num_bg"
+                        android:gravity="center"
+                        android:id="@+id/select_num"
+                        android:text="2"
+                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/sent_textview"
+                        android:layout_marginRight="8dp"
+                        />
+
+
+            </RelativeLayout>
+
+</RelativeLayout>
