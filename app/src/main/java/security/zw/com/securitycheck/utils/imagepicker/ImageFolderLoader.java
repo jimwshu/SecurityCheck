@@ -51,7 +51,7 @@ public class ImageFolderLoader extends CursorLoader {
             "COUNT(*) AS " + COLUMN_COUNT};
 
     private static final String SELECTION_FOR_SINGLE_MEDIA_TYPE =
-            MediaStore.MediaColumns.SIZE + ">0"
+            MediaStore.MediaColumns.SIZE + ">" + ImageInfoLoader.MIN_FILE_SIZE
                     + ") GROUP BY (bucket_id";
 
     private static final String BUCKET_ORDER_BY = "datetaken DESC";
