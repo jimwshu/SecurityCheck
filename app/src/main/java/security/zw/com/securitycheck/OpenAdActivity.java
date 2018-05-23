@@ -50,6 +50,6 @@ public class OpenAdActivity extends BaseSystemBarTintActivity {
 
     private void gotoMain() {
         finish();
-        ImagesPickerActivity.launch(OpenAdActivity.this, 3);
+        LoginActivity.launch(OpenAdActivity.this);
     }
 }

@@ -8,7 +8,6 @@
 >
 
 
-
     <include
             android:visibility="visible"
             layout="@layout/home_bottom_tab"

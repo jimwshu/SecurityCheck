@@ -98,14 +98,6 @@ public class MainActivity extends BaseSystemBarTintActivity {
         setContentView(R.layout.activity_main);
 
 
-        //透明状态栏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            // Translucent status bar
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
 
         initWidget();
         initData();
@@ -189,11 +181,10 @@ public class MainActivity extends BaseSystemBarTintActivity {
 
                 mPager.setCurrentItem(i, false);
 
-                ImagesPickerActivity.launch(this, 6);
                 break;
             case 1:
 
-                homeImg.setImageResource(R.mipmap.home_unclick_old);
+                homeImg.setImageResource(R.mipmap.home_unclick);
                 homeName.setTextColor(0xff777e98);
 
                 myImg.setImageResource(R.mipmap.my_click);

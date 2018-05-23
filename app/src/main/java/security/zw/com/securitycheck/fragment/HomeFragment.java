@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
  * Created by wangshu on 17/5/19.
  */
 
-public class HomeFragment extends BaseStatisticsFragment{
+public class HomeFragment extends BaseStatisticsFragment {
 
 
     private RecyclerView mRecyclerView;
@@ -50,6 +52,29 @@ public class HomeFragment extends BaseStatisticsFragment{
         return view;
     }
 
+    private LinearLayout barLeft;
+    private ImageView barBack;
+    private ImageView barClose;
+    private TextView barTitle;
+    private ImageView barButton;
+    private RelativeLayout barRightRel;
+
+    private void initBar(View view) {
+        barLeft = (LinearLayout) view.findViewById(R.id.bar_left);
+        barBack = (ImageView) view.findViewById(R.id.bar_back);
+        barClose = (ImageView) view.findViewById(R.id.bar_close);
+        barTitle = (TextView) view.findViewById(R.id.bar_title);
+        barRightRel = view.findViewById(R.id.bar_right_rel);
+        barButton = view.findViewById(R.id.checked);
+        barButton.setVisibility(View.VISIBLE);
+        barRightRel.setVisibility(View.VISIBLE);
+        barLeft.setVisibility(View.VISIBLE);
+        barClose.setVisibility(View.VISIBLE);
+        barBack.setVisibility(View.GONE);
+        barTitle.setText("监督宝");
+
+    }
+
     public void initView(LayoutInflater inflater, ViewGroup container) {
 
         view = inflater.inflate(R.layout.layout_home_fragment, container, false);
@@ -61,7 +86,7 @@ public class HomeFragment extends BaseStatisticsFragment{
         mRecyclerView.setAdapter(mHomeAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-
+        initBar(view);
     }
 
 

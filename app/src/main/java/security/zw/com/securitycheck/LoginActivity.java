@@ -34,6 +34,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.presenter.LoginPresenter;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.LoginView;
@@ -41,8 +42,13 @@ import security.zw.com.securitycheck.view.LoginView;
 import static android.Manifest.permission.READ_CONTACTS;
 
 // 登陆
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends BaseSystemBarTintActivity implements LoginView{
 
+
+    @Override
+    protected boolean isNeedImmersiveStatusBar() {
+        return true;
+    }
 
     public static void launch(Context ctx) {
         Intent intent = new Intent(ctx, LoginActivity.class);
@@ -50,9 +56,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     }
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
-    private View mLoginFormView;
+    private Button mLogin;
 
     private LoginPresenter presenter;
 
@@ -62,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         setContentView(R.layout.activity_login);
         presenter = new LoginPresenter(this);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -75,15 +81,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mLogin = (Button) findViewById(R.id.button);
+        mLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
     }
 
 
@@ -95,28 +100,31 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
      */
     private void attemptLogin() {
 
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError("密码不能少于4位");
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            ToastUtil.Short("用户名不能为空");
             return;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError("用户名不能为空");
-            return;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError("用户名不能少于4位");
+        if (!isEmailValid(email)) {
+            ToastUtil.Short("用户名不能少于4位");
             return;
         }
+
+        if (TextUtils.isEmpty(password)) {
+            ToastUtil.Short("密码不能为空");
+            return;
+        }
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            ToastUtil.Short("密码不能少于4位");
+            return;
+        }
+
+
 
         presenter.login(email, password);
 
