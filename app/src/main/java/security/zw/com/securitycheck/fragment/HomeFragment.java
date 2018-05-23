@@ -19,7 +19,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
+import security.zw.com.securitycheck.bean.Item;
 
 
 /**
@@ -73,10 +75,20 @@ public class HomeFragment extends BaseStatisticsFragment {
         barBack.setVisibility(View.GONE);
         barTitle.setText("监督宝");
 
+
     }
 
     public void initView(LayoutInflater inflater, ViewGroup container) {
-
+        if (SecurityApplication.mUser != null) {
+            for (int i = 0; i < 9; i++) {
+                Item item = new Item();
+                item.type = i;
+                data.add(item);
+            }
+        } else {
+            System.exit(0);
+            return;
+        }
         view = inflater.inflate(R.layout.layout_home_fragment, container, false);
         //actionBar = (RelativeLayout) view.findViewById(R.id.action_bar);
         mRecyclerView = view.findViewById(R.id.recycler_view);

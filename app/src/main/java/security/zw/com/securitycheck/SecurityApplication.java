@@ -63,7 +63,12 @@ public class SecurityApplication extends Application {
         String localUserData = PreferenceUtils.instance().getString("loginUser", "");
         if (!TextUtils.isEmpty(localUserData)) {
             mUser = UserInfo.parseUserInfoFromString(localUserData);
-        }
+        }/* else {
+            mUser = new UserInfo();
+            mUser.id = 1;
+            mUser.name = "sb";
+            mUser.type = 1;
+        }*/
     }
 
     public void updateUserInfo(UserInfo userInfo) {

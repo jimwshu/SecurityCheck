@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="娱乐场"
+                    android:text="首页"
                     android:textSize="10dp"
                     android:layout_marginBottom="2dp"
             />
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="我的"
+                    android:text="个人"
                     android:textSize="10dp"
                     android:layout_marginBottom="2dp"
             />

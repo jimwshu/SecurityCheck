@@ -38,6 +38,16 @@ public class NetworkCallback {
             if (jsonObject.has("code")) {
                 int code = jsonObject.optInt("code");
                 if (code == 0) {
+
+                    if (jsonObject.has("user_info")) {
+                        JSONObject jsonObject1 = jsonObject.optJSONObject("user_info");
+                        if (jsonObject1 != null && jsonObject1.length() > 0 && SecurityApplication.mUser != null) {
+                            UserInfo userInfo = new UserInfo();
+                            userInfo.parseFromJSONObject(jsonObject1);
+                            SecurityApplication.getInstance().updateUserInfo(userInfo);
+                        }
+                    }
+
                     onRealSuccess(date);
                 } else{
                     onFailed(code, jsonObject.optString("msg"));

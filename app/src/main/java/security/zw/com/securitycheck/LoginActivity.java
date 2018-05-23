@@ -145,13 +145,12 @@ public class LoginActivity extends BaseSystemBarTintActivity implements LoginVie
     public void loginSucc() {
         ToastUtil.Long("登录成功");
         MainActivity.launch(this);
+        finish();
     }
 
     @Override
     public void loginFailed(int code, String error) {
         ToastUtil.Long("用户名或密码错误，请重试");
-        MainActivity.launch(this);
-
     }
 }
 

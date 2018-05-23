@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rel"
+                >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="43dp"
+            android:id="@+id/image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="7dp"
+            fresco:actualImageScaleType="centerCrop"
+            />
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/name"
+            android:layout_below="@+id/image"
+            android:text="我的项目"
+            android:textColor="#1a1a1a"
+            android:textSize="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    
+    
+    <TextView
+            android:layout_marginLeft="-15dp"
+            android:layout_toRightOf="@+id/image"
+            android:layout_marginTop="43dp"
+            android:id="@+id/num"
+            android:gravity="center"
+            android:text="99+"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:background="@drawable/my_shape_circle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+
+
+
+</RelativeLayout>

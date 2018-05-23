@@ -11,15 +11,24 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
 
 public class UserInfo extends JSONAble {
 
-    public String gtoken;
+
+     /*"id": 36,
+             "name": "刘天宇",
+             "ip": "127.0.0.1",
+             "identity": "320683198907030019",
+             "privList": [],
+             "departmentId": 5,
+             "departmentLevel": 3,
+             "type": 1,
+             "isAdmin": false*/
+
     public int id;
-
     public String name;
-    public String avatar;
-
-    public String phone;
-    public String password;
-
+    public String ip;
+    public String identity;
+    public int departmentId;
+    public int departmentLevel;
+    public boolean isAdmin;
     /*安监员（副站长）：
     我的项目：分配给我的工程项目列表，点击进入项目详情。
     我的整改：我下达过的整改列表，点击查看呢本次整改信息。
@@ -84,6 +93,19 @@ public class UserInfo extends JSONAble {
 
     超级管理员：不使用APP，主要在WEB端进行系统维护、权限控制*/
 
+
+    /**
+     * 1. 安检员
+     * 2。安检员副站长
+     * 3.  执法员
+     * 4. 执法员副站长
+     * 5. 设备员
+     * 6. 设备员副站长
+     * 7. 技术科
+     * 8. 技术科副站长
+     * 9. 站长
+     * 10. 办公员
+     */
 
 
     public int type;

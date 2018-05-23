@@ -38,7 +38,21 @@ public class LoginPresenter implements BasePresenter{
             @Override
             public void onRealSuccess(String date) {
                 super.onRealSuccess(date);
-                loginView.loginSucc();
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONObject user = jsonObject.optJSONObject("data");
+                    if (user != null) {
+                        UserInfo userInfo = new UserInfo();
+                        userInfo.parseFromJSONObject(user);
+                        SecurityApplication.getInstance().mUser = userInfo;
+                        SecurityApplication.getInstance().saveUserInfo();
+                        loginView.loginSucc();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loginView.loginFailed(-1, "数据解析失败");
+                }
             }
 
         });

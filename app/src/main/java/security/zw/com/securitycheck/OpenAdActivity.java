@@ -50,6 +50,10 @@ public class OpenAdActivity extends BaseSystemBarTintActivity {
 
     private void gotoMain() {
         finish();
-        LoginActivity.launch(OpenAdActivity.this);
+        if (SecurityApplication.mUser != null) {
+            MainActivity.launch(this);
+        } else {
+            LoginActivity.launch(OpenAdActivity.this);
+        }
     }
 }
