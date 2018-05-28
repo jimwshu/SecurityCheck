@@ -9,20 +9,28 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
  * - 登陆用户
  */
 
-public class LoginBean extends JSONAble {
+public class ProjectInfo extends JSONAble {
 
-    public String phone;
-    public String password;
+    public final static int TYPE_NEED_CHANGE = 1, TYPE_NORMAL = 2, TYPE_FINISHED = 3, TYPE_UNSAFE = 4;
+
+    public int state = 0;
+    //项目状态 1整改、2正常、3竣工、4 未办开工前安全条件审查
 
 
-    public LoginBean() {
+
+    public int id;
+    public String name;
+    public String des;
+    public int supervise;//是否督办 0：未督办 1督办
+
+    public ProjectInfo() {
     }
 
 
 
-    public static LoginBean parseUserInfoFromString(String u) {
+    public static ProjectInfo parseUserInfoFromString(String u) {
         try {
-            LoginBean userInfo = new LoginBean();
+            ProjectInfo userInfo = new ProjectInfo();
             JSONObject jsonObject = new JSONObject(u);
             userInfo.parseFromJSONObject(jsonObject);
             return userInfo;

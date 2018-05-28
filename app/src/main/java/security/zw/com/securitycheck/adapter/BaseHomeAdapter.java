@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.bean.UserInfo;
@@ -111,7 +112,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("我的项目");
+                        MyProjectActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_CHANGE) {

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+>
+
+    <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:gravity="center"
+            android:text="取消"
+            android:src="@mipmap/bar_back"
+            />
+
+
+    <TextView
+            android:id="@+id/perrmission"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center_vertical"
+            android:text="我的项目"
+            android:textColor="#ffffff"
+            android:textSize="17dp"
+            android:drawableRight="@mipmap/circle_publish_arrow"
+            android:layout_centerInParent="true"
+            android:drawablePadding="6dp"
+            />
+
+
+    <ImageView
+            android:visibility="gone"
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:src="@drawable/my_shape_circle"
+            />
+</RelativeLayout>

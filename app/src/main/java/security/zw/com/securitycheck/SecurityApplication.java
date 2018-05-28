@@ -1,5 +1,10 @@
 package security.zw.com.securitycheck;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -10,6 +15,8 @@ import android.text.TextUtils;
 import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import security.zw.com.securitycheck.bean.UserInfo;
@@ -122,5 +129,39 @@ public class SecurityApplication extends Application {
     public void onLowMemory() {
         super.onLowMemory();
         FrescoImageloader.clearAllMemoryCaches();
+    }
+
+    private static Gson mGson;
+
+    public static Gson getGson() {
+        if (mGson == null) {
+            ExclusionStrategy exclusionStrategy = new ExclusionStrategy() {
+
+                @Override
+                public boolean shouldSkipField(FieldAttributes fieldAttributes) {
+                    return false;
+                }
+
+                @Override
+                public boolean shouldSkipClass(Class<?> clazz) {
+                    return clazz == Field.class || clazz == Method.class;
+                }
+            };
+            mGson = new GsonBuilder()
+                    .addSerializationExclusionStrategy(exclusionStrategy)
+                    .addDeserializationExclusionStrategy(exclusionStrategy)
+                    .create();
+        }
+        return mGson;
+    }
+
+    public static <T> T fromJson(String json, Class<T> type) {
+        T t = null;
+        try {
+            t = getGson().fromJson(json, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return t;
     }
 }

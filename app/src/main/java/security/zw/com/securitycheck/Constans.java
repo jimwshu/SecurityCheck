@@ -34,5 +34,19 @@ public class Constans {
 
     }
 
+    public interface GetMyProjectList {
 
+        @POST("supervisorDiamond/myProject/list")
+        public Call<String> getList(@Body RequestBody route);
+
+        @POST("supervisorDiamond/myProject/{id}")
+        public Call<String> getProjectById(@Path("id") int id);
+
+    }
+
+    public interface GetCheckItemList {
+
+        @POST("supervisorDiamond/checkIterm/list")
+        public Call<String> getCheckItemList();
+    }
 }

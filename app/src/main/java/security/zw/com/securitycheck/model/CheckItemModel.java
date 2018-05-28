@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,7 +11,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.SecurityApplication;
-import security.zw.com.securitycheck.postbean.LoginBean;
+import security.zw.com.securitycheck.postbean.MyProjectBean;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.net.NetworkCallback;
 
@@ -21,34 +20,25 @@ import security.zw.com.securitycheck.utils.net.NetworkCallback;
  *
  *  登陆逻辑
  */
-public class LoginModel implements BaseModel {
+public class CheckItemModel implements BaseModel {
 
 
     private Context mContext;
     private Call<String> mCall;
     private boolean isLogin = false;
 
-    public LoginModel() {
+    public CheckItemModel() {
         mContext = SecurityApplication.mContext;
     }
 
 
-    public void login(String phone, String code, final NetworkCallback callback){
+    public void getList(final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
-            Constans.GetSmsService getSmsService = mRetrofit.create(Constans.GetSmsService.class);
-
-            Gson gson = new Gson();
-            LoginBean loginBean = new LoginBean();
-            loginBean.phone = phone;
-            loginBean.password = code;
-
-            String s = gson.toJson(loginBean);
-            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
-
-            mCall = getSmsService.login(requestBody);
+            Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
+            mCall = getCheckItemList.getCheckItemList();
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -76,6 +66,4 @@ public class LoginModel implements BaseModel {
             });
         }
     }
-    
-
 }

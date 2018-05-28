@@ -30,4 +30,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0'
+    compile 'com.drawthink:expandable-recyclerview:0.0.3'
 }

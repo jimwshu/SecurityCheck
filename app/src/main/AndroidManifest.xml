@@ -73,6 +73,21 @@
                 android:name=".utils.imagepreview.ImagePreviewActivity"
                 android:screenOrientation="portrait"
         ></activity>
+
+        <activity
+                android:name=".MyProjectActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".ProjectDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".CheckItemActivity"
+                android:screenOrientation="portrait"
+        ></activity>
     </application>
 
 </manifest>

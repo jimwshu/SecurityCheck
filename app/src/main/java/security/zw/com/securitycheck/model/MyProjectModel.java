@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,6 +12,7 @@ import retrofit2.Retrofit;
 import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.postbean.LoginBean;
+import security.zw.com.securitycheck.postbean.MyProjectBean;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.net.NetworkCallback;
 
@@ -21,34 +21,37 @@ import security.zw.com.securitycheck.utils.net.NetworkCallback;
  *
  *  登陆逻辑
  */
-public class LoginModel implements BaseModel {
+public class MyProjectModel implements BaseModel {
 
 
     private Context mContext;
     private Call<String> mCall;
     private boolean isLogin = false;
 
-    public LoginModel() {
+    public MyProjectModel() {
         mContext = SecurityApplication.mContext;
     }
 
 
-    public void login(String phone, String code, final NetworkCallback callback){
+    public void getList(int type, int page, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
-            Constans.GetSmsService getSmsService = mRetrofit.create(Constans.GetSmsService.class);
+            Constans.GetMyProjectList getSmsService = mRetrofit.create(Constans.GetMyProjectList.class);
+
 
             Gson gson = new Gson();
-            LoginBean loginBean = new LoginBean();
-            loginBean.phone = phone;
-            loginBean.password = code;
-
+            MyProjectBean loginBean = new MyProjectBean();
+            loginBean.userId = SecurityApplication.mUser.id;
+            loginBean.type = type;
+            loginBean.page = page;
+            loginBean.size = 10;
             String s = gson.toJson(loginBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 
-            mCall = getSmsService.login(requestBody);
+
+            mCall = getSmsService.getList(requestBody);
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -76,6 +79,43 @@ public class LoginModel implements BaseModel {
             });
         }
     }
-    
+
+    public void getProjectById(int id, final NetworkCallback callback){
+
+        if (!isLogin) {
+            isLogin = true;
+            Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            Constans.GetMyProjectList getSmsService = mRetrofit.create(Constans.GetMyProjectList.class);
+
+
+            mCall = getSmsService.getProjectById(id);
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    isLogin = false;
+                    int code = response.code();
+                    if (response.isSuccessful()) {
+                        if (callback != null) {
+                            callback.onSuccess(response.body().toString());
+                        }
+                    } else {
+                        if (callback != null) {
+                            callback.onFailed(code, response.message());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    isLogin = false;
+                    t.printStackTrace();
+                    if (callback != null) {
+                        callback.onFailed(t);
+                    }
+                }
+            });
+        }
+    }
+
 
 }
