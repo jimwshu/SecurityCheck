@@ -31,7 +31,6 @@
             android:id="@+id/des"
             android:layout_below="@+id/name"
             android:layout_alignLeft="@+id/name"
-            android:text="需要整改项目"
             android:textColor="#92969c"
             android:textSize="13dp"
             android:layout_width="wrap_content"

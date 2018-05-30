@@ -328,7 +328,7 @@ public class ImagePreviewActivity extends BaseActivity implements BrowseBaseFrag
             }
         });
         barRight = (RelativeLayout) findViewById(R.id.bar_right_rel);
-        checked = (ImageButton) findViewById(R.id.checked);
+        checked = (ImageView) findViewById(R.id.checked);
         cancel = (TextView) findViewById(R.id.cancel);
 
         barRight.setVisibility(View.VISIBLE);
@@ -370,6 +370,6 @@ public class ImagePreviewActivity extends BaseActivity implements BrowseBaseFrag
     private ImageView barClose;
     private TextView barTitle;
     private RelativeLayout barRight;
-    private ImageButton checked;
+    private ImageView checked;
     private TextView cancel;
 }
