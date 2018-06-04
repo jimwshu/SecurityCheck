@@ -3,7 +3,7 @@
                 android:layout_height="match_parent"
                 >
     <include
-            layout="@layout/layout_custom_actionbar"
+            layout="@layout/common_title_bar_2"
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="48dp"

@@ -134,4 +134,12 @@ public class UserInfo extends JSONAble {
         return encodeToJsonObject().toString();
     }
 
+
+    public String getTypeName() {
+        if (type == 1) {
+            return "安监员";
+        }
+        return "管理员";
+    }
+
 }

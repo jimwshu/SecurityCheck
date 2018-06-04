@@ -101,7 +101,7 @@ public class SecurityApplication extends Application {
         if (isDebug) {
             FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         }
-
+        ConfigManager.getInstance().parseBasicStr();
     }
 
 

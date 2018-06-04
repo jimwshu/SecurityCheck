@@ -46,7 +46,19 @@ public class Constans {
 
     public interface GetCheckItemList {
 
-        @POST("supervisorDiamond/checkIterm/list")
+        @POST("supervisorDiamond/checkItem/list")
         public Call<String> getCheckItemList();
+    }
+
+
+    public interface CheckBasic {
+        @POST("/supervisorDiamond/legalItem/ilegalItems")
+        public Call<String> getBasic(@Body RequestBody route);
+    }
+
+
+    public interface AddCheck {
+        @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/add\n")
+        public Call<String> addRandomCheck(@Body RequestBody route);
     }
 }

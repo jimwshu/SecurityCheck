@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:id="@+id/rel"
+                android:background="#f6f6f6"
+                >
+
+
+    <TextView
+            android:gravity="center_vertical"
+            android:textColor="#92969c"
+            android:textSize="14dp"
+            android:text="应得分10分"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

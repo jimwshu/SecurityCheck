@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import drawthink.expandablerecyclerview.bean.RecyclerViewData;
 import drawthink.expandablerecyclerview.listener.OnRecyclerViewListener;
@@ -35,10 +36,16 @@ import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView{
 
 
-
+    private ProjectDetail detail;
 
     public static void launch(Context ctx) {
         Intent intent = new Intent(ctx, CheckItemActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    public static void launch(Context ctx, ProjectDetail detail) {
+        Intent intent = new Intent(ctx, CheckItemActivity.class);
+        intent.putExtra("detail", detail);
         ctx.startActivity(intent);
     }
 
@@ -102,25 +109,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     }
 
     private void initData() {
-        /*List<CheckItem> bean1 = new ArrayList<>();
-        List<CheckItem> bean2 = new ArrayList<>();
-        List<CheckItem> bean3 = new ArrayList<>();
-        // 每个子列表长度可以不相同
-        bean1.add(new CheckItem(1,"Dog"));
-        bean2.add(new CheckItem(2, "Cat"));
-        bean3.add(new CheckItem(3, "Bird"));
-
-        CheckItem checkItem = new CheckItem(4, "DOG BABA");
-        CheckItem checkItem1 = new CheckItem(5, "CAT BABA");
-        CheckItem checkItem2 = new CheckItem(6, "BIRD BABA");
-        CheckItem checkItem3 = new CheckItem(7, "BIRD BABA");
-
-        data.add(new RecyclerViewData(checkItem, bean1, true));
-        data.add(new RecyclerViewData(checkItem1, bean2, true));
-        data.add(new RecyclerViewData(checkItem2, bean3, true));
-        data.add(new RecyclerViewData(checkItem3, new ArrayList(), false));*/
-
-
+        detail = (ProjectDetail) getIntent().getSerializableExtra("detail");
+        if (detail == null) {
+            finish();
+            return;
+        }
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CheckItemAdapter( this,data);
         mAdapter.setOnItemClickListener(this);
@@ -137,7 +130,6 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
     @Override
     public void onGroupItemClick(int position, int groupPosition, View view) {
-        ToastUtil.Long("group item:" + position + " " + groupPosition);
         if (groupPosition >= 0 && groupPosition != select) {
             select = groupPosition;
             for (int i = 0; i < data.size(); i++) {
@@ -157,8 +149,10 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
     @Override
     public void onChildItemClick(int position, int groupPosition, int childPosition, View view) {
-        ToastUtil.Long("child item:" + position + " " + groupPosition + " " + childPosition);
+        RecyclerViewData d = data.get(groupPosition);
+        CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
+        //RandomCheckActivity.launch(this, detail, checkItem);
     }
 
     @Override

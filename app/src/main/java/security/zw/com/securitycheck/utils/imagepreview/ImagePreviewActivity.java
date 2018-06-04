@@ -219,6 +219,8 @@ public class ImagePreviewActivity extends BaseActivity implements BrowseBaseFrag
     }
 
     public void initWidget() {
+        RelativeLayout relativeLayout = findViewById(R.id.action_bar);
+        relativeLayout.setBackgroundColor(0xff0f86ff);
         priview_viewpager = (ViewPager) findViewById(R.id.priview_viewpager);
         bottom_layout = (RelativeLayout) findViewById(R.id.bottom_layout);
         select_num = (TextView) findViewById(R.id.select_num);

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.LoginActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
@@ -37,7 +38,8 @@ public class HomeFragment extends BaseStatisticsFragment {
     protected BaseHomeAdapter mHomeAdapter;
     protected View view;
 
-
+    protected TextView name;
+    protected TextView type;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,7 +101,19 @@ public class HomeFragment extends BaseStatisticsFragment {
         mRecyclerView.setHasFixedSize(true);
 
         initBar(view);
+        name = view.findViewById(R.id.name);
+        type = view.findViewById(R.id.type);
+
+        if (SecurityApplication.mUser != null) {
+            name.setText(SecurityApplication.mUser.name);
+            type.setText(SecurityApplication.mUser.getTypeName() + "");
+        }
+
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

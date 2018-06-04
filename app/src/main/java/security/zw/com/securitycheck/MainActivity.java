@@ -97,7 +97,10 @@ public class MainActivity extends BaseSystemBarTintActivity {
         }
         setContentView(R.layout.activity_main);
 
-
+        if (SecurityApplication.mUser == null) {
+            LoginActivity.launch(this);
+            finish();
+        }
 
         initWidget();
         initData();

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -83,6 +84,33 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
     private ImageFolderInfo mCurrentFolder;
     private ImagePickFragment currentFragment;
 
+    private ImageView mBack;
+    private TextView mType;
+    private TextView mSubmit;
+    public void initBar() {
+        mBack = findViewById(R.id.cancel);
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        mType = findViewById(R.id.perrmission);
+        mType.setText("选择图片");
+        mSubmit = findViewById(R.id.submit);
+        mSubmit.setText("取消");
+        mSubmit.setVisibility(View.VISIBLE);
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+    }
+
+
     public static void launch(Context context, int count) {
         Intent intent = new Intent(context, ImagesPickerActivity.class);
         intent.putExtra(COUNT_KEY, count);
@@ -129,6 +157,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
         if (maxCount <= 0) {
             finish();
         }
+        initBar();
         initAnim();
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         imageWidth = (int) ((metrics.widthPixels - 5 * 4 * metrics.density) / 4);

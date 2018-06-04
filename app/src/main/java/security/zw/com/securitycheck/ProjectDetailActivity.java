@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,21 +12,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import security.zw.com.securitycheck.adapter.MyProjectAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.presenter.MyProjectPresenter;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
-import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 
 
 public class ProjectDetailActivity extends BaseSystemBarTintActivity implements MyProjectView {
 
+    public static final int RANDOM_CHECK_REQUEST = 438;
 
     public int check_type = -1;
-    public int mode_type = -1;
+    public int check_mode = -1;
 
     public static final String[] CHECK_CLASS = new String[]{
             "随机检查", "评分检查"
@@ -44,8 +41,8 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 .setItems(CHECK_CLASS, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (check_type != which) {
-                            check_type = which;
+                        if (check_type != which + 1) {
+                            check_type = which + 1;
                             check_class_state.setText(CHECK_CLASS[which]);
                         }
                     }
@@ -58,8 +55,8 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 .setItems(CHECK_MODE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (check_type != which) {
-                            mode_type = which;
+                        if (check_mode != which + 1) {
+                            check_mode = which + 1;
                             check_mode_state.setText(CHECK_MODE[which]);
                         }
                     }
@@ -176,7 +173,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     private ImageView map_10;
 
 
-    private RelativeLayout check_mode;//地址
+    private RelativeLayout check_mode_rel;//地址
     private TextView check_mode_title;
     private TextView check_mode_state;
     private ImageView bar_next_11;
@@ -204,6 +201,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
     private TextView check;
     private MyProjectPresenter presenter;
+    private ProjectDetail detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +232,30 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CheckItemActivity.launch(view.getContext());
+                if (check_type == -1) {
+                    ToastUtil.Short("请选择检查类别");
+                    return;
+                }
+                if (check_mode == -1) {
+                    ToastUtil.Short("请选择检查模式");
+                    return;
+                }
+
+                detail.check_type = check_type;
+                detail.check_mode = check_mode;
+
+                // 单人检查 并且是 随机模式
+                if (detail.check_mode == ProjectDetail.CHECK_MODE_SINGLE) {
+                    if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
+                        RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
+                    }
+                } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
+
+
+                }
+
+
+
             }
         });
 
@@ -250,7 +271,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         safer = findViewById(R.id.safer);
         safer_title = safer.findViewById(R.id.title);
         safer_state = safer.findViewById(R.id.state);
-        safer_title.setText("安检员");
+        safer_title.setText("安监员");
 
         bar_next_2 = safer.findViewById(R.id.bar_next);
         map_2 = safer.findViewById(R.id.map);
@@ -343,7 +364,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
         construction = findViewById(R.id.construction);
         construction_name = construction.findViewById(R.id.unit);
-        construction_title = contract.findViewById(R.id.title);
+        construction_title = construction.findViewById(R.id.title);
 
         construction_person = construction.findViewById(R.id.person);
         construction_title.setText("施工单位简介");
@@ -366,14 +387,14 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         map_10.setVisibility(View.GONE);
 
 
-        check_mode = findViewById(R.id.check_mode);//地址
-        check_mode_title = check_mode.findViewById(R.id.title);
-        check_mode_state = check_mode.findViewById(R.id.state);
+        check_mode_rel = findViewById(R.id.check_mode);//地址
+        check_mode_title = check_mode_rel.findViewById(R.id.title);
+        check_mode_state = check_mode_rel.findViewById(R.id.state);
 
         check_mode_title.setText("检查模式");
 
-        bar_next_11 = check_mode.findViewById(R.id.bar_next);
-        map_11 = check_mode.findViewById(R.id.map);
+        bar_next_11 = check_mode_rel.findViewById(R.id.bar_next);
+        map_11 = check_mode_rel.findViewById(R.id.map);
         bar_next_11.setVisibility(View.VISIBLE);
         map_11.setVisibility(View.GONE);
 
@@ -384,7 +405,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
             }
         });
 
-        check_mode.setOnClickListener(new View.OnClickListener() {
+        check_mode_rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectCheckMode();
@@ -405,6 +426,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
     @Override
     public void getProjectSucc(ProjectDetail detail) {
+        this.detail = detail;
         if (detail.supervise == 0) {
             is_checked_state.setTextColor(0xffd0021b);
             is_checked_state.setText("是");
@@ -438,5 +460,15 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     @Override
     public void getProjectFailed(int code, String error) {
         ToastUtil.Long(error);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RANDOM_CHECK_REQUEST && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
     }
 }
