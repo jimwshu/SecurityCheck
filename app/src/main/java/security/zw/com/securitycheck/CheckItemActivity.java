@@ -23,6 +23,8 @@ import security.zw.com.securitycheck.adapter.CheckItemAdapter;
 import security.zw.com.securitycheck.adapter.MyProjectAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.bean.CheckItemDetail;
+import security.zw.com.securitycheck.bean.DecreaseItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
@@ -75,7 +77,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建检查");
+        mType.setText("新建评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -130,11 +132,19 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
     @Override
     public void onGroupItemClick(int position, int groupPosition, View view) {
+
+
+        boolean hasChildren = false;
         if (groupPosition >= 0 && groupPosition != select) {
             select = groupPosition;
             for (int i = 0; i < data.size(); i++) {
                 RecyclerViewData d = data.get(i);
                 CheckItem checkItem = (CheckItem) d.getGroupData();
+
+                if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
+                    hasChildren = true;
+                }
+
                 if (i != select) {
                     checkItem.isSelected = false;
                 } else {
@@ -144,6 +154,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
             mAdapter.notifyRecyclerViewData();
         }
 
+        if (!hasChildren) {
+            RecyclerViewData d = data.get(groupPosition);
+            CheckItem checkItem = (CheckItem) d.getGroupData();
+            ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
+        }
 
     }
 
@@ -152,6 +167,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         RecyclerViewData d = data.get(groupPosition);
         CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
+        ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
         //RandomCheckActivity.launch(this, detail, checkItem);
     }
 
@@ -182,6 +198,17 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
     @Override
     public void getCheckItemFailed(int code, String error) {
+
+    }
+
+
+    @Override
+    public void getCheckItemDetailSucc(CheckItemDetail detail) {
+
+    }
+
+    @Override
+    public void getCheckItemDetailFailed(int code, String error) {
 
     }
 }

@@ -18,5 +18,5 @@ public class CheckBean extends JSONAble {
     public String baseItemrs;
     public String reCheckTime;
     public String respon;
-
+    public String ids;
 }

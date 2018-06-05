@@ -1,5 +1,7 @@
 package security.zw.com.securitycheck.presenter;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.bean.CheckItemDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.model.CheckItemModel;
@@ -65,6 +68,31 @@ public class CheckItemPresenter implements BasePresenter{
         });
     }
 
+
+    public void getCheckItemDetail(int projectId, int checkItemId) {
+        checkItemModel.getCheckItemDetail(projectId, checkItemId, new NetworkCallback() {
+            @Override
+            public void onRealFailed(int code, String msg) {
+                super.onRealFailed(code, msg);
+                checkItemView.getCheckItemDetailFailed(code, msg);
+            }
+
+            @Override
+            public void onRealSuccess(String date) {
+                super.onRealSuccess(date);
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
+                    CheckItemDetail checkItems = SecurityApplication.getGson().fromJson(jsonObject1.toString(), CheckItemDetail.class);
+                    checkItemView.getCheckItemDetailSucc(checkItems);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    checkItemView.getCheckItemDetailFailed(-1, "数据解析失败");
+                }
+            }
+
+        });
+    }
 
 
     @Override

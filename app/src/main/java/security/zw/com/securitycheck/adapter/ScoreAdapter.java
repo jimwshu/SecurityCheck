@@ -13,6 +13,10 @@ import java.util.ArrayList;
 
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.RandomCheckActivity;
+import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.bean.CheckItemDetail;
+import security.zw.com.securitycheck.bean.DecreaseItem;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.Score;
 import security.zw.com.securitycheck.bean.ScoreItem;
@@ -80,7 +84,27 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof StoreTotalItem) {
+            StoreTotalItem totalItem = (StoreTotalItem) holder;
+            CheckItemDetail checkItemDetail = (CheckItemDetail) mData.get(position);
+            totalItem.totalScore.setText(checkItemDetail.deserveScore + "");
+        } else if (holder instanceof StoreItem) {
+            final DecreaseItem item = (DecreaseItem) mData.get(position);
+            StoreItem storeItem = (StoreItem) holder;
 
+            storeItem.score.setText(item.score + "");
+            storeItem.title.setText(item.name);
+            storeItem.recheck.setVisibility(item.score != 0 ? View.VISIBLE : View.GONE);
+            storeItem.recheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListenner != null) {
+                        clickListenner.onClick(position, item);
+                    }
+
+                }
+            });
+        }
     }
 
     @Override
@@ -91,11 +115,25 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
         Object o = mData.get(position);
-        if (o instanceof Score) {
+        if (o instanceof CheckItemDetail) {
             return TYPE_SCORE_TOTAL;
-        } else if (o instanceof ScoreItem) {
+        } else if (o instanceof DecreaseItem) {
             return TYPE_SCORE_ITEM;
         }
         return super.getItemViewType(position);
+    }
+
+    public interface RecheckClickListenner {
+        void onClick(int pos, DecreaseItem item);
+    }
+
+    private RecheckClickListenner clickListenner;
+
+    public RecheckClickListenner getClickListenner() {
+        return clickListenner;
+    }
+
+    public void setClickListenner(RecheckClickListenner clickListenner) {
+        this.clickListenner = clickListenner;
     }
 }

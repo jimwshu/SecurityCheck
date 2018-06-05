@@ -1,5 +1,7 @@
 package security.zw.com.securitycheck;
 
+import com.google.gson.Gson;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +12,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.bean.CheckPerson;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
+import security.zw.com.securitycheck.postbean.CheckBean;
 import security.zw.com.securitycheck.presenter.MyProjectPresenter;
+import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
 
@@ -248,10 +262,11 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 if (detail.check_mode == ProjectDetail.CHECK_MODE_SINGLE) {
                     if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                         RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
+                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+                        CheckItemActivity.launch(view.getContext(), detail);
                     }
                 } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
-
-
+                        getCheckPerson();
                 }
 
 
@@ -411,6 +426,115 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 selectCheckMode();
             }
         });
+    }
+
+    public ArrayList<CheckPerson> persons = new ArrayList<>();
+    public String[] personsName;
+    public boolean selected[];
+
+    Retrofit mRetrofit;
+    Constans.AddCheck addCheck;
+    Call<String> mCall;
+    private boolean get_code = false;
+
+    private void getCheckPerson() {
+
+        if (!get_code) {
+            get_code = true;
+            mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            addCheck = mRetrofit.create(Constans.AddCheck.class);
+            mCall = addCheck.getCheckPerson();
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    get_code = false;
+                    if (response.isSuccessful()) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.has("code")) {
+                                int code = jsonObject.optInt("code");
+                                if (code == 0) {
+                                    JSONArray jsonArray = jsonObject.optJSONArray("data");
+                                    if (jsonArray != null && jsonArray.length() > 0) {
+                                        persons.clear();
+                                        personsName = new String[jsonArray.length()];
+                                        selected = new boolean[jsonArray.length()];
+
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject object = jsonArray.optJSONObject(i);
+                                            CheckPerson checkPerson = new CheckPerson();
+                                            checkPerson = SecurityApplication.getGson().fromJson(object.toString(), CheckPerson.class);
+                                            persons.add(checkPerson);
+                                            personsName[i] = (checkPerson.name);
+                                            selected[i] = false;
+                                        }
+
+                                        toShowChcekPerson();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("获取检查人员失败");
+
+                        }
+                    } else {
+                        ToastUtil.Long("获取检查人员失败");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    t.printStackTrace();
+                    get_code = false;
+                    ToastUtil.Long("获取检查人员失败");
+                }
+            });
+
+        }
+
+
+    }
+
+    private void toShowChcekPerson() {
+        new AlertDialog.Builder(this)
+                .setTitle("请选择人员")
+                .setMultiChoiceItems(personsName, selected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < selected.length; i++) {
+                    if (selected[i]) {
+                        stringBuilder.append(persons.get(i).id + ",");
+                    }
+                }
+
+                if (stringBuilder.length() > 0) {
+                    String s = stringBuilder.substring(0, stringBuilder.length()-1).toString();
+                    detail.ids = s;
+                }
+
+                if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
+                    RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
+                } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+                    CheckItemActivity.launch(ProjectDetailActivity.this, detail);
+                }
+
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        })
+                .show();
     }
 
 

@@ -93,6 +93,11 @@
                 android:name=".RandomCheckActivity"
                 android:screenOrientation="portrait"
         ></activity>
+
+        <activity
+                android:name=".ScoreActivity"
+                android:screenOrientation="portrait"
+        ></activity>
     </application>
 
 </manifest>

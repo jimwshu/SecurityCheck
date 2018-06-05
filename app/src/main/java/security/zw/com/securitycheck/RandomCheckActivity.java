@@ -442,6 +442,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         basicBean.baseItemrs = basic.getText().toString();
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.respon = respon.getText().toString();
+        basicBean.ids = detail.ids;
         basicBean.image = images.toString().substring(0, images.length() - 1);
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
