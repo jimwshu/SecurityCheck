@@ -203,7 +203,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
 
     @Override
-    public void getCheckItemDetailSucc(CheckItemDetail detail) {
+    public void getCheckItemDetailSucc(CheckItem detail) {
 
     }
 

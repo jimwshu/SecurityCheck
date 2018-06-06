@@ -86,15 +86,15 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof StoreTotalItem) {
             StoreTotalItem totalItem = (StoreTotalItem) holder;
-            CheckItemDetail checkItemDetail = (CheckItemDetail) mData.get(position);
-            totalItem.totalScore.setText(checkItemDetail.deserveScore + "");
+            CheckItem checkItem = (CheckItem) mData.get(position);
+            totalItem.totalScore.setText("应得分： " + checkItem.deserveScore + "分");
         } else if (holder instanceof StoreItem) {
-            final DecreaseItem item = (DecreaseItem) mData.get(position);
+            final CheckItem item = (CheckItem) mData.get(position);
             StoreItem storeItem = (StoreItem) holder;
 
-            storeItem.score.setText(item.score + "");
+            storeItem.score.setText("扣减分： " + item.realScore + "");
             storeItem.title.setText(item.name);
-            storeItem.recheck.setVisibility(item.score != 0 ? View.VISIBLE : View.GONE);
+            storeItem.recheck.setVisibility(item.realScore != 0 ? View.VISIBLE : View.VISIBLE);
             storeItem.recheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -114,17 +114,16 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        Object o = mData.get(position);
-        if (o instanceof CheckItemDetail) {
+
+        if (position == 0) {
             return TYPE_SCORE_TOTAL;
-        } else if (o instanceof DecreaseItem) {
+        } else {
             return TYPE_SCORE_ITEM;
         }
-        return super.getItemViewType(position);
     }
 
     public interface RecheckClickListenner {
-        void onClick(int pos, DecreaseItem item);
+        void onClick(int pos, CheckItem item);
     }
 
     private RecheckClickListenner clickListenner;

@@ -329,8 +329,9 @@
                         android:layout_height="20dp"/>
 
                 <EditText
+                        android:textStyle="bold"
                         android:textColor="#1a1a1a"
-                        android:textSize="13dp"
+                        android:textSize="16dp"
                         android:text="0.0"
                         android:gravity="center"
                         android:textCursorDrawable="@drawable/edittext_bg"

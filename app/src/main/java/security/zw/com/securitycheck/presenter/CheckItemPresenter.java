@@ -82,9 +82,9 @@ public class CheckItemPresenter implements BasePresenter{
                 super.onRealSuccess(date);
                 try {
                     JSONObject jsonObject = new JSONObject(date);
-                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
-                    CheckItemDetail checkItems = SecurityApplication.getGson().fromJson(jsonObject1.toString(), CheckItemDetail.class);
-                    checkItemView.getCheckItemDetailSucc(checkItems);
+                    JSONObject jsonObject1 = jsonObject.optJSONObject("data");
+                    CheckItem checkItem = SecurityApplication.getGson().fromJson(jsonObject1.toString(), CheckItem.class);
+                    checkItemView.getCheckItemDetailSucc(checkItem);
                 } catch (Exception e) {
                     e.printStackTrace();
                     checkItemView.getCheckItemDetailFailed(-1, "数据解析失败");

@@ -34,6 +34,7 @@ import security.zw.com.securitycheck.view.CheckItemView;
 
 public class ScoreActivity extends BaseSystemBarTintActivity implements CheckItemView {
 
+    public static final int REQUEST_SCORE_CHECK = 439;
 
     public static void launch(Context ctx, ProjectDetail projectDetail, CheckItem item) {
         Intent intent = new Intent(ctx, ScoreActivity.class);
@@ -112,7 +113,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     private CheckItemPresenter presenter;
     private ScoreAdapter adapter;
     private ArrayList<Object> mData = new ArrayList<>();
-    private CheckItemDetail detail;
+    private CheckItem detail;
     private void initWidget() {
         initBar();
 
@@ -124,8 +125,8 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         adapter = new ScoreAdapter(mData, this);
         adapter.setClickListenner(new ScoreAdapter.RecheckClickListenner() {
             @Override
-            public void onClick(int pos, DecreaseItem item) {
-
+            public void onClick(int pos, CheckItem item) {
+                ScoreCheckActivity.launch(ScoreActivity.this, projectDetail, item, REQUEST_SCORE_CHECK);
             }
         });
 
@@ -156,15 +157,15 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     }
 
     @Override
-    public void getCheckItemDetailSucc(CheckItemDetail detail) {
+    public void getCheckItemDetailSucc(CheckItem detail) {
         mSwipeRefreshLayout.setRefreshing(false);
         this.detail = detail;
         mData.clear();
         mData.add(detail);
-        mData.addAll(detail.decreaseItems);
+        mData.addAll(detail.childrens);
         adapter.notifyDataSetChanged();
 
-        score.setText(detail.realScore + "");
+        score.setText("实得分： " + 100 + "分");
         title.setText(detail.name);
     }
 

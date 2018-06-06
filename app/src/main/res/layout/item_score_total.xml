@@ -14,7 +14,6 @@
             android:textSize="14dp"
             android:text="应得分10分"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

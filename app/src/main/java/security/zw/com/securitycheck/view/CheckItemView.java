@@ -16,7 +16,7 @@ public interface CheckItemView {
 
     void getCheckItemFailed(int code, String error);
 
-    void getCheckItemDetailSucc(CheckItemDetail detail);
+    void getCheckItemDetailSucc(CheckItem detail);
 
     void getCheckItemDetailFailed(int code, String error);
 

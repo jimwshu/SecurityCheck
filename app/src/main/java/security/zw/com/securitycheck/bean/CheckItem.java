@@ -1,5 +1,7 @@
 package security.zw.com.securitycheck.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.utils.json.JSONAble;
@@ -21,6 +23,13 @@ public class CheckItem extends JSONAble{
     public String name;//名称
     public int level;
 
+    public double deserveScore;//应该得的总分
+    public double realScore;//实得分
+    public String scoreRule;
+
+    public String type;
+
+    @SerializedName(value = "childrens", alternate = {"checkItemWithScoreVOs"})
     public ArrayList<CheckItem> childrens;
 
 }

@@ -17,6 +17,8 @@ public class CheckBean extends JSONAble {
     public String ilegalItems;
     public String baseItemrs;
     public String reCheckTime;
-    public String respon;
+    public String personLiable;
     public String ids;
+
+    public double score;
 }

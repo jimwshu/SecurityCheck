@@ -98,6 +98,11 @@
                 android:name=".ScoreActivity"
                 android:screenOrientation="portrait"
         ></activity>
+
+        <activity
+                android:name=".ScoreCheckActivity"
+                android:screenOrientation="portrait"
+        ></activity>
     </application>
 
 </manifest>
