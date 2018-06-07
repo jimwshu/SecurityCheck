@@ -4,30 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import drawthink.expandablerecyclerview.bean.GroupItem;
 import security.zw.com.securitycheck.adapter.ScoreAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
-import security.zw.com.securitycheck.bean.CheckItemDetail;
-import security.zw.com.securitycheck.bean.DecreaseItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
-import security.zw.com.securitycheck.utils.QBImageView;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
@@ -165,7 +154,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mData.addAll(detail.childrens);
         adapter.notifyDataSetChanged();
 
-        score.setText("实得分： " + 100 + "分");
+        score.setText("实得分： " + detail.realScore + "分");
         title.setText(detail.name);
     }
 
@@ -173,5 +162,13 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     public void getCheckItemDetailFailed(int code, String error) {
         mSwipeRefreshLayout.setRefreshing(false);
         ToastUtil.Long(error);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SCORE_CHECK) {
+            presenter.getCheckItemDetail(projectDetail.id,item.id);
+        }
     }
 }

@@ -18,6 +18,8 @@ import java.io.Serializable;
 public class ImageInfo implements Serializable {
     public static final int MAX_GIF_SIZE = 15 * 1024 * 1024;// 15MB最大
 
+    public static final int STATUS_LOCAL = 2, STATUS_NET = 1, STATUS_UNKONWN = 0;
+    public int status;
     public int id = -1;
     public String url;
     public String bigUrl;
@@ -221,6 +223,7 @@ public class ImageInfo implements Serializable {
                 width,
                 height);
         info.size = size;
+        info.status = ImageInfo.STATUS_LOCAL;
         return info;
     }
 

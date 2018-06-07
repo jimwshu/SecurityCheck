@@ -150,6 +150,8 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     private TextView count;
     private ImageView increase;
 
+    public double cCount;
+
     private EditText respon;
     private TextView recheck;
 
@@ -219,6 +221,48 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         increase = findViewById(R.id.increase);
         count = findViewById(R.id.count);
 
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cCount + 1 < checkItem.max) {
+                    cCount += 1;
+                    count.setText("" + cCount);
+                }
+            }
+        });
+
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkItem.min == checkItem.max) {
+                    if (cCount == 0) {
+                        cCount = checkItem.min;
+                    }
+                } else {
+                    if (cCount - 1 <= checkItem.min) {
+                        cCount -= 1;
+                    }
+                }
+                count.setText("" + cCount);
+            }
+        });
+
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkItem.min == checkItem.max) {
+                    if (cCount == checkItem.max) {
+                        cCount = 0;
+                    }
+                } else {
+                    if (cCount + 1 <= checkItem.max) {
+                        cCount += 1;
+                    }
+                }
+                count.setText("" + cCount);
+            }
+        });
+
         respon = findViewById(R.id.respon);
         recheck = findViewById(R.id.recheck);
         recheck.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +319,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             return;
         }
 
-        if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             addCheck();
         }
 
@@ -359,7 +403,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         }
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             checkItem = (CheckItem) getIntent().getSerializableExtra("check");
+            cCount = checkItem.realScore;
         }
+
     }
 
 
@@ -427,7 +473,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
         CheckItemDetailBean checkItemDetailBean = new CheckItemDetailBean();
-        checkItemDetailBean.checkItemId = 5;
+        checkItemDetailBean.checkItemId = checkItem.checkItemId;
         checkItemDetailBean.projectId = detail.id;
 
         Gson gson = new Gson();
@@ -446,11 +492,20 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
                                 JSONObject object = jsonObject.optJSONObject("data");
-                                CheckBean checkBean = SecurityApplication.getGson().fromJson(object.toString(), CheckBean.class);
+                                final CheckBean checkBean = SecurityApplication.getGson().fromJson(object.toString(), CheckBean.class);
 
                                 new Handler().post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        illegel.setText(checkBean.ilegalItems);
+                                        basic.setText(checkBean.baseItemrs);
+                                        count.setText("" + checkBean.score);
+                                        respon.setText(checkBean.personLiable);
+                                        recheck.setText(checkBean.reCheckTime);
+                                        String [] imgs = checkBean.image.split(",");
+                                        if (imgs.length > 0) {
+
+                                        }
 
                                     }
                                 });
@@ -483,13 +538,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         Gson gson = new Gson();
         CheckBean basicBean = new CheckBean();
         basicBean.projectId = detail.id;
+        basicBean.checkItemId = checkItem.checkItemId;
         basicBean.checkMode = detail.check_mode;
         basicBean.checkType = detail.check_type;
         basicBean.ilegalItems = illegel.getText().toString();
         basicBean.baseItemrs = basic.getText().toString();
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.personLiable = respon.getText().toString();
-        basicBean.ids = detail.ids;
+        basicBean.assistPersonIds = detail.assistPersonIds;
         basicBean.score = Double.parseDouble(count.getText().toString());
 
         basicBean.image = images.toString().substring(0, images.length() - 1);

@@ -10,6 +10,9 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
 public class CheckBean extends JSONAble {
 
     public int projectId;
+    public int checkItemId;
+
+
     public int checkType;
     public int checkMode;
     public int result;
@@ -18,7 +21,7 @@ public class CheckBean extends JSONAble {
     public String baseItemrs;
     public String reCheckTime;
     public String personLiable;
-    public String ids;
+    public String assistPersonIds;
 
     public double score;
 }

@@ -2,6 +2,9 @@ package security.zw.com.securitycheck.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,12 +70,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView title;
         public TextView score;
         public TextView recheck;
+        public RelativeLayout rel;
 
         public StoreItem(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             score = itemView.findViewById(R.id.decrease_score);
             recheck = itemView.findViewById(R.id.recheck);
+            rel = itemView.findViewById(R.id.rel);
         }
     }
 
@@ -92,10 +97,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final CheckItem item = (CheckItem) mData.get(position);
             StoreItem storeItem = (StoreItem) holder;
 
-            storeItem.score.setText("扣减分： " + item.realScore + "");
+            SpannableString ss = new SpannableString("扣减分： " + item.realScore + "");
+            ss.setSpan(new ForegroundColorSpan(0xff92969c), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new ForegroundColorSpan(0xffd0021b), 5, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            storeItem.score.setText(ss);
             storeItem.title.setText(item.name);
-            storeItem.recheck.setVisibility(item.realScore != 0 ? View.VISIBLE : View.VISIBLE);
-            storeItem.recheck.setOnClickListener(new View.OnClickListener() {
+            storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
+            storeItem.rel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (clickListenner != null) {

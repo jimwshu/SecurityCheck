@@ -35,5 +35,5 @@ public class ProjectDetail extends JSONAble {
     public int check_mode;//单人模式，多人模式
     public static final int CHECK_MODE_SINGLE = 1, CHECK_MODE_MORE = 2;
 
-    public String ids;
+    public String assistPersonIds;
 }

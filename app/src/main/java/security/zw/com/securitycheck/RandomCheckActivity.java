@@ -426,7 +426,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         basicBean.baseItemrs = basic.getText().toString();
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.personLiable = respon.getText().toString();
-        basicBean.ids = detail.ids;
+        basicBean.assistPersonIds = detail.assistPersonIds;
         basicBean.image = images.toString().substring(0, images.length() - 1);
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
@@ -488,8 +488,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
             new Compress(new Compress.ICompress() {
                 @Override
                 public void onDone(String output) {
-                    String b = Base64Img.GetImageStrFromPath(uri.getPath());
-                    images.append(b);
+                    images.append(output);
                     images.append(";");
                     if (j == imagePaths.size() - 1) {
                         complete = true;
@@ -586,7 +585,9 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
             final int oriHeight = options.outHeight;
 
             compress(input.getPath(), outPath);
-            return outPath;
+            Uri uri = Uri.parse(outPath);
+            String b = Base64Img.GetImageStrFromPath(uri.getPath());
+            return b;
         }
 
         @Override

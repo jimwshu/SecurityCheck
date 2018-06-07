@@ -518,7 +518,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
                 if (stringBuilder.length() > 0) {
                     String s = stringBuilder.substring(0, stringBuilder.length()-1).toString();
-                    detail.ids = s;
+                    detail.assistPersonIds = s;
                 }
 
                 if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
