@@ -135,7 +135,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
 
         boolean hasChildren = false;
-        if (groupPosition >= 0 && groupPosition != select) {
+        if (groupPosition >= 0) {
             select = groupPosition;
             for (int i = 0; i < data.size(); i++) {
                 RecyclerViewData d = data.get(i);
