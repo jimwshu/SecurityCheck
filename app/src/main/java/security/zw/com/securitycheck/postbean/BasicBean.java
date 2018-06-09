@@ -10,5 +10,6 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
 public class BasicBean extends JSONAble {
 
     public int type;
+    public int userId;
 
 }

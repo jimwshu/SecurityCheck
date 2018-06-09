@@ -68,10 +68,20 @@ public class Constans {
         @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/add")
         public Call<String> addScoreCheck(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/update\n")
+        public Call<String> updateScoreCheck(@Body RequestBody route);
+
+
         @POST("/supervisorDiamond/checkUsers/list")
         public Call<String> getCheckPerson();
 
         @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/detail")
         public Call<String> getScoreCheckDetail(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/detail")
+        public Call<String> getRandomCheckDetail(@Body RequestBody route);
+
+
+
     }
 }

@@ -96,6 +96,8 @@ public class ConfigManager {
         Gson gson = new Gson();
         BasicBean basicBean = new BasicBean();
         basicBean.type = 1;
+        basicBean.userId = SecurityApplication.mUser.id;
+
 
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
@@ -139,6 +141,7 @@ public class ConfigManager {
         Gson gson = new Gson();
         BasicBean basicBean = new BasicBean();
         basicBean.type = 1;
+        basicBean.userId = SecurityApplication.mUser.id;
 
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);

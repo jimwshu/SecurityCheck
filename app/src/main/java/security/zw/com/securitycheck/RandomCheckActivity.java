@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.postbean.CheckBean;
+import security.zw.com.securitycheck.postbean.CheckItemDetailBean;
 import security.zw.com.securitycheck.utils.Base64Img;
 import security.zw.com.securitycheck.utils.DeviceUtils;
 import security.zw.com.securitycheck.utils.ImageUtils;
@@ -419,6 +421,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
         Gson gson = new Gson();
         CheckBean basicBean = new CheckBean();
+        basicBean.userId = SecurityApplication.mUser.id;
         basicBean.projectId = detail.id;
         basicBean.checkMode = detail.check_mode;
         basicBean.checkType = detail.check_type;
@@ -483,19 +486,25 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
     private String compressImages() {
         for (int i = 0; i < imagePaths.size(); i++) {
-            final Uri uri = Uri.parse(imagePaths.get(i).url);
-            final int j = i;
-            new Compress(new Compress.ICompress() {
-                @Override
-                public void onDone(String output) {
-                    images.append(output);
-                    images.append(";");
-                    if (j == imagePaths.size() - 1) {
-                        complete = true;
-                        addRandomCheck();
+            ImageInfo imageInfo = imagePaths.get(i);
+            if (imageInfo.status == ImageInfo.STATUS_NET) {
+                images.append(imageInfo.url);
+                images.append(";");
+            } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
+                final Uri uri = Uri.parse(imagePaths.get(i).url);
+                final int j = i;
+                new Compress(new Compress.ICompress() {
+                    @Override
+                    public void onDone(String output) {
+                        images.append(output);
+                        images.append(";");
+                        if (j == imagePaths.size() - 1) {
+                            complete = true;
+                            addRandomCheck();
+                        }
                     }
-                }
-            }).execute(new Uri[]{uri});
+                }).execute(new Uri[]{uri});
+            }
         }
         return "";
     }
@@ -600,6 +609,80 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         interface ICompress {
             void onDone(String output);
         }
+    }
+
+
+    private void loadData() {
+        get_code = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+        CheckItemDetailBean checkItemDetailBean = new CheckItemDetailBean();
+        checkItemDetailBean.projectId = detail.id;
+        checkItemDetailBean.userId = SecurityApplication.mUser.id;
+
+        Gson gson = new Gson();
+        String s = gson.toJson(checkItemDetailBean);
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.getRandomCheckDetail(requestBody);
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                get_code = false;
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                JSONObject object = jsonObject.optJSONObject("data");
+                                final CheckBean checkBean = SecurityApplication.getGson().fromJson(object.toString(), CheckBean.class);
+
+                                new Handler().post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        illegel.setText(checkBean.ilegalItems);
+                                        basic.setText(checkBean.baseItemrs);
+                                        respon.setText(checkBean.personLiable);
+                                        recheck.setText(checkBean.reCheckTime);
+                                        if (!TextUtils.isEmpty(checkBean.image)) {
+                                            String [] imgs = checkBean.image.split(";");
+                                            if (imgs.length > 0) {
+                                                imagePaths.clear();
+                                                for (int i = 0; i < (imgs.length > 3 ? 3 : imgs.length); i++) {
+                                                    String url = imgs[i];
+                                                    ImageInfo imageInfo = new ImageInfo();
+                                                    imageInfo.status = ImageInfo.STATUS_NET;
+                                                    imageInfo.url = url;
+                                                    imagePaths.add(imageInfo);
+                                                }
+                                                if (imagePaths.size() > 0) {
+                                                    resetImageViews();
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        ToastUtil.Long("获取评分信息失败，请重试");
+                    }
+                } else {
+                    ToastUtil.Long("获取评分信息失败，请重试");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                get_code = false;
+                ToastUtil.Long("获取评分信息失败，请重试");
+            }
+        });
+
     }
 
 

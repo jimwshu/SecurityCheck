@@ -80,6 +80,8 @@ public class CheckItemModel implements BaseModel {
             CheckItemDetailBean detailBean = new CheckItemDetailBean();
             detailBean.projectId = projectId;
             detailBean.checkItemId = checkItemId;
+            detailBean.userId = SecurityApplication.mUser.id;
+
             String s = gson.toJson(detailBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 

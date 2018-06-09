@@ -221,15 +221,6 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         increase = findViewById(R.id.increase);
         count = findViewById(R.id.count);
 
-        decrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cCount + 1 < checkItem.max) {
-                    cCount += 1;
-                    count.setText("" + cCount);
-                }
-            }
-        });
 
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +230,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                         cCount = checkItem.min;
                     }
                 } else {
-                    if (cCount - 1 <= checkItem.min) {
+                    if (cCount - 1 >= checkItem.min) {
                         cCount -= 1;
                     }
                 }
@@ -318,6 +309,18 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             ToastUtil.Long("复查时间不能为空");
             return;
         }
+
+        String c = count.getText().toString();
+        if (TextUtils.isEmpty(c)) {
+            ToastUtil.Long("扣分不能为空不能为空");
+            return;
+        }
+
+        double cc = Double.parseDouble(c);
+        if (cc >= 0) {
+            ToastUtil.Long("扣分分值应该小于0");
+        }
+
 
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             addCheck();
@@ -475,6 +478,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         CheckItemDetailBean checkItemDetailBean = new CheckItemDetailBean();
         checkItemDetailBean.checkItemId = checkItem.checkItemId;
         checkItemDetailBean.projectId = detail.id;
+        checkItemDetailBean.userId = SecurityApplication.mUser.id;
 
         Gson gson = new Gson();
         String s = gson.toJson(checkItemDetailBean);
@@ -502,11 +506,22 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                         count.setText("" + checkBean.score);
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
-                                        String [] imgs = checkBean.image.split(",");
-                                        if (imgs.length > 0) {
-
+                                        if (!TextUtils.isEmpty(checkBean.image)) {
+                                            String [] imgs = checkBean.image.split(";");
+                                            if (imgs.length > 0) {
+                                                imagePaths.clear();
+                                                for (int i = 0; i < (imgs.length > 3 ? 3 : imgs.length); i++) {
+                                                    String url = imgs[i];
+                                                    ImageInfo imageInfo = new ImageInfo();
+                                                    imageInfo.status = ImageInfo.STATUS_NET;
+                                                    imageInfo.url = url;
+                                                    imagePaths.add(imageInfo);
+                                                }
+                                                if (imagePaths.size() > 0) {
+                                                    resetImageViews();
+                                                }
+                                            }
                                         }
-
                                     }
                                 });
                             }
@@ -537,6 +552,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
         Gson gson = new Gson();
         CheckBean basicBean = new CheckBean();
+        basicBean.userId = SecurityApplication.mUser.id;
         basicBean.projectId = detail.id;
         basicBean.checkItemId = checkItem.checkItemId;
         basicBean.checkMode = detail.check_mode;
@@ -551,7 +567,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         basicBean.image = images.toString().substring(0, images.length() - 1);
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
-        mCall = addCheck.addScoreCheck(requestBody);
+
+        if (checkItem.realScore < 0) {
+            mCall = addCheck.updateScoreCheck(requestBody);
+        } else {
+            mCall = addCheck.addScoreCheck(requestBody);
+        }
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -605,20 +626,25 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
     private String compressImages() {
         for (int i = 0; i < imagePaths.size(); i++) {
-            final Uri uri = Uri.parse(imagePaths.get(i).url);
-            final int j = i;
-            new Compress(new Compress.ICompress() {
-                @Override
-                public void onDone(String output) {
-                    String b = Base64Img.GetImageStrFromPath(uri.getPath());
-                    images.append(b);
-                    images.append(";");
-                    if (j == imagePaths.size() - 1) {
-                        complete = true;
-                        addRandomCheck();
+            ImageInfo imageInfo = imagePaths.get(i);
+            if (imageInfo.status == ImageInfo.STATUS_NET) {
+                images.append(imageInfo.url);
+                images.append(";");
+            } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
+                final Uri uri = Uri.parse(imagePaths.get(i).url);
+                final int j = i;
+                new Compress(new Compress.ICompress() {
+                    @Override
+                    public void onDone(String output) {
+                        images.append(output);
+                        images.append(";");
+                        if (j == imagePaths.size() - 1) {
+                            complete = true;
+                            addRandomCheck();
+                        }
                     }
-                }
-            }).execute(new Uri[]{uri});
+                }).execute(new Uri[]{uri});
+            }
         }
         return "";
     }
@@ -708,7 +734,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             final int oriHeight = options.outHeight;
 
             compress(input.getPath(), outPath);
-            return outPath;
+            Uri uri = Uri.parse(outPath);
+            String b = Base64Img.GetImageStrFromPath(uri.getPath());
+            return b;
         }
 
         @Override

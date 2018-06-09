@@ -24,4 +24,6 @@ public class CheckBean extends JSONAble {
     public String assistPersonIds;
 
     public double score;
+    public int userId;
+
 }
