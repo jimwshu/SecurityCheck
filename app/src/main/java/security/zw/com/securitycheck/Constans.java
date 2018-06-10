@@ -29,28 +29,32 @@ public class Constans {
 
     public interface GetSmsService {
 
-        @POST("supervisorDiamond/auth/login")
+        @POST("/supervisorDiamond/auth/login")
         public Call<String> login(@Body RequestBody route);
 
     }
 
     public interface GetMyProjectList {
 
-        @POST("supervisorDiamond/myProject/list")
+        @POST("/supervisorDiamond/myProject/list")
         public Call<String> getList(@Body RequestBody route);
 
-        @POST("supervisorDiamond/myProject/{id}")
+        @POST("/supervisorDiamond/myProject/{id}")
         public Call<String> getProjectById(@Path("id") int id);
 
     }
 
     public interface GetCheckItemList {
 
-        @POST("supervisorDiamond/checkItem/list")
+        @POST("/supervisorDiamond/checkItem/list")
         public Call<String> getCheckItemList();
 
         @POST("/supervisorDiamond/checkItem/checkBasis")
         public Call<String> getCheckItemDetail(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/checkItem/listFilter")
+        public Call<String> getFilter(@Body RequestBody route);
+
 
     }
 
@@ -82,6 +86,7 @@ public class Constans {
         public Call<String> getRandomCheckDetail(@Body RequestBody route);
 
 
-
+        @POST("/supervisorDiamond/projectCheckItem/assign")
+        public Call<String> postCheckPerson(@Body RequestBody route);
     }
 }

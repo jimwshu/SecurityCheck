@@ -24,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.CheckPerson;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
@@ -266,7 +267,11 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                         CheckItemActivity.launch(view.getContext(), detail);
                     }
                 } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
+                    if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                         getCheckPerson();
+                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+                        CheckItemForMoreActivity.launch(ProjectDetailActivity.this, detail);
+                    }
                 }
 
 
@@ -523,8 +528,6 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
                 if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                     RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
-                } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
-                    CheckItemActivity.launch(ProjectDetailActivity.this, detail);
                 }
 
             }

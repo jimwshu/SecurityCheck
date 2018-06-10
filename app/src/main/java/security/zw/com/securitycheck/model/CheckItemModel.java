@@ -113,4 +113,49 @@ public class CheckItemModel implements BaseModel {
             });
         }
     }
+
+
+    public void getFilter(int projectId, final NetworkCallback callback){
+
+        if (!isLogin) {
+            isLogin = true;
+            Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
+
+            Gson gson = new Gson();
+            CheckItemDetailBean detailBean = new CheckItemDetailBean();
+            detailBean.projectId = projectId;
+            detailBean.userId = SecurityApplication.mUser.id;
+            String s = gson.toJson(detailBean);
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
+
+            mCall = getCheckItemList.getFilter(requestBody);
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    isLogin = false;
+                    int code = response.code();
+                    if (response.isSuccessful()) {
+                        if (callback != null) {
+                            callback.onSuccess(response.body().toString());
+                        }
+                    } else {
+                        if (callback != null) {
+                            callback.onFailed(code, response.message());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    isLogin = false;
+                    t.printStackTrace();
+                    if (callback != null) {
+                        callback.onFailed(t);
+                    }
+                }
+            });
+        }
+    }
+
 }

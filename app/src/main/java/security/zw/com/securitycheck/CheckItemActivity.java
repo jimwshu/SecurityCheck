@@ -1,38 +1,24 @@
 package security.zw.com.securitycheck;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import drawthink.expandablerecyclerview.bean.RecyclerViewData;
 import drawthink.expandablerecyclerview.listener.OnRecyclerViewListener;
 import security.zw.com.securitycheck.adapter.CheckItemAdapter;
-import security.zw.com.securitycheck.adapter.MyProjectAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
-import security.zw.com.securitycheck.bean.CheckItemDetail;
-import security.zw.com.securitycheck.bean.DecreaseItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
-import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
-import security.zw.com.securitycheck.presenter.MyProjectPresenter;
-import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
-import security.zw.com.securitycheck.view.MyProjectView;
-import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 
 
 public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView{

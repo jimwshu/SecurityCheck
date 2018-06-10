@@ -90,6 +90,11 @@
         ></activity>
 
         <activity
+                android:name=".CheckItemForMoreActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
                 android:name=".RandomCheckActivity"
                 android:screenOrientation="portrait"
         ></activity>

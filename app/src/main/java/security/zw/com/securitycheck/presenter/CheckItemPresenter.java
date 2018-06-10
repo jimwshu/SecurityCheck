@@ -68,6 +68,37 @@ public class CheckItemPresenter implements BasePresenter{
         });
     }
 
+    public void getFilter(int projectId) {
+        checkItemModel.getFilter(projectId, new NetworkCallback() {
+            @Override
+            public void onRealFailed(int code, String msg) {
+                super.onRealFailed(code, msg);
+                checkItemView.getCheckItemFailed(code, msg);
+            }
+
+            @Override
+            public void onRealSuccess(String date) {
+                super.onRealSuccess(date);
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
+                    ArrayList<CheckItem> checkItems = new ArrayList<>();
+                    if (jsonObject1 != null && jsonObject1.length() > 0) {
+                        for (int i = 0; i< jsonObject1.length(); i++) {
+                            CheckItem checkItem = SecurityApplication.getGson().fromJson(jsonObject1.optJSONObject(i).toString(), CheckItem.class);
+                            checkItems.add(checkItem);
+                        }
+                    }
+                    checkItemView.getCheckItemSucc(checkItems);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    checkItemView.getCheckItemFailed(-1, "数据解析失败");
+                }
+            }
+
+        });
+    }
+
 
     public void getCheckItemDetail(int projectId, int checkItemId) {
         checkItemModel.getCheckItemDetail(projectId, checkItemId, new NetworkCallback() {

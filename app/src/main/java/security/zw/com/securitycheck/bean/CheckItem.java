@@ -12,6 +12,9 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
  */
 
 public class CheckItem extends JSONAble{
+
+    public static final int HAS_ASSIGNED = 1, HAS_NO_ASSIGNED = 0;
+
     public boolean isSelected = false;
 
     public int id;
@@ -22,6 +25,9 @@ public class CheckItem extends JSONAble{
 
     public String name;//名称
     public int level;
+    public int worker;// 获取到检查任务的ID
+
+    public int assigned;
 
     public double deserveScore;//应该得的总分
     public double realScore;//实得分
