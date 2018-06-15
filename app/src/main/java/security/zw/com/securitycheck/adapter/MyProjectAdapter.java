@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.MyCheckDetailActivity;
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 
 
@@ -28,9 +30,17 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
 
     private Activity mContext;
 
+    private int type = -1;
+
     public MyProjectAdapter(ArrayList<ProjectInfo> mData, Activity mActivity) {
         this.mData = mData;
         this.mContext = mActivity;
+    }
+
+    public MyProjectAdapter(ArrayList<ProjectInfo> mData, Activity mActivity, int type) {
+        this.mData = mData;
+        this.mContext = mActivity;
+        this.type = type;
     }
 
     @Override
@@ -80,13 +90,21 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
         } else if (p.supervise == 1) {
             holder.check.setVisibility(View.GONE);
         }
-
-        holder.rel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ProjectDetailActivity.launch(view.getContext(), p);
-            }
-        });
+        if (type == -1) {
+            holder.rel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ProjectDetailActivity.launch(view.getContext(), p);
+                }
+            });
+        } else if (type == 1) {
+            holder.rel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyCheckDetailActivity.launch(view.getContext(), p);
+                }
+            });
+        }
     }
 
     @Override

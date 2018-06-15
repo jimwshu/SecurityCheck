@@ -15,18 +15,19 @@ import java.util.ArrayList;
 import security.zw.com.securitycheck.adapter.ScoreAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
 
-public class ScoreActivity extends BaseSystemBarTintActivity implements CheckItemView {
+public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity implements CheckItemView {
 
     public static final int REQUEST_SCORE_CHECK = 439;
 
-    public static void launch(Context ctx, ProjectDetail projectDetail, CheckItem item) {
-        Intent intent = new Intent(ctx, ScoreActivity.class);
+    public static void launch(Context ctx, MyCheckProjectDetail projectDetail, CheckItem item) {
+        Intent intent = new Intent(ctx, ScoreForMyCheckDetailActivity.class);
         intent.putExtra("detail", projectDetail);
         intent.putExtra("item", item);
         ctx.startActivity(intent);
@@ -34,7 +35,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
 
 
 
-    private ProjectDetail projectDetail;
+    private MyCheckProjectDetail myCheckProjectDetail;
     private CheckItem item;
 
 
@@ -83,8 +84,8 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     }
 
     private void initIntent() {
-        projectDetail = (ProjectDetail) getIntent().getSerializableExtra("detail");
-        if (projectDetail == null) {
+        myCheckProjectDetail = (MyCheckProjectDetail) getIntent().getSerializableExtra("detail");
+        if (myCheckProjectDetail == null) {
             finish();
             return;
         }
@@ -112,13 +113,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mRecyclerView = findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = findViewById(R.id.refresher);
 
-        adapter = new ScoreAdapter(mData, this);
-        adapter.setClickListenner(new ScoreAdapter.RecheckClickListenner() {
-            @Override
-            public void onClick(int pos, CheckItem item) {
-                ScoreCheckActivity.launch(ScoreActivity.this, projectDetail, item, REQUEST_SCORE_CHECK);
-            }
-        });
+        adapter = new ScoreAdapter(mData, this, 1);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
@@ -127,11 +122,11 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckItemDetail(projectDetail.id,item.id);
+                presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
             }
         });
 
-        presenter.getCheckItemDetail(projectDetail.id,item.id);
+        presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
 
     }
 
@@ -169,7 +164,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
-            presenter.getCheckItemDetail(projectDetail.id,item.id);
+            presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
         }
     }
 }

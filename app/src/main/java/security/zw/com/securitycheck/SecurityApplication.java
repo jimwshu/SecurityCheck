@@ -11,9 +11,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,6 +36,7 @@ import security.zw.com.securitycheck.utils.image.ImagePipelineConfigUtils;
 
 public class SecurityApplication extends Application {
 
+    public static final String APP_ID = "", APP_KEY = "", TAG = "SECURITY";
 
     public static Context mContext;
     // 当前活动用户
@@ -102,6 +107,25 @@ public class SecurityApplication extends Application {
             FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         }
         ConfigManager.getInstance().parseBasicStr();
+
+        MiPushClient.registerPush(this, APP_ID, APP_KEY);
+
+        LoggerInterface newLogger = new LoggerInterface() {
+            @Override
+            public void setTag(String tag) {
+                // ignore
+            }
+            @Override
+            public void log(String content, Throwable t) {
+                Log.d(TAG, content, t);
+            }
+            @Override
+            public void log(String content) {
+                Log.d(TAG, content);
+            }
+        };
+        Logger.setLogger(this, newLogger);
+
     }
 
 

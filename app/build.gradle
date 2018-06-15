@@ -32,4 +32,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0'
     compile 'com.drawthink:expandable-recyclerview:0.0.3'
     implementation files('libs/BASE64.jar')
+    implementation files('libs/MiPush_SDK_Client_3_6_2.jar')
 }

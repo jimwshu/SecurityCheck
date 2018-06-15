@@ -26,6 +26,7 @@ public class CheckItem extends JSONAble{
     public String name;//名称
     public int level;
     public int worker;// 获取到检查任务的ID
+    public String checker;// 获取到检查任务的ID
 
     public int assigned;
 
@@ -35,6 +36,8 @@ public class CheckItem extends JSONAble{
     public double min;
     public double max;
     public String type;
+
+    public double score;
 
     @SerializedName(value = "childrens", alternate = {"checkItemWithScoreVOs"})
     public ArrayList<CheckItem> childrens;

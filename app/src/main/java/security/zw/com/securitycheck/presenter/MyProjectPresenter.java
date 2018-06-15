@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.SecurityApplication;
+import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.UserInfo;
@@ -94,6 +95,75 @@ public class MyProjectPresenter implements BasePresenter{
                 } catch (JSONException e) {
                     e.printStackTrace();
                     myProjectView.getProjectFailed(-1, "数据解析失败");
+                }
+            }
+
+        });
+    }
+
+
+    public void getMyCheckProjectList(final int page) {
+        myProjectModel.getMyCheckProjectList(page, new NetworkCallback() {
+            @Override
+            public void onRealFailed(int code, String msg) {
+                super.onRealFailed(code, msg);
+                myProjectView.getMyCheckProjectListFailed(code, msg);
+            }
+
+            @Override
+            public void onRealSuccess(String date) {
+                super.onRealSuccess(date);
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONObject object = jsonObject.optJSONObject("data");
+                    JSONArray data = object.optJSONArray("projects");
+                    ArrayList<ProjectInfo> arrayList = new ArrayList<>();
+                    if (data != null && data.length() > 0) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object1 = data.optJSONObject(i);
+                            ProjectInfo projectInfo = new ProjectInfo();
+                            projectInfo.parseFromJSONObject(object1);
+                            arrayList.add(projectInfo);
+                        }
+                        myProjectView.getMyCheckProjectListSucc(arrayList, jsonObject.optBoolean("has_more"), page);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    myProjectView.getMyCheckProjectListFailed(-1, "数据解析失败");
+                }
+            }
+
+        });
+    }
+
+    public void getMyCheckProjectDetailList(final int projectId) {
+        myProjectModel.getMyCheckProjectDetailList(projectId, new NetworkCallback() {
+            @Override
+            public void onRealFailed(int code, String msg) {
+                super.onRealFailed(code, msg);
+                myProjectView.getMyCheckProjectDetailListFailed(code, msg);
+            }
+
+            @Override
+            public void onRealSuccess(String date) {
+                super.onRealSuccess(date);
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONArray object = jsonObject.optJSONArray("data");
+                    ArrayList<MyCheckProjectDetail> details = new ArrayList<>();
+                    if (object != null && object.length() > 0) {
+                        for (int i = 0; i < object.length(); i++) {
+                            JSONObject object1 = object.optJSONObject(i);
+                            MyCheckProjectDetail detail = new Gson().fromJson(object1.toString(), MyCheckProjectDetail.class);
+                            details.add(detail);
+                        }
+                        myProjectView.getMyCheckProjectDetailListSucc(details, jsonObject.optBoolean("has_more"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    myProjectView.getMyCheckProjectDetailListFailed(-1, "数据解析失败");
                 }
             }
 

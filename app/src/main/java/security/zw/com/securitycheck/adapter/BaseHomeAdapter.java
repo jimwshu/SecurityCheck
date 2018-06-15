@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.MyCheckActivity;
 import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.Item;
@@ -130,7 +131,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("我的检查");
+                        MyCheckActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_STOP_WORKER) {

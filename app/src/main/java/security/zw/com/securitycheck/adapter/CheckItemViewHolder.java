@@ -14,6 +14,12 @@ public class CheckItemViewHolder extends BaseViewHolder {
     public View parentRemind;
 
     public TextView childTitle;
+    public TextView parentCheckName;
+    public TextView childCheckName;
+
+    public TextView parentCheckScore;
+    public TextView childCheckScore;
+
 
     /**
      *  初始化你的View(这里包括GroupView,和childView)
@@ -23,6 +29,11 @@ public class CheckItemViewHolder extends BaseViewHolder {
         groupTitle = itemView.findViewById(R.id.parent_title);
         childTitle = itemView.findViewById(R.id.child_title);
         parentRemind = itemView.findViewById(R.id.parent_remind);
+        parentCheckName = itemView.findViewById(R.id.check_parent_name);
+        childCheckName = itemView.findViewById(R.id.check_child_name);
+
+        parentCheckScore = itemView.findViewById(R.id.check_parent_score);
+        childCheckScore = itemView.findViewById(R.id.check_child_score);
     }
 
     /**

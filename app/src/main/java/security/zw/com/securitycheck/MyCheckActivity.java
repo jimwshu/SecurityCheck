@@ -24,30 +24,11 @@ import security.zw.com.securitycheck.view.MyProjectView;
 import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 
 
-public class MyProjectActivity extends BaseSystemBarTintActivity implements MyProjectView {
-
-    public static final String[] ACCESS_PERMISSION = new String[]{
-            "我的项目", "监督整改","开工复工","督办项目"
-    };
-
-    public void selectPermission() {
-        new AlertDialog.Builder(this)
-                .setItems(ACCESS_PERMISSION, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (type != which + 1) {
-                            type = which + 1;
-                            mType.setText(ACCESS_PERMISSION[which]);
-                            onRefresh();
-                        }
-                    }
-                })
-                .show();
-    }
+public class MyCheckActivity extends BaseSystemBarTintActivity implements MyProjectView {
 
 
     public static void launch(Context ctx) {
-        Intent intent = new Intent(ctx, MyProjectActivity.class);
+        Intent intent = new Intent(ctx, MyCheckActivity.class);
         ctx.startActivity(intent);
     }
 
@@ -76,8 +57,6 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
 
     private MyProjectPresenter presenter;
 
-    private int type = 1;// 查询类型
-
     private ImageView mBack;
     private TextView mType;
 
@@ -89,7 +68,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
-        setContentView(R.layout.activity_my_project);
+        setContentView(R.layout.activity_my_check_project);
         initWidget();
 
     }
@@ -104,22 +83,18 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectPermission();
-            }
-        });
+        mType.setText("我的检查项目");
+        mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 
         presenter = new MyProjectPresenter(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MyProjectAdapter(data, this);
+        mAdapter = new MyProjectAdapter(data, this, 1);
         mSwipeRefreshLayout = (SwipeRefreshLayoutBoth) findViewById(R.id.refresher);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayoutBoth.OnRefreshListener() {
             @Override
             public void onRefresh(SwipeRefreshLayoutBoth.SwipeRefreshLayoutDirection direction) {
                 if (direction == SwipeRefreshLayoutBoth.SwipeRefreshLayoutDirection.TOP) {
-                    MyProjectActivity.this.onRefresh();
+                    MyCheckActivity.this.onRefresh();
                 } else if (direction == SwipeRefreshLayoutBoth.SwipeRefreshLayoutDirection.BOTTOM) {
                     if (!isLoading) {
                         doLoadMore();
@@ -147,7 +122,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             return;
         }
         isLoading = true;
-        presenter.getProjectList(type, page);
+        presenter.getMyCheckProjectList(page);
 
     }
 
@@ -175,6 +150,27 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
 
     @Override
     public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+
+    }
+
+    @Override
+    public void getListFailed(int code, String error) {
+
+    }
+
+
+    @Override
+    public void getProjectSucc(ProjectDetail detail) {
+
+    }
+
+    @Override
+    public void getProjectFailed(int code, String error) {
+
+    }
+
+    @Override
+    public void getMyCheckProjectListSucc(ArrayList<ProjectInfo> projectInfos, boolean has_more, int page) {
         isLoading = false;
         mSwipeRefreshLayout.setRefreshing(false);
         this.hasMore = hasMore;
@@ -193,32 +189,10 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     }
 
     @Override
-    public void getListFailed(int code, String error) {
+    public void getMyCheckProjectListFailed(int code, String error) {
         isLoading = false;
         mSwipeRefreshLayout.setRefreshing(false);
         ToastUtil.Short(error);
-    }
-
-
-    @Override
-    public void getProjectSucc(ProjectDetail detail) {
-
-    }
-
-    @Override
-    public void getProjectFailed(int code, String error) {
-
-    }
-
-
-    @Override
-    public void getMyCheckProjectListSucc(ArrayList<ProjectInfo> projectInfos, boolean has_more, int page) {
-
-    }
-
-    @Override
-    public void getMyCheckProjectListFailed(int code, String error) {
-
     }
 
     @Override

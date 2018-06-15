@@ -26,6 +26,7 @@ import retrofit2.Retrofit;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.CheckPerson;
+import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.postbean.CheckBean;
@@ -597,5 +598,25 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
             finish();
             return;
         }
+    }
+
+    @Override
+    public void getMyCheckProjectListSucc(ArrayList<ProjectInfo> projectInfos, boolean has_more, int page) {
+
+    }
+
+    @Override
+    public void getMyCheckProjectListFailed(int code, String error) {
+
+    }
+
+    @Override
+    public void getMyCheckProjectDetailListSucc(ArrayList<MyCheckProjectDetail> myCheckProjectDetails, boolean has_more) {
+
+    }
+
+    @Override
+    public void getMyCheckProjectDetailListFailed(int code, String error) {
+
     }
 }

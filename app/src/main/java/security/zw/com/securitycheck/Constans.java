@@ -42,6 +42,13 @@ public class Constans {
         @POST("/supervisorDiamond/myProject/{id}")
         public Call<String> getProjectById(@Path("id") int id);
 
+        @POST("/supervisorDiamond/myCheck/projectList")
+        public Call<String> getMyCheckProjectList(@Body RequestBody route);
+
+        // 我的检查项目的总评分记录列表
+        @POST("/supervisorDiamond/projectEvaluation/list")
+        public Call<String> getEvaluationCheckProjectList(@Body RequestBody route);
+
     }
 
     public interface GetCheckItemList {
@@ -55,6 +62,8 @@ public class Constans {
         @POST("/supervisorDiamond/checkItem/listFilter")
         public Call<String> getFilter(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/myCheck/scoreList")
+        public Call<String> getCheckScoreList(@Body RequestBody route);
 
     }
 
@@ -88,5 +97,9 @@ public class Constans {
 
         @POST("/supervisorDiamond/projectCheckItem/assign")
         public Call<String> postCheckPerson(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/projectTag/add")
+        public Call<String> finishCheck(@Body RequestBody route);
+
     }
 }

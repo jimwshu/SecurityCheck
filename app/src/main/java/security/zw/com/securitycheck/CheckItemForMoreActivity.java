@@ -128,7 +128,6 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-        presenter.getFilter(detail.id);
     }
 
 
@@ -412,4 +411,9 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getFilter(detail.id);
+    }
 }

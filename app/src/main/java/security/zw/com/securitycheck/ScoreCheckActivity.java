@@ -1,6 +1,7 @@
 package security.zw.com.securitycheck;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -281,6 +282,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     }
 
     private void submit() {
+
+        if (!fit.isChecked() && !unfit.isChecked() && !unfit2.isChecked()) {
+            ToastUtil.Long("项目评价不能为空");
+            return;
+        }
+
         String illegalContent = illegel.getText().toString();
         if (TextUtils.isEmpty(illegalContent)) {
             ToastUtil.Long("违法内容不能为空");
@@ -506,6 +513,21 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                         count.setText("" + checkBean.score);
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
+
+                                        if (checkBean.result == 1) {
+                                            fit.setChecked(true);
+                                            unfit.setChecked(false);
+                                            unfit2.setChecked(false);
+                                        } else if (checkBean.result == 2) {
+                                            fit.setChecked(false);
+                                            unfit.setChecked(true);
+                                            unfit2.setChecked(false);
+                                        } else if (checkBean.result == 3) {
+                                            fit.setChecked(false);
+                                            unfit.setChecked(false);
+                                            unfit2.setChecked(true);
+                                        }
+
                                         if (!TextUtils.isEmpty(checkBean.image)) {
                                             String [] imgs = checkBean.image.split(";");
                                             if (imgs.length > 0) {
@@ -564,6 +586,18 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         basicBean.assistPersonIds = detail.assistPersonIds;
         basicBean.score = Double.parseDouble(count.getText().toString());
 
+        if (fit.isChecked()) {
+            basicBean.result = 1;
+        }
+
+        if (unfit.isChecked()) {
+            basicBean.result = 2;
+        }
+
+        if (unfit2.isChecked()) {
+            basicBean.result = 3;
+        }
+
         basicBean.image = images.toString().substring(0, images.length() - 1);
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
@@ -586,8 +620,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加评分检查成功");
-                                setResult(RESULT_OK);
-                                finish();
+                                showFinishDialog();
                             }
                         }
                     } catch (JSONException e) {
@@ -620,6 +653,107 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         });
     }
 
+    public void showFinishDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("是否结束本项目的评分检查？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                postFinish();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                setResult(RESULT_OK);
+                finish();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        })
+                .show();
+    }
+
+    private void postFinish() {
+        showSubmitLoading();
+        get_code = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("creator", SecurityApplication.mUser.id);
+        jsonObject.addProperty("checkType", detail.check_type);
+
+        String s = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.finishCheck(requestBody);
+
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                get_code = false;
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                hideSubmitLoading();
+                                ToastUtil.Long("项目结束检查已提交");
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        hideSubmitLoading();
+                        showRetryDialog();
+                    }
+                } else {
+                    hideSubmitLoading();
+                    showRetryDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                get_code = false;
+                hideSubmitLoading();
+                showRetryDialog();
+            }
+        });
+
+    }
+
+    private void showRetryDialog() {
+        hideSubmitLoading();
+        new AlertDialog.Builder(this)
+                .setMessage("项目结束检查提交失败，请重试")
+                .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        postFinish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                })
+                .show();
+    }
 
     StringBuilder images = new StringBuilder();
     boolean complete = false;

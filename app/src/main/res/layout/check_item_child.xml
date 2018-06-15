@@ -6,6 +6,33 @@
                 android:background="#f4f4f4"
                 >
 
+    <TextView
+            android:visibility="gone"
+            android:text="检查人"
+            android:id="@+id/check_child_score"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:textColor="#ff0000"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:visibility="gone"
+            android:text="检查分数"
+            android:id="@+id/check_child_name"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:textColor="#ff0000"
+            android:layout_marginRight="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
     <TextView
             android:layout_centerVertical="true"

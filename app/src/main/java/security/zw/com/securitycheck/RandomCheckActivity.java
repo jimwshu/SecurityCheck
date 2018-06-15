@@ -1,6 +1,7 @@
 package security.zw.com.securitycheck;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -126,6 +127,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
     }
 
+    private RelativeLayout check_result_rel;
     private RadioGroup checkResult;
     private RadioButton fit;
     private RadioButton unfit;
@@ -194,10 +196,12 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         imageDeleteBtns[1] = findViewById(R.id.imageDelete2);
         imageDeleteBtns[2] = findViewById(R.id.imageDelete3);
 
+        check_result_rel = findViewById(R.id.check_result_rel);
         checkResult = findViewById(R.id.check_result_group);
         fit = findViewById(R.id.check_result_fit);
         unfit = findViewById(R.id.check_result_unfit);
         unfit2 = findViewById(R.id.check_result_unfit_2);
+        check_result_rel.setVisibility(View.GONE);
 
         illegel = findViewById(R.id.illegal);
         basic = findViewById(R.id.basic);
@@ -447,8 +451,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加随机检查成功");
-                                setResult(RESULT_OK);
-                                finish();
+                                postFinish();
                             }
                         }
                     } catch (JSONException e) {
@@ -478,6 +481,108 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
             }
         });
+    }
+
+    public void showFinishDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("是否结束本项目的评分检查？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        postFinish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                setResult(RESULT_OK);
+                finish();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        })
+                .show();
+    }
+
+    private void postFinish() {
+        showSubmitLoading();
+        get_code = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("creator", SecurityApplication.mUser.id);
+        jsonObject.addProperty("checkType", detail.check_type);
+
+        String s = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.finishCheck(requestBody);
+
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                get_code = false;
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                hideSubmitLoading();
+                                ToastUtil.Long("项目结束检查已提交");
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        hideSubmitLoading();
+                        showRetryDialog();
+                    }
+                } else {
+                    hideSubmitLoading();
+                    showRetryDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                get_code = false;
+                hideSubmitLoading();
+                showRetryDialog();
+            }
+        });
+
+    }
+
+    private void showRetryDialog() {
+        hideSubmitLoading();
+        new AlertDialog.Builder(this)
+                .setMessage("项目结束检查提交失败，请重试")
+                .setPositiveButton("重试", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        postFinish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                })
+                .show();
     }
 
 

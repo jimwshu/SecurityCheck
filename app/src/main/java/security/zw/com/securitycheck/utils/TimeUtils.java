@@ -32,4 +32,13 @@ public class TimeUtils {
         return times;
     }
 
+
+    public static String secToTime(long sec) {
+
+        Date dates = new Date(sec);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String times= sdf.format(dates);
+
+        return times;
+    }
 }

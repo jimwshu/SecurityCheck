@@ -8,48 +8,34 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
-import security.zw.com.securitycheck.RandomCheckActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
-import security.zw.com.securitycheck.bean.CheckItemDetail;
-import security.zw.com.securitycheck.bean.DecreaseItem;
-import security.zw.com.securitycheck.bean.ProjectInfo;
-import security.zw.com.securitycheck.bean.Score;
-import security.zw.com.securitycheck.bean.ScoreItem;
 
 
 /**
  * Created by wangshu on 17/5/31.
+ *
+ * 我的检查项目adapter
+ *
  */
 
 
-public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyCheckProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private ArrayList<Object> mData;
 
     private Activity mContext;
 
-    private int type = -1;
-
-    public ScoreAdapter(ArrayList<Object> mData, Activity mActivity) {
+    public MyCheckProjectAdapter(ArrayList<Object> mData, Activity mActivity) {
         this.mData = mData;
         this.mContext = mActivity;
     }
-
-    public ScoreAdapter(ArrayList<Object> mData, Activity mActivity, int type) {
-        this.mData = mData;
-        this.mContext = mActivity;
-        this.type = type;
-    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -112,11 +98,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             storeItem.score.setText(ss);
             storeItem.title.setText(item.name);
-            if (type == -1) {
-                storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
-            } else if (type == 1){
-                storeItem.recheck.setVisibility(View.GONE);
-            }
+            storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
             storeItem.rel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

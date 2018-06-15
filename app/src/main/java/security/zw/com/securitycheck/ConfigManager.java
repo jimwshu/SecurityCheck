@@ -96,7 +96,9 @@ public class ConfigManager {
         Gson gson = new Gson();
         BasicBean basicBean = new BasicBean();
         basicBean.type = 1;
-        basicBean.userId = SecurityApplication.mUser.id;
+        if (SecurityApplication.mUser != null) {
+            basicBean.userId = SecurityApplication.mUser.id;
+        }
 
 
         String s = gson.toJson(basicBean);
