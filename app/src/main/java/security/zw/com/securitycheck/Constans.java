@@ -49,6 +49,23 @@ public class Constans {
         @POST("/supervisorDiamond/projectEvaluation/list")
         public Call<String> getEvaluationCheckProjectList(@Body RequestBody route);
 
+        // 监督整改列表，项目为单位
+        @POST("/supervisorDiamond/supervisionReform/projectList")
+        public Call<String> getSupervisionList(@Body RequestBody route);
+
+        // 项目为单位下的列表
+        @POST("/supervisorDiamond/supervisionReform/checkList")
+        public Call<String> getSupervisionListForProject(@Body RequestBody route);
+
+
+        // 整改列表详情
+        @POST("/supervisorDiamond/supervisionReform/detail")
+        public Call<String> getSupervisionListDetailForProject(@Body RequestBody route);
+
+        // 移交执法 or 整改合格
+        @POST("/supervisorDiamond/supervisionReform/updateStatus")
+        public Call<String> updateSupervisionListDetailForProject(@Body RequestBody route);
+
     }
 
     public interface GetCheckItemList {

@@ -135,6 +135,21 @@
                 android:screenOrientation="portrait"
         ></activity>
 
+        <activity
+                android:name=".MySupervisionProjectActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".MySupervisionProjectListActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".MySupervisionProjectDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
         <service
                 android:enabled="true"
                 android:process=":pushservice"

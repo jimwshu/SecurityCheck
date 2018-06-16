@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.MyCheckDetailActivity;
+import security.zw.com.securitycheck.MySupervisionProjectListActivity;
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
@@ -102,6 +103,13 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
                 @Override
                 public void onClick(View view) {
                     MyCheckDetailActivity.launch(view.getContext(), p);
+                }
+            });
+        }  else if (type == 2) {
+            holder.rel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MySupervisionProjectListActivity.launch(view.getContext(), p);
                 }
             });
         }

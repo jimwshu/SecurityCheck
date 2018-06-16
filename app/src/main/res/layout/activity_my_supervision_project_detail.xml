@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:fresco="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#f4f4f4"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <LinearLayout
+            android:id="@+id/bottom_lin"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+
+        <TextView
+                android:background="#0f86ff"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/check"
+                android:textColor="#ffffff"
+                android:text="整改合格"
+                android:layout_marginRight="35dp"
+                android:layout_marginLeft="35dp"
+                android:layout_width="0dp"
+                android:layout_height="44dp"/>
+
+        <TextView
+                android:background="#0f86ff"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/change"
+                android:textColor="#ffffff"
+                android:text="移交执法"
+                android:layout_marginRight="35dp"
+                android:layout_marginLeft="35dp"
+                android:layout_width="0dp"
+                android:layout_height="44dp"/>
+
+
+    </LinearLayout>
+
+
+
+    <ScrollView
+            android:layout_above="@+id/bottom_lin"
+            android:layout_below="@+id/action_bar"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/is_checked"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/safer"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/construct"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/area"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/cost"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_s"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/image"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/district"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/address"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/contract"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/construction"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/monitor"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/check_class"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/check_mode"
+            ></include>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/photo"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="#92969c"
+                        android:textSize="16dp"
+                        android:text="违法照片"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                <HorizontalScrollView
+                        android:layout_marginBottom="17dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_toRightOf="@+id/photo"
+                        android:id="@+id/images_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                >
+
+                    <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                    >
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                                android:visibility="invisible"
+                                android:layout_marginTop="5dp"
+                                fresco:actualImageScaleType="fitXY"
+                                android:id="@+id/image1"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:scaleType="fitXY"
+
+                        />
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                                android:layout_marginTop="5dp"
+                                android:visibility="invisible"
+                                fresco:actualImageScaleType="fitXY"
+                                android:id="@+id/image2"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_marginLeft="78dp"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/my_default_icon"/>
+
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                                android:visibility="invisible"
+                                android:layout_marginTop="5dp"
+                                fresco:actualImageScaleType="fitXY"
+                                android:id="@+id/image3"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:scaleType="fitXY"
+                                android:layout_marginLeft="156dp"
+                                android:src="@mipmap/my_default_icon"/>
+
+
+                    </FrameLayout>
+
+                </HorizontalScrollView>
+
+                <View
+                        android:layout_marginTop="17dp"
+                        android:layout_alignLeft="@+id/photo"
+                        android:background="#e9e9e9"
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
+

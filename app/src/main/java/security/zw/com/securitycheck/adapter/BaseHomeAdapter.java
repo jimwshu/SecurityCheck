@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import security.zw.com.securitycheck.MyCheckActivity;
 import security.zw.com.securitycheck.MyProjectActivity;
+import security.zw.com.securitycheck.MySupervisionProjectActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.bean.UserInfo;
@@ -122,7 +123,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("监督整改");
+                        MySupervisionProjectActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_CHECKER) {
