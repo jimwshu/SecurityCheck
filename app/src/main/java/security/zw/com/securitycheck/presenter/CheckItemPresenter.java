@@ -1,6 +1,7 @@
 package security.zw.com.securitycheck.presenter;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -155,6 +156,36 @@ public class CheckItemPresenter implements BasePresenter{
 
         });
     }
+
+    public void getCheckScoreItemDetail(int projectId, int checkItemId) {
+        checkItemModel.getCheckScoreItemDetail(projectId, checkItemId, new NetworkCallback() {
+            @Override
+            public void onRealFailed(int code, String msg) {
+                super.onRealFailed(code, msg);
+                checkItemView.getCheckItemDetailFailed(code, msg);
+            }
+
+            @Override
+            public void onRealSuccess(String date) {
+                super.onRealSuccess(date);
+                try {
+                    JSONObject jsonObject = new JSONObject(date);
+                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
+                    if (jsonObject1 != null && jsonObject1.length() > 0) {
+                        JSONObject jsonObject2 = jsonObject1.optJSONObject(0);
+                        CheckItem checkItem = SecurityApplication.getGson().fromJson(jsonObject2.toString(), CheckItem.class);
+                        checkItemView.getCheckItemDetailSucc(checkItem);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    checkItemView.getCheckItemDetailFailed(-1, "数据解析失败");
+                }
+            }
+
+        });
+    }
+
 
 
     @Override

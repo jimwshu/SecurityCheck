@@ -62,7 +62,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查");
+        mType.setText("评分检查6");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }

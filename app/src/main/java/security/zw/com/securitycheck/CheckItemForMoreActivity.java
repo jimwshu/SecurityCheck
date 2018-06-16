@@ -32,12 +32,13 @@ import security.zw.com.securitycheck.bean.CheckPerson;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.postbean.PostCheckPersonBean;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
 
-public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView{
+public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView {
 
 
     private ProjectDetail detail;
@@ -69,6 +70,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     private ImageView mBack;
     private TextView mType;
     private TextView mSubmit;
+
     public void initBar() {
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查");
+        mType.setText("新建评分检查2");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -119,7 +121,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new CheckItemForMoreAdapter( this,data);
+        mAdapter = new CheckItemForMoreAdapter(this, data);
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
 
@@ -228,10 +230,13 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
     @Override
     public void getCheckItemSucc(ArrayList<CheckItem> items) {
-        for (int i = 0; i< items.size(); i++) {
+        if (data.size() > 0) {
+            data.clear();
+        }
+        for (int i = 0; i < items.size(); i++) {
             CheckItem checkItem = items.get(i);
             ArrayList<CheckItem> checkItems = null;
-            if (checkItem.childrens != null && checkItem.childrens.size()> 0) {
+            if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
                 checkItems = checkItem.childrens;
             } else {
                 checkItems = new ArrayList<>();
@@ -258,11 +263,10 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     }
 
 
-
     private void toShowChcekPerson(final CheckItem checkItem) {
         new AlertDialog.Builder(this)
                 .setTitle("请为该项目选择协助检查人员")
-                .setSingleChoiceItems(personsName, 0, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(personsName, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int selected) {
                         itemSelect = selected;
@@ -279,12 +283,11 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                itemSelect = -1;
+
             }
         }).setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                itemSelect = -1;
             }
         })
                 .show();
@@ -370,7 +373,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             postCheckPersonBean.worker = select;
 
             String s = SecurityApplication.getGson().toJson(postCheckPersonBean);
-            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
             mCall = addCheck.postCheckPerson(requestBody);
             mCall.enqueue(new Callback<String>() {

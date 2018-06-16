@@ -60,7 +60,7 @@ public class CheckItemForMyCheckDetailActivity extends BaseSystemBarTintActivity
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查");
+        mType.setText("评分检查5");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }

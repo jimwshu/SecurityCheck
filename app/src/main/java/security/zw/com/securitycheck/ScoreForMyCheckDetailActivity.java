@@ -63,7 +63,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查");
+        mType.setText("评分检查1");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -122,11 +122,11 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
+                presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
             }
         });
 
-        presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
+        presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
 
     }
 
@@ -164,7 +164,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
-            presenter.getCheckItemDetail(myCheckProjectDetail.projectId,item.id);
+            presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
         }
     }
 }

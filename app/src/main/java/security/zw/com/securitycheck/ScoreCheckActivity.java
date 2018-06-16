@@ -108,7 +108,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查");
+        mType.setText("评分检查3");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -326,6 +326,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         double cc = Double.parseDouble(c);
         if (cc >= 0) {
             ToastUtil.Long("扣分分值应该小于0");
+            return;
         }
 
 

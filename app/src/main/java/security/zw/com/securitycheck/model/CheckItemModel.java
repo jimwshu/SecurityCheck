@@ -200,4 +200,49 @@ public class CheckItemModel implements BaseModel {
             });
         }
     }
+
+
+    public void getCheckScoreItemDetail(int projectId, int checkItemId, final NetworkCallback callback){
+
+        if (!isLogin) {
+            isLogin = true;
+            Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("id", projectId);
+            jsonObject.addProperty("checkItemId", checkItemId);
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            String s = jsonObject.toString();
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
+
+            mCall = getCheckItemList.getCheckScoreItemDetail(requestBody);
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    isLogin = false;
+                    int code = response.code();
+                    if (response.isSuccessful()) {
+                        if (callback != null) {
+                            callback.onSuccess(response.body().toString());
+                        }
+                    } else {
+                        if (callback != null) {
+                            callback.onFailed(code, response.message());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    isLogin = false;
+                    t.printStackTrace();
+                    if (callback != null) {
+                        callback.onFailed(t);
+                    }
+                }
+            });
+        }
+    }
+
 }

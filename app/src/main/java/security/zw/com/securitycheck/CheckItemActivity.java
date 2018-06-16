@@ -63,7 +63,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查");
+        mType.setText("新建评分检查7");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
