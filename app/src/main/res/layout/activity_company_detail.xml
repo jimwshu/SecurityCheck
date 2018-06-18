@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#f4f4f4"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <TextView
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/check"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/login_bg"
+            android:textColor="#ffffff"
+            android:text="开始检查"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"/>
+
+
+    <ScrollView
+            android:layout_above="@+id/check"
+            android:layout_below="@+id/action_bar"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/is_checked"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/safer"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/construct"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/area"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/cost"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_s"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/image"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/district"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/address"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/contract"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/construction"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/monitor"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/check_class"
+            ></include>
+
+            <include
+                    android:visibility="gone"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/check_mode"
+            ></include>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
+

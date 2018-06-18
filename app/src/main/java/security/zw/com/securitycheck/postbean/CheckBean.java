@@ -8,6 +8,7 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
  */
 
 public class CheckBean extends JSONAble {
+    public int id;
 
     public int projectId;
     public int checkItemId;

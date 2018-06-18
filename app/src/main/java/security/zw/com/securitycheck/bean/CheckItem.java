@@ -17,7 +17,7 @@ public class CheckItem extends JSONAble{
 
     public boolean isSelected = false;
 
-    public int id;
+    public int id = -1;
     public int parentId;//上级项目id
     public int projectId;
     public int parentCheckItemId;

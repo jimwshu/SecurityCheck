@@ -451,7 +451,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加随机检查成功");
-                                postFinish();
+                                showFinishDialog();
                             }
                         }
                     } catch (JSONException e) {
@@ -486,7 +486,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     public void showFinishDialog() {
 
         new AlertDialog.Builder(this)
-                .setMessage("是否结束本项目的评分检查？")
+                .setMessage("是否结束本项目的随机检查？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

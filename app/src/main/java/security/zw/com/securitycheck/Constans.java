@@ -22,7 +22,6 @@ import retrofit2.http.Url;
  */
 
 public class Constans {
-
     public static String DOMAIN = "http://39.106.107.203:7083/";
 
     public static String Login = DOMAIN + "supervisorDiamond/auth/login";
@@ -73,7 +72,7 @@ public class Constans {
         @POST("/supervisorDiamond/checkItem/list")
         public Call<String> getCheckItemList();
 
-        @POST("/supervisorDiamond/projectCheckItem/superviseModification/subList")
+        @POST("/supervisorDiamond/checkItem/checkBasis")
         public Call<String> getCheckItemDetail(@Body RequestBody route);
 
         @POST("/supervisorDiamond/checkItem/listFilter")
@@ -93,6 +92,22 @@ public class Constans {
         public Call<String> getBasic(@Body RequestBody route);
     }
 
+    public interface Company {
+        @POST("/supervisorDiamond/company/list")
+        public Call<String> getCompanyList(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/company/detail")
+        public Call<String> getCompanyDetail(@Body RequestBody route);
+    }
+
+    public interface Person {
+        @POST("/supervisorDiamond/companyUser/list")
+        public Call<String> getPersonList(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/companyUser/detail")
+        public Call<String> getPersonDetail(@Body RequestBody route);
+    }
+
 
     public interface AddCheck {
         @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/add")
@@ -101,14 +116,14 @@ public class Constans {
         @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/add")
         public Call<String> addScoreCheck(@Body RequestBody route);
 
-        @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/update\n")
+        @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/update")
         public Call<String> updateScoreCheck(@Body RequestBody route);
 
 
         @POST("/supervisorDiamond/checkUsers/list")
         public Call<String> getCheckPerson();
 
-        @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/detail")
+        @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/detailById")
         public Call<String> getScoreCheckDetail(@Body RequestBody route);
 
         @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/detail")

@@ -370,7 +370,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             postCheckPersonBean.checkItemId = checkItem.id;
             postCheckPersonBean.creator = SecurityApplication.mUser.id;
             postCheckPersonBean.projectId = detail.id;
-            postCheckPersonBean.worker = select;
+            postCheckPersonBean.worker = persons.get(select).id;
 
             String s = SecurityApplication.getGson().toJson(postCheckPersonBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);

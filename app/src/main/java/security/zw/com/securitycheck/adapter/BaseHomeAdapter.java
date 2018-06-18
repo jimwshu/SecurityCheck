@@ -12,11 +12,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.CompanyActivity;
 import security.zw.com.securitycheck.MyCheckActivity;
 import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.MySupervisionProjectActivity;
+import security.zw.com.securitycheck.PersonActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.bean.Company;
 import security.zw.com.securitycheck.bean.Item;
+import security.zw.com.securitycheck.bean.Person;
 import security.zw.com.securitycheck.bean.UserInfo;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
@@ -66,7 +70,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int HOME_MY_CHECKER = 8;    //我的检查：
     private int HOME_MY_STOP_WORKER = 2;    //停工复工：
     private int HOME_MY_REMINGDER = 4;    //录控提醒：
-    private int HOME_MY_Head_WORKER = 3;    //督办项目：
+    private int HOME_MY_Head_WORKER = 3;    //人员库：
     private int HOME_MY_DEVICE = 6;    //设备一览：
     private int HOME_MY_COMPANY = 7;    //企业库：企
     private int HOME_MY_NOTICE = 5; //通知：发布
@@ -154,12 +158,12 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_Head_WORKER) {
-                viewHolder.name.setText("督办项目");
+                viewHolder.name.setText("人员库");
                 viewHolder.icon.setImageResource(R.mipmap.t_d);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("督办项目");
+                        PersonActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_DEVICE) {
@@ -177,7 +181,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("企业库");
+                        CompanyActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_NOTICE) {

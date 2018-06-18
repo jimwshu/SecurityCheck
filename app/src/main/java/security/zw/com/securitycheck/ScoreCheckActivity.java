@@ -126,7 +126,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         }
         setContentView(R.layout.activity_obtain_evidence);
         initWidget();
-        if (checkItem.realScore < 0) {
+        if (checkItem.id > 0) {
             loadData();
         }
 
@@ -483,13 +483,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
-        CheckItemDetailBean checkItemDetailBean = new CheckItemDetailBean();
-        checkItemDetailBean.checkItemId = checkItem.checkItemId;
-        checkItemDetailBean.projectId = detail.id;
-        checkItemDetailBean.userId = SecurityApplication.mUser.id;
-
-        Gson gson = new Gson();
-        String s = gson.toJson(checkItemDetailBean);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", checkItem.id);
+        String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
         mCall = addCheck.getScoreCheckDetail(requestBody);
@@ -598,12 +594,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         if (unfit2.isChecked()) {
             basicBean.result = 3;
         }
-
+        basicBean.id = checkItem.id;
         basicBean.image = images.toString().substring(0, images.length() - 1);
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        if (checkItem.realScore < 0) {
+        if (checkItem.id > 0) {
             mCall = addCheck.updateScoreCheck(requestBody);
         } else {
             mCall = addCheck.addScoreCheck(requestBody);

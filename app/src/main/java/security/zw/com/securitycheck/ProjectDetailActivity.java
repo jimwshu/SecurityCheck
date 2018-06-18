@@ -380,7 +380,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         contract_name = contract.findViewById(R.id.unit);
         contract_title = contract.findViewById(R.id.title);
         contract_person = contract.findViewById(R.id.person);
-        contract_title.setText("建设单位简介");
+        contract_title.setText("建设单位");
 
 
         construction = findViewById(R.id.construction);
@@ -388,14 +388,14 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         construction_title = construction.findViewById(R.id.title);
 
         construction_person = construction.findViewById(R.id.person);
-        construction_title.setText("施工单位简介");
+        construction_title.setText("施工单位");
 
 
         monitor = findViewById(R.id.monitor);
         monitor_name = monitor.findViewById(R.id.unit);
         monitor_person = monitor.findViewById(R.id.person);
-        monitor_title = contract.findViewById(R.id.title);
-        monitor_title.setText("监理单位简介");
+        monitor_title = monitor.findViewById(R.id.title);
+        monitor_title.setText("监理单位");
 
         check_class = findViewById(R.id.check_class);//地址
         check_class_title = check_class.findViewById(R.id.title);

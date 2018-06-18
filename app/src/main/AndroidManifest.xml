@@ -150,6 +150,27 @@
                 android:screenOrientation="portrait"
         ></activity>
 
+        <activity
+                android:name=".CompanyActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".CompanyDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".PersonActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".PersonDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+
         <service
                 android:enabled="true"
                 android:process=":pushservice"
