@@ -1,5 +1,6 @@
 package security.zw.com.securitycheck;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,11 +26,11 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
 
     public static final int REQUEST_SCORE_CHECK = 439;
 
-    public static void launch(Context ctx, ProjectDetail projectDetail, CheckItem item) {
+    public static void launch(Activity ctx, ProjectDetail projectDetail, CheckItem item) {
         Intent intent = new Intent(ctx, ScoreActivity.class);
         intent.putExtra("detail", projectDetail);
         intent.putExtra("item", item);
-        ctx.startActivity(intent);
+        ctx.startActivityForResult(intent, 111);
     }
 
 
@@ -169,7 +170,12 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
-            presenter.getCheckItemDetail(projectDetail.id,item.id);
+            if (resultCode == RESULT_OK) {
+                presenter.getCheckItemDetail(projectDetail.id,item.id);
+            } else if (resultCode == 111) {
+                setResult(111);
+                finish();
+            }
         }
     }
 }

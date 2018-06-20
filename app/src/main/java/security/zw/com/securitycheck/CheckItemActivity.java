@@ -197,4 +197,13 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     public void getCheckItemDetailFailed(int code, String error) {
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 111 && resultCode == 111) {
+            setResult(111);
+            finish();
+        }
+    }
 }

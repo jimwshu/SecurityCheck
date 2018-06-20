@@ -419,4 +419,13 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         super.onResume();
         presenter.getFilter(detail.id);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 111 && resultCode == 111) {
+            setResult(111);
+            finish();
+        }
+    }
 }

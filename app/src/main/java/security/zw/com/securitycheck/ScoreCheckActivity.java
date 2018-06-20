@@ -706,7 +706,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("项目结束检查已提交");
-                                setResult(RESULT_OK);
+                                setResult(111);
                                 finish();
                             }
                         }
