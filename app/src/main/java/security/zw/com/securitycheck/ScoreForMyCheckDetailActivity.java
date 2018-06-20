@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.adapter.ScoreAdapter;
+import security.zw.com.securitycheck.adapter.ScoreForCheckAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
@@ -102,7 +103,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private CheckItemPresenter presenter;
-    private ScoreAdapter adapter;
+    private ScoreForCheckAdapter adapter;
     private ArrayList<Object> mData = new ArrayList<>();
     private CheckItem detail;
     private void initWidget() {
@@ -113,7 +114,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         mRecyclerView = findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = findViewById(R.id.refresher);
 
-        adapter = new ScoreAdapter(mData, this, 1);
+        adapter = new ScoreForCheckAdapter(mData, this, 1);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
@@ -150,7 +151,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         mData.addAll(detail.childrens);
         adapter.notifyDataSetChanged();
 
-        score.setText("实得分： " + detail.realScore + "分");
+        score.setText("实得分： " + detail.score + "分");
         title.setText(detail.name);
     }
 

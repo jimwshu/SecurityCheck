@@ -267,7 +267,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                 recheck.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
                             }
                         },
-                        2018, 05, 03).show();
+                        2018, 05, 20).show();
 
             }
         });

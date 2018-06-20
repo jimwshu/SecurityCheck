@@ -65,6 +65,26 @@ public class Constans {
         @POST("/supervisorDiamond/supervisionReform/updateStatus")
         public Call<String> updateSupervisionListDetailForProject(@Body RequestBody route);
 
+        // 录控提醒
+        @POST("/supervisorDiamond/myProject/list")
+        public Call<String> getRemind(@Body RequestBody route);
+
+        // 录控提醒
+        @POST("/supervisorDiamond/projectStateManager/detail")
+        public Call<String> stopDetail(@Body RequestBody route);
+
+        // 录控提醒
+        @POST("/supervisorDiamond/projectStateManager/add")
+        public Call<String> addDetail(@Body RequestBody route);
+
+        // 录控提醒
+        @POST("/supervisorDiamond/projectStateManager/update")
+        public Call<String> updateDetail(@Body RequestBody route);
+
+        // 录控提醒
+        @POST("/supervisorDiamond/recordControl/update")
+        public Call<String> changeRemind(@Body RequestBody route);
+
     }
 
     public interface GetCheckItemList {

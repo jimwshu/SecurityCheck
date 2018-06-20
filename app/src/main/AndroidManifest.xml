@@ -170,7 +170,20 @@
                 android:screenOrientation="portrait"
         ></activity>
 
+        <activity
+                android:name=".RemindActivity"
+                android:screenOrientation="portrait"
+        ></activity>
 
+        <activity
+                android:name=".StopWorkActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".StopWorkChangeActivity"
+                android:screenOrientation="portrait"
+        ></activity>
         <service
                 android:enabled="true"
                 android:process=":pushservice"

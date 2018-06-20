@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+    <TextView
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="#0f86ff"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="停工"
+            android:id="@+id/stopOrStart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+
+    <RelativeLayout
+            android:layout_below="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/name_rel"
+    >
+
+
+        <TextView
+                android:text="项目名称"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:textSize="16dp"
+                android:textColor="#92969c"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/name_tv"
+                android:layout_marginLeft="130dp"
+                android:textColor="#1a1a1a"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        <View
+
+                android:layout_marginLeft="15dp"
+                android:background="#e9e9e9"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_below="@+id/name_rel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/stop_rel"
+    >
+
+
+        <TextView
+                android:text="停工原因"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:textSize="16dp"
+                android:textColor="#92969c"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <EditText
+                android:hint="请输入"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:id="@+id/stop_tv"
+                android:layout_marginLeft="130dp"
+                android:textColor="#1a1a1a"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        <View
+
+                android:layout_marginLeft="15dp"
+                android:background="#e9e9e9"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_below="@+id/stop_rel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/normal_rel"
+    >
+
+
+        <TextView
+                android:text="是否正常停工"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:textSize="16dp"
+                android:textColor="#92969c"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <EditText
+                android:hint="请输入"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:id="@+id/normal_tv"
+                android:layout_marginLeft="130dp"
+                android:textColor="#1a1a1a"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        <View
+
+                android:layout_marginLeft="15dp"
+                android:background="#e9e9e9"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_below="@+id/normal_rel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/time_rel"
+    >
+
+
+        <TextView
+                android:text="停工时间"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:textSize="16dp"
+                android:textColor="#92969c"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:hint="请输入"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:id="@+id/time_tv"
+                android:layout_marginLeft="130dp"
+                android:textColor="#1a1a1a"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        <View
+
+                android:layout_marginLeft="15dp"
+                android:background="#e9e9e9"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:visibility="gone"
+            android:layout_below="@+id/time_rel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/start_rel"
+    >
+
+
+        <TextView
+                android:text="复工条件"
+                android:layout_centerVertical="true"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:textSize="16dp"
+                android:textColor="#92969c"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <EditText
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:id="@+id/start_tv"
+                android:layout_marginLeft="130dp"
+                android:textColor="#1a1a1a"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        <View
+
+                android:layout_marginLeft="15dp"
+                android:background="#e9e9e9"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

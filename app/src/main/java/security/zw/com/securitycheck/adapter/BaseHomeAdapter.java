@@ -18,6 +18,8 @@ import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.MySupervisionProjectActivity;
 import security.zw.com.securitycheck.PersonActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.RemindActivity;
+import security.zw.com.securitycheck.StopWorkActivity;
 import security.zw.com.securitycheck.bean.Company;
 import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.bean.Person;
@@ -145,7 +147,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("停工复工");
+                        StopWorkActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_REMINGDER) {
@@ -154,7 +156,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("录控提醒");
+                        RemindActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_Head_WORKER) {
