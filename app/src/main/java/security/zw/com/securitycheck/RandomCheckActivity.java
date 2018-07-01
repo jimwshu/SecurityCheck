@@ -126,6 +126,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         initWidget();
 
     }
+    private RelativeLayout respon_rel;
 
     private RelativeLayout check_result_rel;
     private RadioGroup checkResult;
@@ -188,6 +189,8 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         initIntent();
         initBar();
 
+        respon_rel = findViewById(R.id.respon_rel);
+        respon_rel.setVisibility(View.GONE);
         imagesContainer = findViewById(R.id.images_container);
         imageViews[0] = (SimpleDraweeView) findViewById(R.id.image1);
         imageViews[1] = (SimpleDraweeView) findViewById(R.id.image2);
@@ -243,34 +246,6 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     }
 
     private void submit() {
-        String illegalContent = illegel.getText().toString();
-        if (TextUtils.isEmpty(illegalContent)) {
-            ToastUtil.Long("违法内容不能为空");
-            return;
-        }
-
-        String illgelBasic = basic.getText().toString();
-        if (TextUtils.isEmpty(illgelBasic)) {
-            ToastUtil.Long("违法依据不能为空");
-            return;
-        }
-
-        if (imagePaths.size() == 0) {
-            ToastUtil.Long("上传图片不能为空");
-            return;
-        }
-
-        String name = respon.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            ToastUtil.Long("责任人不能为空");
-            return;
-        }
-
-        String time = recheck.getText().toString();
-        if (TextUtils.isEmpty(time)) {
-            ToastUtil.Long("复查时间不能为空");
-            return;
-        }
 
         if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
             addCheck();
@@ -434,7 +409,9 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.personLiable = respon.getText().toString();
         basicBean.assistPersonIds = detail.assistPersonIds;
-        basicBean.image = images.toString().substring(0, images.length() - 1);
+        if (!TextUtils.isEmpty(images)) {
+            basicBean.image = images.toString().substring(0, images.length() - 1);
+        }
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
         mCall = addCheck.addRandomCheck(requestBody);
@@ -590,27 +567,37 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     boolean complete = false;
 
     private String compressImages() {
-        for (int i = 0; i < imagePaths.size(); i++) {
-            ImageInfo imageInfo = imagePaths.get(i);
-            if (imageInfo.status == ImageInfo.STATUS_NET) {
-                images.append(imageInfo.url);
-                images.append(";");
-            } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
-                final Uri uri = Uri.parse(imagePaths.get(i).url);
-                final int j = i;
-                new Compress(new Compress.ICompress() {
-                    @Override
-                    public void onDone(String output) {
-                        images.append(output);
-                        images.append(";");
-                        if (j == imagePaths.size() - 1) {
-                            complete = true;
-                            addRandomCheck();
-                        }
+        if (imagePaths.size() == 0) {
+            addRandomCheck();
+        } else {
+            for (int i = 0; i < imagePaths.size(); i++) {
+                ImageInfo imageInfo = imagePaths.get(i);
+                if (imageInfo.status == ImageInfo.STATUS_NET) {
+                    images.append(imageInfo.url);
+                    images.append(";");
+                    if (i == imagePaths.size() - 1) {
+                        complete = true;
+                        addRandomCheck();
                     }
-                }).execute(new Uri[]{uri});
+                } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
+                    final Uri uri = Uri.parse(imagePaths.get(i).url);
+                    final int j = i;
+                    new Compress(new Compress.ICompress() {
+                        @Override
+                        public void onDone(String output) {
+                            images.append(output);
+                            images.append(";");
+                            if (j == imagePaths.size() - 1) {
+                                complete = true;
+                                addRandomCheck();
+                            }
+                        }
+                    }).execute(new Uri[]{uri});
+                }
             }
         }
+
+
         return "";
     }
 

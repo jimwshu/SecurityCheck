@@ -161,7 +161,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
                 // 如果分配给了自己，跳转到评分页面
                 if (checkItem1.worker == SecurityApplication.mUser.id) {
-                    ScoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem1);
+                    ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem1);
                 } else {
                     if (!hasChildren) {
                         ToastUtil.Long("该项目已经分配");
@@ -203,7 +203,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
         if (checkItem.assigned == CheckItem.HAS_ASSIGNED) {
             if (checkItem.worker == SecurityApplication.mUser.id) {
-                ScoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem);
+                ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem);
             } else {
                 ToastUtil.Long("该项目已经分配");
             }

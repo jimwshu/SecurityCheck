@@ -133,7 +133,10 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     }
 
 
-
+    private RelativeLayout check_result_rel;
+    private RelativeLayout illegal_rel;
+    private RelativeLayout basic_rel;
+    private RelativeLayout respon_rel;
     private RadioGroup checkResult;
     private RadioButton fit;
     private RadioButton unfit;
@@ -151,7 +154,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     private TextView count;
     private ImageView increase;
 
-    public double cCount;
+    public int cCount;
 
     private EditText respon;
     private TextView recheck;
@@ -208,6 +211,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         fit = findViewById(R.id.check_result_fit);
         unfit = findViewById(R.id.check_result_unfit);
         unfit2 = findViewById(R.id.check_result_unfit_2);
+        check_result_rel = findViewById(R.id.check_result_rel);
+        check_result_rel.setVisibility(View.GONE);
+
+        illegal_rel = findViewById(R.id.illegal_rel);
+        illegal_rel.setVisibility(View.GONE);
+
+        basic_rel = findViewById(R.id.basic_rel);
+        basic_rel.setVisibility(View.GONE);
 
         illegel = findViewById(R.id.illegal);
         basic = findViewById(R.id.basic);
@@ -228,7 +239,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             public void onClick(View view) {
                 if (checkItem.min == checkItem.max) {
                     if (cCount == 0) {
-                        cCount = checkItem.min;
+                        cCount = (int) checkItem.min;
                     }
                 } else {
                     if (cCount - 1 >= checkItem.min) {
@@ -255,6 +266,8 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             }
         });
 
+        respon_rel = findViewById(R.id.respon_rel);
+        respon_rel.setVisibility(View.GONE);
         respon = findViewById(R.id.respon);
         recheck = findViewById(R.id.recheck);
         recheck.setOnClickListener(new View.OnClickListener() {
@@ -282,53 +295,6 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     }
 
     private void submit() {
-
-        if (!fit.isChecked() && !unfit.isChecked() && !unfit2.isChecked()) {
-            ToastUtil.Long("项目评价不能为空");
-            return;
-        }
-
-        String illegalContent = illegel.getText().toString();
-        if (TextUtils.isEmpty(illegalContent)) {
-            ToastUtil.Long("违法内容不能为空");
-            return;
-        }
-
-        String illgelBasic = basic.getText().toString();
-        if (TextUtils.isEmpty(illgelBasic)) {
-            ToastUtil.Long("违法依据不能为空");
-            return;
-        }
-
-        if (imagePaths.size() == 0) {
-            ToastUtil.Long("上传图片不能为空");
-            return;
-        }
-
-        String name = respon.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            ToastUtil.Long("责任人不能为空");
-            return;
-        }
-
-        String time = recheck.getText().toString();
-        if (TextUtils.isEmpty(time)) {
-            ToastUtil.Long("复查时间不能为空");
-            return;
-        }
-
-        String c = count.getText().toString();
-        if (TextUtils.isEmpty(c)) {
-            ToastUtil.Long("扣分不能为空不能为空");
-            return;
-        }
-
-        double cc = Double.parseDouble(c);
-        if (cc >= 0) {
-            ToastUtil.Long("扣分分值应该小于0");
-            return;
-        }
-
 
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             addCheck();
@@ -414,7 +380,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         }
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             checkItem = (CheckItem) getIntent().getSerializableExtra("check");
-            cCount = checkItem.realScore;
+            cCount = (int) checkItem.realScore;
         }
 
     }
@@ -507,23 +473,11 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                     public void run() {
                                         illegel.setText(checkBean.ilegalItems);
                                         basic.setText(checkBean.baseItemrs);
+
                                         count.setText("" + checkBean.score);
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
 
-                                        if (checkBean.result == 1) {
-                                            fit.setChecked(true);
-                                            unfit.setChecked(false);
-                                            unfit2.setChecked(false);
-                                        } else if (checkBean.result == 2) {
-                                            fit.setChecked(false);
-                                            unfit.setChecked(true);
-                                            unfit2.setChecked(false);
-                                        } else if (checkBean.result == 3) {
-                                            fit.setChecked(false);
-                                            unfit.setChecked(false);
-                                            unfit2.setChecked(true);
-                                        }
 
                                         if (!TextUtils.isEmpty(checkBean.image)) {
                                             String [] imgs = checkBean.image.split(";");
@@ -578,24 +532,17 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         basicBean.checkType = detail.check_type;
         basicBean.ilegalItems = illegel.getText().toString();
         basicBean.baseItemrs = basic.getText().toString();
+
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.personLiable = respon.getText().toString();
-        basicBean.assistPersonIds = detail.assistPersonIds;
-        basicBean.score = Double.parseDouble(count.getText().toString());
+        basicBean.score = Integer.parseInt(count.getText().toString());
 
-        if (fit.isChecked()) {
-            basicBean.result = 1;
-        }
-
-        if (unfit.isChecked()) {
-            basicBean.result = 2;
-        }
-
-        if (unfit2.isChecked()) {
-            basicBean.result = 3;
-        }
         basicBean.id = checkItem.id;
-        basicBean.image = images.toString().substring(0, images.length() - 1);
+
+        if (!TextUtils.isEmpty(images)) {
+            basicBean.image = images.toString().substring(0, images.length() - 1);
+        }
+
         String s = gson.toJson(basicBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
@@ -756,27 +703,38 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     boolean complete = false;
 
     private String compressImages() {
-        for (int i = 0; i < imagePaths.size(); i++) {
-            ImageInfo imageInfo = imagePaths.get(i);
-            if (imageInfo.status == ImageInfo.STATUS_NET) {
-                images.append(imageInfo.url);
-                images.append(";");
-            } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
-                final Uri uri = Uri.parse(imagePaths.get(i).url);
-                final int j = i;
-                new Compress(new Compress.ICompress() {
-                    @Override
-                    public void onDone(String output) {
-                        images.append(output);
-                        images.append(";");
-                        if (j == imagePaths.size() - 1) {
-                            complete = true;
-                            addRandomCheck();
-                        }
+
+        if (imagePaths.size() == 0) {
+            addRandomCheck();
+        } else {
+            for (int i = 0; i < imagePaths.size(); i++) {
+                ImageInfo imageInfo = imagePaths.get(i);
+                if (imageInfo.status == ImageInfo.STATUS_NET) {
+                    images.append(imageInfo.url);
+                    images.append(";");
+                    if (i == imagePaths.size() - 1) {
+                        complete = true;
+                        addRandomCheck();
                     }
-                }).execute(new Uri[]{uri});
+                } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
+                    final Uri uri = Uri.parse(imagePaths.get(i).url);
+                    final int j = i;
+                    new Compress(new Compress.ICompress() {
+                        @Override
+                        public void onDone(String output) {
+                            images.append(output);
+                            images.append(";");
+                            if (j == imagePaths.size() - 1) {
+                                complete = true;
+                                addRandomCheck();
+                            }
+                        }
+                    }).execute(new Uri[]{uri});
+                }
             }
         }
+
+
         return "";
     }
 

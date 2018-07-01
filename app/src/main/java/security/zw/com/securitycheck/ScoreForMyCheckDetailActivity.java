@@ -12,12 +12,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import security.zw.com.securitycheck.adapter.ScoreAdapter;
 import security.zw.com.securitycheck.adapter.ScoreForCheckAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
-import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;

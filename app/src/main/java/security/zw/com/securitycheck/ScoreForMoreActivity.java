@@ -1,7 +1,6 @@
 package security.zw.com.securitycheck;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +12,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import drawthink.expandablerecyclerview.bean.RecyclerViewData;
+import drawthink.expandablerecyclerview.listener.OnRecyclerViewListener;
 import security.zw.com.securitycheck.adapter.ScoreAdapter;
+import security.zw.com.securitycheck.adapter.ScoreListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
@@ -22,17 +24,16 @@ import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
 
-public class ScoreActivity extends BaseSystemBarTintActivity implements CheckItemView {
+public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements CheckItemView, OnRecyclerViewListener.OnItemClickListener {
 
     public static final int REQUEST_SCORE_CHECK = 439;
 
     public static void launch(Activity ctx, ProjectDetail projectDetail, CheckItem item) {
-        Intent intent = new Intent(ctx, ScoreActivity.class);
+        Intent intent = new Intent(ctx, ScoreForMoreActivity.class);
         intent.putExtra("detail", projectDetail);
         intent.putExtra("item", item);
         ctx.startActivityForResult(intent, 111);
     }
-
 
 
     private ProjectDetail projectDetail;
@@ -53,6 +54,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
     private ImageView mBack;
     private TextView mType;
     private TextView mSubmit;
+
     public void initBar() {
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +65,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查6");
+        mType.setText("评分检查10" + " " + projectDetail.name);
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -76,7 +78,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
-        setContentView(R.layout.activity_score);
+        setContentView(R.layout.activity_score_for_more);
         presenter = new CheckItemPresenter(this);
         initIntent();
         initWidget();
@@ -97,29 +99,28 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         }
     }
 
-    private TextView score;
-    private TextView title;
+    /*private TextView score;
+    private TextView title;*/
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private CheckItemPresenter presenter;
-    private ScoreAdapter adapter;
-    private ArrayList<Object> mData = new ArrayList<>();
+    private ScoreListAdapter adapter;
+    private ArrayList<RecyclerViewData> data = new ArrayList<>();
     private CheckItem detail;
+
+    public int select = -1;
+
+
     private void initWidget() {
         initBar();
 
-        score = findViewById(R.id.score);
-        title = findViewById(R.id.title);
+     /*   score = findViewById(R.id.score);
+        title = findViewById(R.id.title);*/
         mRecyclerView = findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = findViewById(R.id.refresher);
 
-        adapter = new ScoreAdapter(mData, this);
-        adapter.setClickListenner(new ScoreAdapter.RecheckClickListenner() {
-            @Override
-            public void onClick(int pos, CheckItem item) {
-                ScoreCheckActivity.launch(ScoreActivity.this, projectDetail, item, REQUEST_SCORE_CHECK);
-            }
-        });
+        adapter = new ScoreListAdapter(this, data);
+        adapter.setOnItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
@@ -128,11 +129,11 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                presenter.getCheckItemDetail(projectDetail.id, item.id);
             }
         });
 
-        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+        presenter.getCheckItemDetail(projectDetail.id, item.id);
 
     }
 
@@ -149,15 +150,26 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
 
     @Override
     public void getCheckItemDetailSucc(CheckItem detail) {
+
+
+        if (data.size() > 0) {
+            data.clear();
+        }
+        for (int i = 0; i < detail.childrens.size(); i++) {
+            CheckItem checkItem = detail.childrens.get(i);
+            ArrayList<CheckItem> checkItems = null;
+            if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
+                checkItems = new ArrayList<>();
+            } else {
+                checkItems = new ArrayList<>();
+            }
+            data.add(new RecyclerViewData(checkItem, checkItems, false));
+        }
+        adapter.notifyRecyclerViewData();
         mSwipeRefreshLayout.setRefreshing(false);
         this.detail = detail;
-        mData.clear();
-        mData.add(detail);
-        mData.addAll(detail.childrens);
-        adapter.notifyDataSetChanged();
-
-        score.setText("实得分： " + detail.realScore + "分");
-        title.setText(detail.name);
+     /*   score.setText("实得分： " + detail.realScore + "分");
+        title.setText(detail.name);*/
     }
 
     @Override
@@ -171,11 +183,24 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                presenter.getCheckItemDetail(projectDetail.id, item.id);
             } else if (resultCode == 111) {
                 setResult(111);
                 finish();
             }
         }
+    }
+
+
+    @Override
+    public void onGroupItemClick(int position, int groupPosition, View view) {
+        RecyclerViewData d = data.get(groupPosition);
+        CheckItem checkItem = (CheckItem) d.getGroupData();
+        ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem);
+    }
+
+    @Override
+    public void onChildItemClick(int position, int groupPosition, int childPosition, View view) {
+
     }
 }
