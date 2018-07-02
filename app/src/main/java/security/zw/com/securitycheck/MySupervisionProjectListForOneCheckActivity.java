@@ -23,27 +23,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import security.zw.com.securitycheck.adapter.MyProjectAdapter;
+import security.zw.com.securitycheck.adapter.MySupervisionListForOneCheckAdapter;
 import security.zw.com.securitycheck.adapter.MySupervisionProjectListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.SupervisionProjectList;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
-import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 
-// 整改列表（相对于项目）
-public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity {
+// 整改列表（相对于单次检查）
+public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTintActivity {
 
 
-    public static void launch(Context ctx, ProjectInfo info) {
-        Intent intent = new Intent(ctx, MySupervisionProjectListActivity.class);
+    public static void launch(Context ctx, SupervisionProjectList info) {
+        Intent intent = new Intent(ctx, MySupervisionProjectListForOneCheckActivity.class);
         intent.putExtra("info", info);
         ctx.startActivity(intent);
     }
 
 
-    private ProjectInfo info;
+    private SupervisionProjectList info;
     /*
     * 是否设置沉浸式状态栏
     */
@@ -59,7 +58,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
 
     private ArrayList<SupervisionProjectList> data = new ArrayList<SupervisionProjectList>();
     protected LinearLayoutManager mManager;
-    protected MySupervisionProjectListAdapter mAdapter;
+    protected MySupervisionListForOneCheckAdapter mAdapter;
 
     private int page = 1;
     protected boolean isLoading = false;
@@ -77,7 +76,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
-        info = (ProjectInfo) getIntent().getSerializableExtra("info");
+        info = (SupervisionProjectList) getIntent().getSerializableExtra("info");
         if (info == null) {
             finish();
             return;
@@ -100,7 +99,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mType.setText("监督整改列表");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MySupervisionProjectListAdapter(data, this);
+        mAdapter = new MySupervisionListForOneCheckAdapter(data, this);
 
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
@@ -131,13 +130,13 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-        jsonObject.addProperty("projectId", info.id);
+        jsonObject.addProperty("id", info.id);
 
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getSupervisionListForProject(requestBody);
+        mCall = addCheck.getSupervisionListForOneCheck(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override

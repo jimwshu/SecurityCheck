@@ -44,6 +44,7 @@ import retrofit2.Retrofit;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
+import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.postbean.CheckBean;
 import security.zw.com.securitycheck.postbean.CheckItemDetailBean;
 import security.zw.com.securitycheck.utils.Base64Img;
@@ -564,7 +565,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加评分检查成功");
-                                showFinishDialog();
+                                if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                                    setResult(RESULT_OK);
+                                    finish();
+                                } else {
+                                    showFinishDialog();
+                                }
                             }
                         }
                     } catch (JSONException e) {

@@ -13,5 +13,6 @@ public class PostCheckPersonBean extends JSONAble {
     public int checkItemId;
     public int creator;
     public int worker;
+    public int type;
 
 }

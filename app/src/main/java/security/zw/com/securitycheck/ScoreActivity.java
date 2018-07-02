@@ -17,6 +17,7 @@ import security.zw.com.securitycheck.adapter.ScoreAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
+import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
@@ -128,11 +129,18 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                } else {
+                    presenter.getCheckItemDetail(projectDetail.id,item.id);
+                }
             }
         });
-
-        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+        if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+        } else {
+            presenter.getCheckItemDetail(projectDetail.id,item.id);
+        }
 
     }
 
@@ -171,7 +179,11 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                } else {
+                    presenter.getCheckItemDetail(projectDetail.id,item.id);
+                }
             } else if (resultCode == 111) {
                 setResult(111);
                 finish();

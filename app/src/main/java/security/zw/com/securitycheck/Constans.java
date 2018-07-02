@@ -56,6 +56,11 @@ public class Constans {
         @POST("/supervisorDiamond/supervisionReform/checkList")
         public Call<String> getSupervisionListForProject(@Body RequestBody route);
 
+        // 项目为单位的单次整改列表
+        @POST("/supervisorDiamond/supervisionReform/projectCheckItems")
+        public Call<String> getSupervisionListForOneCheck(@Body RequestBody route);
+
+
 
         // 整改列表详情
         @POST("/supervisorDiamond/supervisionReform/detail")
@@ -153,8 +158,14 @@ public class Constans {
         @POST("/supervisorDiamond/projectCheckItem/assign")
         public Call<String> postCheckPerson(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/projectCheckItem/assign/update")
+        public Call<String> updateCheckCheckPerson(@Body RequestBody route);
+
         @POST("/supervisorDiamond/projectTag/add")
         public Call<String> finishCheck(@Body RequestBody route);
 
+
+        @POST("/supervisorDiamond/projectCheckItem/assign/judge")
+        public Call<String> finishCheckPerson(@Body RequestBody route);
     }
 }

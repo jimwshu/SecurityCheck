@@ -39,7 +39,7 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
         }
 
         if (groupData.childrens != null && groupData.childrens.size() == 0) {
-            if (groupData.assigned == CheckItem.HAS_ASSIGNED) {
+            if (groupData.hasAssigned) {
                 holder.parentHasWorker.setVisibility(View.VISIBLE);
                 if (groupData.worker == SecurityApplication.mUser.id) {
                     holder.parentHasWorker.setText("去评分");
@@ -52,13 +52,24 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
                 }
             } else {
                 holder.parentHasWorker.setVisibility(View.VISIBLE);
-                holder.parentHasWorker.setText("未分配");
+                if (groupData.assigned == CheckItem.HAS_ASSIGNED) {
+                    if (groupData.worker == SecurityApplication.mUser.id) {
+                        holder.parentHasWorker.setText(groupData.checker + "(本人)");
+                    } else {
+                        if (TextUtils.isEmpty(groupData.checker)) {
+                            holder.parentHasWorker.setText("已分配");
+                        } else {
+                            holder.parentHasWorker.setText(groupData.checker);
+                        }
+                    }
+                } else {
+                    holder.parentHasWorker.setText("点击分配");
+                }
             }
         } else if (groupData.childrens != null && groupData.childrens.size() > 0) {
             holder.parentHasWorker.setVisibility(View.GONE);
         } else {
-            if (groupData.assigned == CheckItem.HAS_ASSIGNED) {
-                holder.parentHasWorker.setVisibility(View.VISIBLE);
+            if (groupData.hasAssigned) {
                 holder.parentHasWorker.setVisibility(View.VISIBLE);
                 if (groupData.worker == SecurityApplication.mUser.id) {
                     holder.parentHasWorker.setText("去评分");
@@ -71,7 +82,19 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
                 }
             } else {
                 holder.parentHasWorker.setVisibility(View.VISIBLE);
-                holder.parentHasWorker.setText("未分配");
+                if (groupData.assigned == CheckItem.HAS_ASSIGNED) {
+                    if (groupData.worker == SecurityApplication.mUser.id) {
+                        holder.parentHasWorker.setText(groupData.checker + "(本人)");
+                    } else {
+                        if (TextUtils.isEmpty(groupData.checker)) {
+                            holder.parentHasWorker.setText("已分配");
+                        } else {
+                            holder.parentHasWorker.setText(groupData.checker);
+                        }
+                    }
+                } else {
+                    holder.parentHasWorker.setText("点击分配");
+                }
             }
         }
     }
@@ -79,7 +102,9 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
     @Override
     public void onBindChildpHolder(CheckItemForMoreViewHolder holder, int groupPos, int childPos, int position, CheckItem childData) {
         holder.childTitle.setText(childData.name);
-        if (childData.assigned == CheckItem.HAS_ASSIGNED) {
+
+
+        if (childData.hasAssigned) {
             holder.childHasWorker.setVisibility(View.VISIBLE);
             if (childData.worker == SecurityApplication.mUser.id) {
                 holder.childHasWorker.setText("去评分");
@@ -92,7 +117,20 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
             }
         } else {
             holder.childHasWorker.setVisibility(View.VISIBLE);
-            holder.childHasWorker.setText("未分配");
+            if (childData.assigned == CheckItem.HAS_ASSIGNED) {
+                if (childData.worker == SecurityApplication.mUser.id) {
+                    holder.childHasWorker.setText(childData.checker + "(本人)");
+                } else {
+                    if (TextUtils.isEmpty(childData.checker)) {
+                        holder.childHasWorker.setText("已分配");
+                    } else {
+                        holder.childHasWorker.setText(childData.checker);
+                    }
+                }
+            } else {
+                holder.childHasWorker.setVisibility(View.VISIBLE);
+                holder.childHasWorker.setText("点击分配");
+            }
         }
 
     }

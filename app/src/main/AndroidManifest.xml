@@ -189,6 +189,11 @@
                 android:name=".ScoreForMoreActivity"
                 android:screenOrientation="portrait"
         ></activity>
+
+        <activity
+                android:name=".MySupervisionProjectListForOneCheckActivity"
+                android:screenOrientation="portrait"
+        ></activity>
         <service
                 android:enabled="true"
                 android:process=":pushservice"

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import security.zw.com.securitycheck.MyCheckDetailActivity;
 import security.zw.com.securitycheck.MySupervisionProjectDetailActivity;
+import security.zw.com.securitycheck.MySupervisionProjectListForOneCheckActivity;
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.ProjectInfo;
@@ -73,7 +74,7 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MySupervisionProjectDetailActivity.launch(view.getContext(), p);
+                MySupervisionProjectListForOneCheckActivity.launch(view.getContext(), p);
             }
         });
     }

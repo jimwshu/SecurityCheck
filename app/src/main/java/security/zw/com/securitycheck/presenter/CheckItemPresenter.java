@@ -82,11 +82,14 @@ public class CheckItemPresenter implements BasePresenter{
                 super.onRealSuccess(date);
                 try {
                     JSONObject jsonObject = new JSONObject(date);
-                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
+                    JSONObject jsonObject2 = jsonObject.optJSONObject("data");
+                    boolean allAssigned = jsonObject2.optBoolean("allAssigned");
+                    JSONArray jsonObject1 = jsonObject2.optJSONArray("checkItemAssignVOS");
                     ArrayList<CheckItem> checkItems = new ArrayList<>();
                     if (jsonObject1 != null && jsonObject1.length() > 0) {
                         for (int i = 0; i< jsonObject1.length(); i++) {
                             CheckItem checkItem = SecurityApplication.getGson().fromJson(jsonObject1.optJSONObject(i).toString(), CheckItem.class);
+                            checkItem.hasAssigned = allAssigned;
                             checkItems.add(checkItem);
                         }
                     }

@@ -17,9 +17,27 @@
             android:id="@+id/action_bar"
     ></include>
 
+    <TextView
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="#0f86ff"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="结束检查"
+            android:id="@+id/finish_check"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
 
         <android.support.v7.widget.RecyclerView
                 android:layout_below="@+id/action_bar"
+                android:layout_above="@+id/finish_check"
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

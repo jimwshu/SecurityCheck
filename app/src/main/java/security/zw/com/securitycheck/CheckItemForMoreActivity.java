@@ -1,6 +1,9 @@
 package security.zw.com.securitycheck;
 
+import com.google.gson.JsonObject;
+
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -70,6 +73,39 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     private ImageView mBack;
     private TextView mType;
     private TextView mSubmit;
+    private boolean hasFinish = true;
+
+    private ProgressDialog mProgressDialog = null;
+
+
+    private boolean isCancel() {
+        return mProgressDialog == null || !mProgressDialog.isShowing();
+    }
+
+    private void showSubmitLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+        mProgressDialog = ProgressDialog.show(this, null, "发布中，请稍候..", true, true);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if (mCall != null && mCall.isExecuted()) {
+                    mCall.cancel();
+                }
+            }
+        });
+    }
+
+    private void hideSubmitLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+
 
     public void initBar() {
         mBack = findViewById(R.id.cancel);
@@ -83,9 +119,175 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         mType = findViewById(R.id.perrmission);
         mType.setText("新建评分检查2");
         mSubmit = findViewById(R.id.submit);
-        mSubmit.setVisibility(View.GONE);
+        mSubmit.setText("完成分配");
+        mSubmit.setVisibility(View.VISIBLE);
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (!hasFinish) {
+                    showWarnDialog();
+                }
+            }
+        });
     }
 
+    private void showWarnDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("是否结束对本项目任务的分配，同意之后该次检查将不能修改？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finishCheckPerson();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setResult(RESULT_OK);
+            }
+        })
+                .show();
+    }
+
+    private void finishCheckPerson() {
+
+        if (!get_code) {
+            get_code = true;
+            mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("projectId", detail.id);
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+
+            String s = jsonObject.toString();
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+            mCall = addCheck.finishCheckPerson(requestBody);
+
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    get_code = false;
+                    if (response.isSuccessful()) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.has("code")) {
+                                int code = jsonObject.optInt("code");
+                                if (code == 0) {
+                                    ToastUtil.Long("完成分配成功");
+                                    presenter.getFilter(detail.id);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("完成分配失败");
+
+                        }
+                    } else {
+                        ToastUtil.Long("完成分配失败");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    t.printStackTrace();
+                    get_code = false;
+                    ToastUtil.Long("完成分配失败");
+                }
+            });
+
+        }
+
+
+    }
+
+    public void showFinishDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("是否结束本项目的评分检查？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        postFinish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.dismiss();
+            }
+        })
+                .show();
+    }
+
+    private void postFinish() {
+        showSubmitLoading();
+        get_code = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("creator", SecurityApplication.mUser.id);
+        jsonObject.addProperty("checkType", detail.check_type);
+
+        String s = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.finishCheck(requestBody);
+
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                get_code = false;
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                hideSubmitLoading();
+                                ToastUtil.Long("项目结束检查已提交");
+                                setResult(111);
+                                finish();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        hideSubmitLoading();
+                        ToastUtil.Long("项目结束检查提交失败，请重试");
+                    }
+                } else {
+                    hideSubmitLoading();
+                    ToastUtil.Long("项目结束检查提交失败，请重试");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                get_code = false;
+                hideSubmitLoading();
+                ToastUtil.Long("项目结束检查提交失败，请重试");
+            }
+        });
+
+    }
 
     private RecyclerView mRecyclerView;
 
@@ -94,6 +296,8 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     protected CheckItemForMoreAdapter mAdapter;
 
     protected CheckItemPresenter presenter;
+
+    protected TextView finish_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +322,13 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             finish();
             return;
         }
-
+        finish_check = findViewById(R.id.finish_check);
+        finish_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFinishDialog();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CheckItemForMoreAdapter(this, data);
@@ -138,7 +348,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
         RecyclerViewData ds = data.get(groupPosition);
         CheckItem checkItem1 = (CheckItem) ds.getGroupData();
-        if (checkItem1.assigned == CheckItem.HAS_ASSIGNED) {
+        if (checkItem1.hasAssigned) {
 
             boolean hasChildren = false;
             if (groupPosition >= 0) {
@@ -159,11 +369,11 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                 }
                 mAdapter.notifyRecyclerViewData();
 
-                // 如果分配给了自己，跳转到评分页面
-                if (checkItem1.worker == SecurityApplication.mUser.id) {
-                    ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem1);
-                } else {
-                    if (!hasChildren) {
+                // 已分配，并且分配给自己，跳转评分，否则提示
+                if (!hasChildren) {
+                    if (checkItem1.worker == SecurityApplication.mUser.id) {
+                        ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem1);
+                    } else {
                         ToastUtil.Long("该项目已经分配");
                     }
                 }
@@ -201,7 +411,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         RecyclerViewData d = data.get(groupPosition);
         CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
-        if (checkItem.assigned == CheckItem.HAS_ASSIGNED) {
+        if (checkItem.hasAssigned) {
             if (checkItem.worker == SecurityApplication.mUser.id) {
                 ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem);
             } else {
@@ -209,13 +419,9 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             }
             return;
         } else {
-            // todo 分配项目
             getCheckPerson(checkItem);
-
         }
 
-        //ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
-        //RandomCheckActivity.launch(this, detail, checkItem);
     }
 
     @Override
@@ -235,6 +441,14 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         }
         for (int i = 0; i < items.size(); i++) {
             CheckItem checkItem = items.get(i);
+            if (i == 0) {
+                hasFinish = checkItem.hasAssigned;
+                if (hasFinish) {
+                    finish_check.setVisibility(View.VISIBLE);
+                } else {
+                    finish_check.setVisibility(View.GONE);
+                }
+            }
             ArrayList<CheckItem> checkItems = null;
             if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
                 checkItems = checkItem.childrens;
@@ -371,11 +585,17 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             postCheckPersonBean.creator = SecurityApplication.mUser.id;
             postCheckPersonBean.projectId = detail.id;
             postCheckPersonBean.worker = persons.get(select).id;
+            postCheckPersonBean.type = 2;
 
             String s = SecurityApplication.getGson().toJson(postCheckPersonBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-            mCall = addCheck.postCheckPerson(requestBody);
+            if (checkItem.assigned == CheckItem.HAS_ASSIGNED) {
+                mCall = addCheck.updateCheckCheckPerson(requestBody);
+            } else if (checkItem.assigned == CheckItem.HAS_NO_ASSIGNED){
+                mCall = addCheck.postCheckPerson(requestBody);
+            }
+
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -408,10 +628,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                     ToastUtil.Long("分配失败");
                 }
             });
-
         }
-
-
     }
 
     @Override

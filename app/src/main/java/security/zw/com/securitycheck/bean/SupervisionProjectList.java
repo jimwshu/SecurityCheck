@@ -21,4 +21,13 @@ public class SupervisionProjectList extends JSONAble {
 
     public int status;//状态 0 整改中 1整改合格
 
+    public String checkItemName;
+
+    public int checkType;
+
+    public String personLiable;
+
+    public int rank;
+
+    public double score;
 }

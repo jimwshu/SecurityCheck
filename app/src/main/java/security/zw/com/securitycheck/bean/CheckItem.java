@@ -39,6 +39,9 @@ public class CheckItem extends JSONAble{
 
     public double score;
 
+    // 是不是已经完成了分配，true是,不能在分配了，false否，还可以分配
+    public boolean hasAssigned;
+
     @SerializedName(value = "childrens", alternate = {"checkItemWithScoreVOs"})
     public ArrayList<CheckItem> childrens;
 
