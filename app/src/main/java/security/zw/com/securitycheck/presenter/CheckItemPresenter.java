@@ -90,6 +90,12 @@ public class CheckItemPresenter implements BasePresenter{
                         for (int i = 0; i< jsonObject1.length(); i++) {
                             CheckItem checkItem = SecurityApplication.getGson().fromJson(jsonObject1.optJSONObject(i).toString(), CheckItem.class);
                             checkItem.hasAssigned = allAssigned;
+                            if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
+                                for (int j = 0; j < checkItem.childrens.size(); j++) {
+                                    CheckItem checkItem1 = checkItem.childrens.get(j);
+                                    checkItem1.hasAssigned = allAssigned;
+                                }
+                            }
                             checkItems.add(checkItem);
                         }
                     }

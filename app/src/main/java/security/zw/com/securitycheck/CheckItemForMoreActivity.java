@@ -75,6 +75,8 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     private TextView mSubmit;
     private boolean hasFinish = true;
 
+    public int safetyInspector;
+
     private ProgressDialog mProgressDialog = null;
 
 
@@ -106,7 +108,6 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     }
 
 
-
     public void initBar() {
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +121,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         mType.setText("新建评分检查2");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setText("完成分配");
-        mSubmit.setVisibility(View.VISIBLE);
+        mSubmit.setVisibility(View.GONE);
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -369,8 +370,8 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                 }
                 mAdapter.notifyRecyclerViewData();
 
-                // 已分配，并且分配给自己，跳转评分，否则提示
-                if (!hasChildren) {
+                // 已完成分配，并且分配给自己，跳转评分，否则提示
+                if (!hasChildren ) {
                     if (checkItem1.worker == SecurityApplication.mUser.id) {
                         ScoreForMoreActivity.launch(CheckItemForMoreActivity.this, detail, checkItem1);
                     } else {
@@ -400,8 +401,11 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                 mAdapter.notifyRecyclerViewData();
             }
 
+            // 未完成分配，并且主检查官是自己
             if (!hasChildren) {
-                getCheckPerson(checkItem1);
+                if (checkItem1.safetyInspector == SecurityApplication.mUser.id) {
+                    getCheckPerson(checkItem1);
+                }
             }
         }
     }
@@ -419,7 +423,9 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             }
             return;
         } else {
-            getCheckPerson(checkItem);
+            if (checkItem.safetyInspector == SecurityApplication.mUser.id) {
+                getCheckPerson(checkItem);
+            }
         }
 
     }
@@ -443,10 +449,19 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             CheckItem checkItem = items.get(i);
             if (i == 0) {
                 hasFinish = checkItem.hasAssigned;
+                this.safetyInspector = checkItem.safetyInspector;
+
+
                 if (hasFinish) {
-                    finish_check.setVisibility(View.VISIBLE);
+                    if (this.safetyInspector == SecurityApplication.mUser.id) {
+                        finish_check.setVisibility(View.VISIBLE);
+                        mSubmit.setVisibility(View.GONE);
+                    }
                 } else {
-                    finish_check.setVisibility(View.GONE);
+                    if (this.safetyInspector == SecurityApplication.mUser.id) {
+                        finish_check.setVisibility(View.GONE);
+                        mSubmit.setVisibility(View.VISIBLE);
+                    }
                 }
             }
             ArrayList<CheckItem> checkItems = null;
@@ -592,7 +607,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
             if (checkItem.assigned == CheckItem.HAS_ASSIGNED) {
                 mCall = addCheck.updateCheckCheckPerson(requestBody);
-            } else if (checkItem.assigned == CheckItem.HAS_NO_ASSIGNED){
+            } else if (checkItem.assigned == CheckItem.HAS_NO_ASSIGNED) {
                 mCall = addCheck.postCheckPerson(requestBody);
             }
 

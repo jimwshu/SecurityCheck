@@ -32,7 +32,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
         holder.groupTitle.setText(groupData.name);
         if (groupData.isSelected) {
             holder.groupTitle.setTextColor(0xff0f86ff);
-            holder.parentRemind.setVisibility(View.VISIBLE);
+            holder.parentRemind.setVisibility(View.GONE);
         } else {
             holder.groupTitle.setTextColor(0xff1a1a1a);
             holder.parentRemind.setVisibility(View.GONE);
@@ -51,15 +51,14 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
                     }
                 }
             } else {
-                holder.parentHasWorker.setVisibility(View.VISIBLE);
+                holder.parentHasWorker.setVisibility(View.GONE);
                 holder.parentHasWorker.setText("未分配");
             }
         } else if (groupData.childrens != null && groupData.childrens.size() > 0) {
             holder.parentHasWorker.setVisibility(View.GONE);
         } else {
             if (groupData.assigned == CheckItem.HAS_ASSIGNED) {
-                holder.parentHasWorker.setVisibility(View.VISIBLE);
-                holder.parentHasWorker.setVisibility(View.VISIBLE);
+                holder.parentHasWorker.setVisibility(View.GONE);
                 if (groupData.worker == SecurityApplication.mUser.id) {
                     holder.parentHasWorker.setText("去评分");
                 } else {
@@ -70,7 +69,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
                     }
                 }
             } else {
-                holder.parentHasWorker.setVisibility(View.VISIBLE);
+                holder.parentHasWorker.setVisibility(View.GONE);
                 holder.parentHasWorker.setText("未分配");
             }
         }
@@ -80,7 +79,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
     public void onBindChildpHolder(ScoreListViewHolder holder, int groupPos, int childPos, int position, CheckItem childData) {
         holder.childTitle.setText(childData.name);
         if (childData.assigned == CheckItem.HAS_ASSIGNED) {
-            holder.childHasWorker.setVisibility(View.VISIBLE);
+            holder.childHasWorker.setVisibility(View.GONE);
             if (childData.worker == SecurityApplication.mUser.id) {
                 holder.childHasWorker.setText("去评分");
             } else {
@@ -91,7 +90,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
                 }
             }
         } else {
-            holder.childHasWorker.setVisibility(View.VISIBLE);
+            holder.childHasWorker.setVisibility(View.GONE);
             holder.childHasWorker.setText("未分配");
         }
 

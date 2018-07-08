@@ -31,6 +31,13 @@ public class Constans {
         @POST("/supervisorDiamond/auth/login")
         public Call<String> login(@Body RequestBody route);
 
+
+        @POST("/supervisorDiamond/message/getMessageCount")
+        public Call<String> getMessageCount(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/message/taskList")
+        public Call<String> getTaskList(@Body RequestBody route);
+
     }
 
     public interface GetMyProjectList {

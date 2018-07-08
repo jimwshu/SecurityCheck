@@ -186,6 +186,11 @@
         ></activity>
 
         <activity
+                android:name=".NoticeActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
                 android:name=".ScoreForMoreActivity"
                 android:screenOrientation="portrait"
         ></activity>

@@ -79,15 +79,19 @@ public class MyCheckProjectDetailAdapter extends RecyclerView.Adapter<MyCheckPro
         holder.score.setText(myCheckProjectDetail.score + "");
 
         if (myCheckProjectDetail.rank == 1) {
-            holder.check_result.setText("合格");
+            holder.check_result.setText("优秀");
             holder.circle.setBackgroundResource(R.drawable.green_circle);
 
         } else if (myCheckProjectDetail.rank == 2) {
-            holder.check_result.setText("不合格（不需整改）");
-            holder.circle.setBackgroundResource(R.drawable.red_circle);
+            holder.check_result.setText("良好");
+            holder.circle.setBackgroundResource(R.drawable.green_circle);
 
         } else if (myCheckProjectDetail.rank == 3) {
-            holder.check_result.setText("不合格（需要整改）");
+            holder.check_result.setText("合格");
+            holder.circle.setBackgroundResource(R.drawable.green_circle);
+
+        } else if (myCheckProjectDetail.rank == 4) {
+            holder.check_result.setText("不合格");
             holder.circle.setBackgroundResource(R.drawable.red_circle);
 
         }

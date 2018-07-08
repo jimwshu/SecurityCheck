@@ -142,6 +142,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     private RadioButton fit;
     private RadioButton unfit;
     private RadioButton unfit2;
+    private TextView score_des;
 
 
     private View imagesContainer;
@@ -214,7 +215,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         unfit2 = findViewById(R.id.check_result_unfit_2);
         check_result_rel = findViewById(R.id.check_result_rel);
         check_result_rel.setVisibility(View.GONE);
-
+        score_des = findViewById(R.id.score_des);
         illegal_rel = findViewById(R.id.illegal_rel);
         illegal_rel.setVisibility(View.GONE);
 
@@ -234,6 +235,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         increase = findViewById(R.id.increase);
         count = findViewById(R.id.count);
 
+        if (checkItem != null) {
+            score_des.setText("扣分范围：" + checkItem.min + "-" + checkItem.max);
+        }
 
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -478,8 +482,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                         count.setText("" + checkBean.score);
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
-
-
+                                        if (checkItem != null) {
+                                            score_des.setText("扣分范围：" + checkItem.min + "-" + checkItem.max);
+                                        }
                                         if (!TextUtils.isEmpty(checkBean.image)) {
                                             String [] imgs = checkBean.image.split(";");
                                             if (imgs.length > 0) {

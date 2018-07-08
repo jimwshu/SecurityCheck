@@ -28,7 +28,7 @@ public class CheckItem extends JSONAble{
     public int worker;// 获取到检查任务的ID
     public String checker;// 获取到检查任务的ID
 
-    public int assigned;
+    public int assigned;// 是不是暂时有分配了
 
     public double deserveScore;//应该得的总分
     public double realScore;//实得分
@@ -45,4 +45,5 @@ public class CheckItem extends JSONAble{
     @SerializedName(value = "childrens", alternate = {"checkItemWithScoreVOs"})
     public ArrayList<CheckItem> childrens;
 
+    public int safetyInspector;
 }

@@ -71,6 +71,11 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         ctx.startActivity(intent);
     }
 
+    public static void launch(Context ctx,  ProjectDetail detail) {
+        Intent intent = new Intent(ctx, RandomCheckActivity.class);
+        intent.putExtra("detail", detail);
+        ctx.startActivity(intent);
+    }
 
     public static void launch(Activity ctx, ProjectDetail detail, CheckItem checkItem, int requestCode) {
         Intent intent = new Intent(ctx, RandomCheckActivity.class);

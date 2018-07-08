@@ -1,5 +1,7 @@
 package security.zw.com.securitycheck.fragment;
 
+import com.google.gson.JsonObject;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,13 +18,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.LoginActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
 import security.zw.com.securitycheck.bean.Item;
+import security.zw.com.securitycheck.utils.net.NetRequest;
+import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 
 /**
@@ -115,5 +128,62 @@ public class HomeFragment extends BaseStatisticsFragment {
     @Override
     public void onResume() {
         super.onResume();
+        getMessageCount();
     }
+
+
+    Retrofit mRetrofit;
+    Constans.GetSmsService addCheck;
+    Call<String> mCall;
+    public void getMessageCount() {
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.GetSmsService.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+
+        String s = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.getMessageCount(requestBody);
+
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                int count = jsonObject.optInt("data");
+
+                                for (int i = 0; i < data.size(); i++) {
+                                    Item item = (Item) data.get(i);
+                                    if (item.type == BaseHomeAdapter.HOME_MY_NOTICE) {
+                                        item.num = count;
+                                        break;
+                                    }
+                                }
+
+                                if (mHomeAdapter != null) {
+                                    mHomeAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
 }

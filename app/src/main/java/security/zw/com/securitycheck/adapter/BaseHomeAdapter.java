@@ -16,6 +16,7 @@ import security.zw.com.securitycheck.CompanyActivity;
 import security.zw.com.securitycheck.MyCheckActivity;
 import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.MySupervisionProjectActivity;
+import security.zw.com.securitycheck.NoticeActivity;
 import security.zw.com.securitycheck.PersonActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.RemindActivity;
@@ -69,13 +70,13 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private int HOME_MY_WORKER = 0;         // 我的项目：
     private int HOME_MY_CHANGE = 1;     //我的整改：
-    private int HOME_MY_CHECKER = 8;    //我的检查：
-    private int HOME_MY_STOP_WORKER = 2;    //停工复工：
-    private int HOME_MY_REMINGDER = 4;    //录控提醒：
-    private int HOME_MY_Head_WORKER = 3;    //人员库：
-    private int HOME_MY_DEVICE = 6;    //设备一览：
-    private int HOME_MY_COMPANY = 7;    //企业库：企
-    private int HOME_MY_NOTICE = 5; //通知：发布
+    private int HOME_MY_CHECKER = 2;    //我的检查：
+    private int HOME_MY_STOP_WORKER = 3;    //停工复工：
+    private int HOME_MY_REMINGDER = 5;    //录控提醒：
+    private int HOME_MY_Head_WORKER = 4;    //人员库：
+    private int HOME_MY_DEVICE = 7;    //设备一览：
+    private int HOME_MY_COMPANY = 8;    //企业库：企
+    public static int HOME_MY_NOTICE = 6; //通知：发布
 
 
     @Override
@@ -124,7 +125,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_CHANGE) {
-                viewHolder.name.setText("监督整改");
+                viewHolder.name.setText("我的整改");
                 viewHolder.icon.setImageResource(R.mipmap.t_b);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -192,7 +193,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("通知");
+                        NoticeActivity.launch(view.getContext());
                     }
                 });
             }
@@ -215,6 +216,5 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         return -1;
     }
-
 
 }
