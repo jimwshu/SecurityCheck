@@ -30,6 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.LoginActivity;
+import security.zw.com.securitycheck.MapActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
@@ -90,7 +91,12 @@ public class HomeFragment extends BaseStatisticsFragment {
         barBack.setVisibility(View.GONE);
         barTitle.setText("监督宝");
 
-
+        barButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MapActivity.launch(view.getContext(), "衡阳");
+            }
+        });
     }
 
     public void initView(LayoutInflater inflater, ViewGroup container) {

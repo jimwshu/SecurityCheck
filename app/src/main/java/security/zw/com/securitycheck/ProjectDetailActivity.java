@@ -648,7 +648,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         address_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MapActivity.launch(view.getContext(), detail.address);
+                MapActivity.launch(view.getContext(), detail.address, detail.supervise == 0);
             }
         });
 

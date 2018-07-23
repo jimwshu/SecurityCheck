@@ -40,10 +40,18 @@ public class MapActivity extends BaseSystemBarTintActivity {
         ctx.startActivity(intent);
     }
 
+    public static void launch(Context ctx, String address, boolean red) {
+        Intent intent = new Intent(ctx, MapActivity.class);
+        intent.putExtra("address", address);
+        intent.putExtra("red", red);
+        ctx.startActivity(intent);
+    }
+
     private MapView mMapView = null;
     private BaiduMap mBaiduMap;
     private MyLocationConfiguration.LocationMode mCurrentMode;
     private BitmapDescriptor mCurrentMarker;
+    private boolean red;
     GeoCoder geoCoder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +65,7 @@ public class MapActivity extends BaseSystemBarTintActivity {
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         geoCoder = GeoCoder.newInstance();
-
+        red = getIntent().getBooleanExtra("red", false);
         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
             @Override
             public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
@@ -107,14 +115,17 @@ public class MapActivity extends BaseSystemBarTintActivity {
         LatLng point = result.getLocation();
 
 //构建Marker图标
-
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_end);
+        BitmapDescriptor bitmap;
+        if (red) {
+            bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.a);
+        } else {
+            bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.b);
+        }
 
 //构建MarkerOption，用于在地图上添加Marker
 
         OverlayOptions option = new MarkerOptions()
-
+                .zIndex(18)
                 .perspective(true)
                 .position(point)
                 .icon(bitmap);
