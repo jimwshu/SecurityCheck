@@ -109,7 +109,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查3");
+        mType.setText("评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -236,7 +236,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         count = findViewById(R.id.count);
 
         if (checkItem != null) {
-            score_des.setText("扣分范围：" + checkItem.min + "-" + checkItem.max);
+            score_des.setText(checkItem.min + "_" + checkItem.max);
         }
 
         decrease.setOnClickListener(new View.OnClickListener() {
@@ -247,9 +247,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                         cCount = (int) checkItem.min;
                     }
                 } else {
-                    if (cCount - 1 >= checkItem.min) {
-                        cCount -= 1;
+                    if (cCount == 0) {
+                        cCount = (int) checkItem.max;
+                    } else {
+                        if (cCount - 1 >= checkItem.min) {
+                            cCount -= 1;
+                        }
                     }
+
                 }
                 count.setText("" + cCount);
             }
@@ -263,9 +268,15 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                         cCount = 0;
                     }
                 } else {
-                    if (cCount + 1 <= checkItem.max) {
-                        cCount += 1;
+
+                    if (cCount == checkItem.max) {
+                        cCount = 0;
+                    } else {
+                        if (cCount + 1 <= checkItem.max) {
+                            cCount += 1;
+                        }
                     }
+
                 }
                 count.setText("" + cCount);
             }
@@ -483,7 +494,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
                                         if (checkItem != null) {
-                                            score_des.setText("扣分范围：" + checkItem.min + "-" + checkItem.max);
+                                            score_des.setText(checkItem.min + "_" + checkItem.max);
                                         }
                                         if (!TextUtils.isEmpty(checkBean.image)) {
                                             String [] imgs = checkBean.image.split(";");
@@ -541,7 +552,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
         basicBean.reCheckTime = recheck.getText().toString();
         basicBean.personLiable = respon.getText().toString();
-        basicBean.score = Integer.parseInt(count.getText().toString());
+        basicBean.score = Double.parseDouble(count.getText().toString());
 
         basicBean.id = checkItem.id;
 
@@ -612,13 +623,13 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
         new AlertDialog.Builder(this)
                 .setMessage("是否结束本项目的评分检查？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 postFinish();
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("否", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

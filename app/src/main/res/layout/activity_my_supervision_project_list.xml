@@ -11,7 +11,7 @@
 
     <include
             android:visibility="visible"
-            layout="@layout/common_title_bar"
+            layout="@layout/common_title_bar_2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/action_bar"

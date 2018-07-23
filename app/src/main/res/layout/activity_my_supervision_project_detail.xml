@@ -41,6 +41,7 @@
                 android:layout_height="44dp"/>
 
         <TextView
+                android:visibility="gone"
                 android:background="#0f86ff"
                 android:layout_weight="1"
                 android:gravity="center"

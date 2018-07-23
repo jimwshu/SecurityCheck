@@ -1,5 +1,6 @@
 package security.zw.com.securitycheck;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -97,6 +98,7 @@ public class SecurityApplication extends Application {
     }
 
     public void init() {
+        SDKInitializer.initialize(getApplicationContext());
         loadUserInfoFromLocalPreference();
         // 初始化bugly，设置渠道
         String channel = DeviceUtils.getChannel();

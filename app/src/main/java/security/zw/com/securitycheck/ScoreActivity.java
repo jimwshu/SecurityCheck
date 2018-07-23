@@ -34,11 +34,17 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         ctx.startActivityForResult(intent, 111);
     }
 
-
+    public static void launch(Activity ctx, ProjectDetail projectDetail, CheckItem item, int type) {
+        Intent intent = new Intent(ctx, ScoreActivity.class);
+        intent.putExtra("detail", projectDetail);
+        intent.putExtra("item", item);
+        intent.putExtra("type", type);
+        ctx.startActivityForResult(intent, 111);
+    }
 
     private ProjectDetail projectDetail;
     private CheckItem item;
-
+    public int type = -1;
 
     /*
     * 是否设置沉浸式状态栏
@@ -64,7 +70,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查6");
+        mType.setText(item.name);
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -96,6 +102,7 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
             finish();
             return;
         }
+        type = getIntent().getIntExtra("type", -1);
     }
 
     private TextView score;
@@ -129,18 +136,28 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                if (type == 2) {
                     presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
                 } else {
-                    presenter.getCheckItemDetail(projectDetail.id,item.id);
+                    if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                    } else {
+                        presenter.getCheckItemDetail(projectDetail.id,item.id);
+                    }
                 }
             }
         });
-        if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+
+        if (type == 2) {
             presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
         } else {
-            presenter.getCheckItemDetail(projectDetail.id,item.id);
+            if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+            } else {
+                presenter.getCheckItemDetail(projectDetail.id,item.id);
+            }
         }
+
 
     }
 
@@ -179,10 +196,14 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
-                if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                if (type == 2) {
                     presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
                 } else {
-                    presenter.getCheckItemDetail(projectDetail.id,item.id);
+                    if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                    } else {
+                        presenter.getCheckItemDetail(projectDetail.id,item.id);
+                    }
                 }
             } else if (resultCode == 111) {
                 setResult(111);

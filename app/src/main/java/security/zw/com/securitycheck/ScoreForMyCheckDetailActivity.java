@@ -32,7 +32,15 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         ctx.startActivity(intent);
     }
 
+    public static void launch(Context ctx, MyCheckProjectDetail projectDetail, CheckItem item, int type) {
+        Intent intent = new Intent(ctx, ScoreForMyCheckDetailActivity.class);
+        intent.putExtra("detail", projectDetail);
+        intent.putExtra("item", item);
+        intent.putExtra("type", type);
+        ctx.startActivity(intent);
+    }
 
+    public int type = -1;
 
     private MyCheckProjectDetail myCheckProjectDetail;
     private CheckItem item;
@@ -52,6 +60,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
     private ImageView mBack;
     private TextView mType;
     private TextView mSubmit;
+
     public void initBar() {
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +71,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查1");
+        mType.setText("评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -94,6 +103,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
             finish();
             return;
         }
+        type = getIntent().getIntExtra("type", -1);
     }
 
     private TextView score;
@@ -104,6 +114,7 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
     private ScoreForCheckAdapter adapter;
     private ArrayList<Object> mData = new ArrayList<>();
     private CheckItem detail;
+
     private void initWidget() {
         initBar();
 
@@ -121,12 +132,19 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
+                if (type == 3) {
+                    presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.checkItemId);
+                } else {
+                    presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.id);
+                }
             }
         });
 
-        presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
-
+        if (type == 3) {
+            presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.checkItemId);
+        } else {
+            presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.id);
+        }
     }
 
 
@@ -163,7 +181,11 @@ public class ScoreForMyCheckDetailActivity extends BaseSystemBarTintActivity imp
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
-            presenter.getCheckScoreItemDetail(myCheckProjectDetail.id,item.id);
+            if (type == 3) {
+                presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.checkItemId);
+            } else {
+                presenter.getCheckScoreItemDetail(myCheckProjectDetail.id, item.id);
+            }
         }
     }
 }

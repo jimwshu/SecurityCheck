@@ -24,7 +24,7 @@ public class Company extends JSONAble {
     public String responsiblePerson;
     public int responsiblePersonId;
 
-    public ArrayList<ProjectInfo> projectInfos;
+    public ArrayList<ProjectInfo> projects;
     public ArrayList<Tower> towers;
 
 }

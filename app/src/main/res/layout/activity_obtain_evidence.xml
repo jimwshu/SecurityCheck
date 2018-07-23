@@ -347,6 +347,8 @@
                         android:layout_height="20dp"/>
 
                 <TextView
+                        android:visibility="gone"
+                        android:layout_marginRight="5dp"
                         android:id="@+id/score_des"
                         android:layout_alignTop="@+id/decrease_content"
                         android:layout_alignParentRight="true"

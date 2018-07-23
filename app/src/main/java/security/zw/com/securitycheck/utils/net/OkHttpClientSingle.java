@@ -21,6 +21,8 @@ public class OkHttpClientSingle {
 
     private OkHttpClientSingle() {
         okHttpBuilder = new OkHttpClient.Builder();
+        okHttpBuilder.sslSocketFactory(SSLSocketFactoryUtils.createSSLSocketFactory(), SSLSocketFactoryUtils.createTrustAllManager());
+        okHttpBuilder .hostnameVerifier(new SSLSocketFactoryUtils.TrustAllHostnameVerifier());
         okHttpBuilder.retryOnConnectionFailure(true);//设置出现错误是否进行重新连接。
         okHttpBuilder.readTimeout(30, TimeUnit.SECONDS);
         okHttpBuilder.writeTimeout(30, TimeUnit.SECONDS);

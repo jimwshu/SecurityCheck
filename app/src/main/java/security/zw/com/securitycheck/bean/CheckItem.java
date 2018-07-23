@@ -35,6 +35,7 @@ public class CheckItem extends JSONAble{
     public String scoreRule;
     public double min;
     public double max;
+    public double interval;
     public String type;
 
     public double score;

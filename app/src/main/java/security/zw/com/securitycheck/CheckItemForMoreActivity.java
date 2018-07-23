@@ -118,7 +118,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查2");
+        mType.setText("新建评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setText("完成分配");
         mSubmit.setVisibility(View.GONE);

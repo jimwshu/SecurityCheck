@@ -18,8 +18,10 @@ import security.zw.com.securitycheck.adapter.ScoreAdapter;
 import security.zw.com.securitycheck.adapter.ScoreListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
@@ -35,10 +37,28 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         ctx.startActivityForResult(intent, 111);
     }
 
+    // type:-1 多人模式来的，2 单人模式 脚手架，物料提升机和施工升降机，塔式起重机和起重塔吊来的，3，我的检查来的
+    public static void launch(Activity ctx, ProjectDetail projectDetail, CheckItem item, int type) {
+        Intent intent = new Intent(ctx, ScoreForMoreActivity.class);
+        intent.putExtra("detail", projectDetail);
+        intent.putExtra("item", item);
+        intent.putExtra("type", type);
+        ctx.startActivityForResult(intent, 111);
+    }
+
+    // type:-1 多人模式来的，2 单人模式 脚手架，物料提升机和施工升降机，塔式起重机和起重塔吊来的，3，我的检查来的
+    public static void launch(Activity ctx, MyCheckProjectDetail projectDetail, CheckItem item, int type) {
+        Intent intent = new Intent(ctx, ScoreForMoreActivity.class);
+        intent.putExtra("projectDetail", projectDetail);
+        intent.putExtra("item", item);
+        intent.putExtra("type", type);
+        ctx.startActivityForResult(intent, 111);
+    }
 
     private ProjectDetail projectDetail;
     private CheckItem item;
-
+    private int type;
+    private MyCheckProjectDetail myCheckProjectDetail;
 
     /*
     * 是否设置沉浸式状态栏
@@ -65,7 +85,7 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查10" + " " + projectDetail.name);
+        mType.setText(item.name + "555");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -87,7 +107,8 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
 
     private void initIntent() {
         projectDetail = (ProjectDetail) getIntent().getSerializableExtra("detail");
-        if (projectDetail == null) {
+        myCheckProjectDetail = (MyCheckProjectDetail) getIntent().getSerializableExtra("projectDetail");
+        if (projectDetail == null && myCheckProjectDetail == null) {
             finish();
             return;
         }
@@ -97,6 +118,7 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
             finish();
             return;
         }
+        type = getIntent().getIntExtra("type", -1);
     }
 
     /*private TextView score;
@@ -129,11 +151,18 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCheckItemDetail(projectDetail.id, item.id);
+                if (projectDetail != null) {
+                    presenter.getCheckItemDetail(projectDetail.id, item.id);
+                } else if (myCheckProjectDetail != null) {
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+                }
             }
         });
-
-        presenter.getCheckItemDetail(projectDetail.id, item.id);
+        if (projectDetail != null) {
+            presenter.getCheckItemDetail(projectDetail.id, item.id);
+        } else if (myCheckProjectDetail != null) {
+            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+        }
 
     }
 
@@ -183,7 +212,11 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
-                presenter.getCheckItemDetail(projectDetail.id, item.id);
+                if (projectDetail != null) {
+                    presenter.getCheckItemDetail(projectDetail.id, item.id);
+                } else if (myCheckProjectDetail != null) {
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+                }
             } else if (resultCode == 111) {
                 setResult(111);
                 finish();
@@ -196,7 +229,11 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
     public void onGroupItemClick(int position, int groupPosition, View view) {
         RecyclerViewData d = data.get(groupPosition);
         CheckItem checkItem = (CheckItem) d.getGroupData();
-        ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem);
+        if (type == 3) {
+            ScoreForMyCheckDetailActivity.launch(ScoreForMoreActivity.this, myCheckProjectDetail, checkItem, type);
+        } else {
+            ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem, type);
+        }
     }
 
     @Override

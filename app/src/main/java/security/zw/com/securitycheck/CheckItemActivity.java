@@ -18,18 +18,16 @@ import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.view.CheckItemView;
 
 
 public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView{
 
 
-    private ProjectDetail detail;
+    ArrayList<Integer> integerArrayList = new ArrayList<>();
 
-    public static void launch(Context ctx) {
-        Intent intent = new Intent(ctx, CheckItemActivity.class);
-        ctx.startActivity(intent);
-    }
+    private ProjectDetail detail;
 
     public static void launch(Context ctx, ProjectDetail detail) {
         Intent intent = new Intent(ctx, CheckItemActivity.class);
@@ -63,7 +61,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查7");
+        mType.setText("新建评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -86,6 +84,19 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
+        integerArrayList.add(656);
+        integerArrayList.add(714);
+        integerArrayList.add(774);
+        integerArrayList.add(829);
+        integerArrayList.add(134);
+        integerArrayList.add(135);
+        integerArrayList.add(136);
+        integerArrayList.add(137);
+        integerArrayList.add(138);
+        integerArrayList.add(139);
+        integerArrayList.add(140);
+        integerArrayList.add(937);
+
         setContentView(R.layout.activity_check_item);
         presenter = new CheckItemPresenter(this);
         initWidget();
@@ -153,7 +164,13 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         RecyclerViewData d = data.get(groupPosition);
         CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
-        ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
+        if (integerArrayList.contains(checkItem.id)) {
+            LogUtils.e("type = 2");
+            ScoreForMoreActivity.launch(CheckItemActivity.this, detail, checkItem, 2);
+        } else {
+            ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
+        }
+
         //RandomCheckActivity.launch(this, detail, checkItem);
     }
 

@@ -11,10 +11,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.CompanyDetailActivity;
-import security.zw.com.securitycheck.PersonDetailActivity;
+import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.Company;
-import security.zw.com.securitycheck.bean.Person;
+import security.zw.com.securitycheck.bean.ProjectDetail;
+import security.zw.com.securitycheck.bean.ProjectInfo;
 
 
 /**
@@ -22,29 +23,29 @@ import security.zw.com.securitycheck.bean.Person;
  */
 
 
-public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.CompanyViewHolder> {
+public class CompanyDetailForUserAdapter extends RecyclerView.Adapter<CompanyDetailForUserAdapter.CompanyViewHolder> {
 
 
-    private ArrayList<Person> mData;
+    private ArrayList<ProjectInfo> mData;
 
     private Activity mContext;
 
     private int type = -1;
 
-    public PersonAdapter(ArrayList<Person> mData, Activity mActivity) {
+    public CompanyDetailForUserAdapter(ArrayList<ProjectInfo> mData, Activity mActivity) {
         this.mData = mData;
         this.mContext = mActivity;
     }
 
-    public PersonAdapter(ArrayList<Person> mData, Activity mActivity, int type) {
+    public CompanyDetailForUserAdapter(ArrayList<ProjectInfo> mData, Activity mActivity, int type) {
         this.mData = mData;
         this.mContext = mActivity;
         this.type = type;
     }
 
     @Override
-    public PersonAdapter.CompanyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_person, parent, false);
+    public CompanyDetailForUserAdapter.CompanyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_company_for_company, parent, false);
         return new CompanyViewHolder(view);
     }
 
@@ -52,29 +53,22 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.CompanyVie
 
         public TextView name;
         public RelativeLayout rel;
-        public TextView job;
-        public TextView companyName;
 
         public CompanyViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             rel = itemView.findViewById(R.id.rel);
-            job = itemView.findViewById(R.id.job);
-            companyName = itemView.findViewById(R.id.companyName);
         }
     }
 
     @Override
-    public void onBindViewHolder(PersonAdapter.CompanyViewHolder holder, final int position) {
-        final Person person = mData.get(position);
-        holder.name.setText(person.name);
-        holder.job.setText(person.position);
-        holder.companyName.setText(person.companyName);
-
+    public void onBindViewHolder(CompanyDetailForUserAdapter.CompanyViewHolder holder, final int position) {
+        final ProjectInfo company = mData.get(position);
+        holder.name.setText((position + 1) + " " + company.name);
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PersonDetailActivity.launch(view.getContext(), person);
+                ProjectDetailActivity.launch(view.getContext(), company, 2);
             }
         });
     }

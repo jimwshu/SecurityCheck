@@ -39,6 +39,11 @@ public class PersonDetailActivity extends BaseSystemBarTintActivity {
         ctx.startActivity(intent);
     }
 
+    public static void launch(Context ctx, int id) {
+        Intent intent = new Intent(ctx, PersonDetailActivity.class);
+        intent.putExtra("id", id);
+        ctx.startActivity(intent);
+    }
 
     /*
     * 是否设置沉浸式状态栏
@@ -73,6 +78,7 @@ public class PersonDetailActivity extends BaseSystemBarTintActivity {
 
 
     public Person info;
+    public int id;
 
 
     private RelativeLayout is_checked;// 整改名称
@@ -184,10 +190,16 @@ public class PersonDetailActivity extends BaseSystemBarTintActivity {
         setContentView(R.layout.activity_person_detail);
 
         info = (Person) getIntent().getSerializableExtra("info");
-        if (info == null) {
+        id = getIntent().getIntExtra("id", -1);
+        if (info == null && id < 0) {
             finish();
             return;
         }
+
+        if (info != null) {
+            id = info.id;
+        }
+
         initWidget();
 
     }
@@ -357,7 +369,7 @@ public class PersonDetailActivity extends BaseSystemBarTintActivity {
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-            jsonObject.addProperty("id", info.id);
+            jsonObject.addProperty("id", id);
             String s = jsonObject.toString();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
             mCall = addCheck.getPersonDetail(requestBody);

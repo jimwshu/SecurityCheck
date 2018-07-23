@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rel"
+>
+
+
+    <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/circle"
+            android:background="@drawable/my_shape_circle"
+            android:layout_width="10dp"
+            android:layout_height="10dp"/>
+
+    <TextView
+            android:maxWidth="150dp"
+            android:layout_toRightOf="@+id/circle"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="碧桂园1区"
+            android:id="@+id/name"
+            android:textColor="#1a1a1a"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+
+    <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/bar_next"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:id="@+id/imageView"/>
+
+    <TextView
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_alignTop="@+id/name"
+            android:textColor="#1a1a1a"
+            android:textSize="16dp"
+            android:text="2017-10-20"
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
+    <TextView
+            android:layout_alignLeft="@+id/name"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/name"
+            android:textColor="#ff0000"
+            android:textSize="16dp"
+            android:text="不合格"
+            android:id="@+id/check_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    <TextView
+            android:text="10.0"
+            android:id="@+id/score"
+            android:textColor="#ff0000"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/time"
+            android:layout_alignTop="@+id/check_result"
+    />
+
+
+
+    <TextView
+            android:visibility="gone"
+            android:layout_marginBottom="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/check_result"
+            android:background="#0f86ff"
+            android:gravity="center"
+            android:id="@+id/change"
+            android:textColor="#ffffff"
+            android:text="移交执法"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"/>
+
+    <View
+
+            android:background="#e9e9e9"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id="@+id/view"/>
+
+
+</RelativeLayout>

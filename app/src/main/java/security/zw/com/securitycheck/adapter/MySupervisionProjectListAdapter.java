@@ -69,7 +69,7 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
     @Override
     public void onBindViewHolder(MySupervisionProjectListAdapter.ProjectViewHolder holder, final int position) {
         final SupervisionProjectList p = mData.get(position);
-        holder.name.setText(p.projectName + "");
+        holder.name.setText(p.operator + "");
         holder.time.setText(TimeUtils.secToTime(p.createTime));
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override

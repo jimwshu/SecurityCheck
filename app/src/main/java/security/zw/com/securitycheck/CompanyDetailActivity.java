@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,13 +19,18 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import security.zw.com.securitycheck.adapter.CompanyAdapter;
+import security.zw.com.securitycheck.adapter.CompanyDetailForUserAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.Company;
+import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.SupervisionProjecDetail;
 import security.zw.com.securitycheck.bean.SupervisionProjectList;
 import security.zw.com.securitycheck.utils.TimeUtils;
@@ -43,6 +50,13 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
         ctx.startActivity(intent);
     }
 
+
+    public static void launch(Context ctx, int id, String name) {
+        Intent intent = new Intent(ctx, CompanyDetailActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("name", name);
+        ctx.startActivity(intent);
+    }
 
     /*
     * 是否设置沉浸式状态栏
@@ -175,7 +189,14 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
 
     private TextView check;
 
+    private RecyclerView mRecyclerView;
+    private ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
+    protected LinearLayoutManager mManager;
+    protected CompanyDetailForUserAdapter mAdapter;
+
     private SimpleDraweeView[] imageViews = new SimpleDraweeView[3];
+
+    private int id;
 
 
     @Override
@@ -188,10 +209,16 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
         setContentView(R.layout.activity_company_detail);
 
         info = (Company) getIntent().getSerializableExtra("info");
-        if (info == null) {
+        id = getIntent().getIntExtra("id", -1);
+        if (info == null && id < 0) {
             finish();
             return;
         }
+
+        if (info != null) {
+            id = info.id;
+        }
+
         initWidget();
 
     }
@@ -203,6 +230,13 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
 
     private void initView() {
         check = findViewById(R.id.check);
+
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mAdapter = new CompanyDetailForUserAdapter(data, this, 1);
+        mManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
 
         is_checked = findViewById(R.id.is_checked);
@@ -361,7 +395,7 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-            jsonObject.addProperty("id", info.id);
+            jsonObject.addProperty("id", id);
             String s = jsonObject.toString();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
             mCall = addCheck.getCompanyDetail(requestBody);
@@ -385,7 +419,12 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
                                     cost_state.setText(info.enterpriseCategory);
                                     state_state.setText(info.address);
 
+                                    if (data != null && data.size() > 0) {
+                                        data.clear();
+                                    }
 
+                                    data.addAll(info.projects);
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             }
                         } catch (JSONException e) {

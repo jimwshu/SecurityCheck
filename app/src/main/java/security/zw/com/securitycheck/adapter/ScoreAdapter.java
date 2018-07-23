@@ -111,7 +111,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ss.setSpan(new ForegroundColorSpan(0xffd0021b), 5, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             storeItem.score.setText(ss);
-            storeItem.title.setText(item.name);
+            storeItem.title.setText(item.name + " " + "（" + item.scoreRule+ "）");
             if (type == -1) {
                 storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
             } else if (type == 1){

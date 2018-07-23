@@ -67,6 +67,7 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
 
     private ImageView mBack;
     private TextView mType;
+    private TextView mSubmit;
 
 
     @Override
@@ -96,11 +97,17 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mType.setText("监督整改列表");
+        mSubmit = findViewById(R.id.submit);
+        mSubmit.setText("移交执法");
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postResult(2);
+            }
+        });
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MySupervisionListForOneCheckAdapter(data, this);
-
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -191,5 +198,57 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
     protected void onResume() {
         super.onResume();
         onRefresh();
+    }
+
+
+    private void postResult(int status) {
+        if (!isLoading) {
+            isLoading = true;
+            mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            addCheck = mRetrofit.create(Constans.GetMyProjectList.class);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            jsonObject.addProperty("id", info.id);
+            jsonObject.addProperty("status", status);
+            String s = jsonObject.toString();
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+            mCall = addCheck.updateSupervisionListDetailForProject(requestBody);
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    isLoading = false;
+                    if (response.isSuccessful()) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.has("code")) {
+                                int code = jsonObject.optInt("code");
+                                if (code == 0) {
+                                    ToastUtil.Long("修改状态成功");
+                                    loadData();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("修改状态失败");
+
+                        }
+                    } else {
+                        ToastUtil.Long("修改状态失败");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    t.printStackTrace();
+                    isLoading = false;
+                    ToastUtil.Long("修改状态失败");
+                }
+            });
+
+        }
+
+
     }
 }

@@ -25,6 +25,7 @@ import security.zw.com.securitycheck.view.CheckItemView;
 
 public class CheckItemForMyCheckDetailActivity extends BaseSystemBarTintActivity implements OnRecyclerViewListener.OnItemClickListener, OnRecyclerViewListener.OnItemLongClickListener, CheckItemView{
 
+    ArrayList<Integer> integerArrayList = new ArrayList<>();
 
     private MyCheckProjectDetail detail;
 
@@ -60,7 +61,7 @@ public class CheckItemForMyCheckDetailActivity extends BaseSystemBarTintActivity
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查5");
+        mType.setText("评分检查");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -83,6 +84,20 @@ public class CheckItemForMyCheckDetailActivity extends BaseSystemBarTintActivity
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
+
+        integerArrayList.add(656);
+        integerArrayList.add(714);
+        integerArrayList.add(774);
+        integerArrayList.add(829);
+        integerArrayList.add(134);
+        integerArrayList.add(135);
+        integerArrayList.add(136);
+        integerArrayList.add(137);
+        integerArrayList.add(138);
+        integerArrayList.add(139);
+        integerArrayList.add(140);
+        integerArrayList.add(937);
+
         setContentView(R.layout.activity_check_item);
         presenter = new CheckItemPresenter(this);
         initWidget();
@@ -154,8 +169,12 @@ public class CheckItemForMyCheckDetailActivity extends BaseSystemBarTintActivity
         RecyclerViewData d = data.get(groupPosition);
         CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
-        ScoreForMyCheckDetailActivity.launch(CheckItemForMyCheckDetailActivity.this, detail, checkItem);
-        //RandomCheckActivity.launch(this, detail, checkItem);
+        if (integerArrayList.contains(checkItem.id)) {
+            ScoreForMoreActivity.launch(CheckItemForMyCheckDetailActivity.this, detail, checkItem, 3);
+        } else {
+            ScoreForMyCheckDetailActivity.launch(CheckItemForMyCheckDetailActivity.this, detail, checkItem);
+        }
+
     }
 
     @Override

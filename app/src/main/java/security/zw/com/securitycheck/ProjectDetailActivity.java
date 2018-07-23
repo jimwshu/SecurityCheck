@@ -31,6 +31,7 @@ import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.postbean.CheckBean;
 import security.zw.com.securitycheck.presenter.MyProjectPresenter;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
@@ -42,6 +43,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
     public int check_type = -1;
     public int check_mode = -1;
+    public int startType;
 
     public static final String[] CHECK_CLASS = new String[]{
             "随机检查", "评分检查"
@@ -87,6 +89,12 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         ctx.startActivity(intent);
     }
 
+    public static void launch(Context ctx, ProjectInfo p, int type) {
+        Intent intent = new Intent(ctx, ProjectDetailActivity.class);
+        intent.putExtra("info", p);
+        intent.putExtra("type", type);
+        ctx.startActivity(intent);
+    }
 
     /*
     * 是否设置沉浸式状态栏
@@ -232,6 +240,8 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         if (info == null) {
             finish();
         }
+        startType = getIntent().getIntExtra("type", -1);
+
         initWidget();
 
         presenter = new MyProjectPresenter(this);
@@ -265,6 +275,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                     if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                         RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
                     } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+                        LogUtils.e("iiii");
                         CheckItemActivity.launch(view.getContext(), detail);
                     }
                 } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
@@ -382,6 +393,23 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         contract_person = contract.findViewById(R.id.person);
         contract_title.setText("建设单位");
 
+        contract_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.contract != null) {
+                    CompanyDetailActivity.launch(view.getContext(), detail.contract.id, detail.contract.contractCompany);
+                }
+            }
+        });
+
+        contract_person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.contract != null) {
+                    PersonDetailActivity.launch(view.getContext(), detail.contract.contractLeaderId);
+                }
+            }
+        });
 
         construction = findViewById(R.id.construction);
         construction_name = construction.findViewById(R.id.unit);
@@ -390,12 +418,49 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         construction_person = construction.findViewById(R.id.person);
         construction_title.setText("施工单位");
 
+        construction_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.construction != null) {
+                    CompanyDetailActivity.launch(view.getContext(), detail.construction.id, detail.construction.constructionCompany);
+                }
+            }
+        });
+
+        construction_person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.construction != null) {
+                    PersonDetailActivity.launch(view.getContext(), detail.construction.constructionLeaderId);
+                }
+            }
+        });
+
 
         monitor = findViewById(R.id.monitor);
         monitor_name = monitor.findViewById(R.id.unit);
         monitor_person = monitor.findViewById(R.id.person);
         monitor_title = monitor.findViewById(R.id.title);
         monitor_title.setText("监理单位");
+
+
+        monitor_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.monitor != null) {
+                    CompanyDetailActivity.launch(view.getContext(), detail.monitor.id, detail.monitor.monitorCompany);
+                }
+            }
+        });
+
+        monitor_person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (detail != null && detail.monitor != null) {
+                    PersonDetailActivity.launch(view.getContext(), detail.monitor.projectDirectorId);
+                }
+            }
+        });
 
         check_class = findViewById(R.id.check_class);//地址
         check_class_title = check_class.findViewById(R.id.title);
@@ -432,6 +497,12 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 selectCheckMode();
             }
         });
+
+        if (startType == 2) {
+            check.setVisibility(View.GONE);
+            check_class.setVisibility(View.GONE);
+            check_mode_rel.setVisibility(View.GONE);
+        }
     }
 
     public ArrayList<CheckPerson> persons = new ArrayList<>();
@@ -553,7 +624,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     }
 
     @Override
-    public void getProjectSucc(ProjectDetail detail) {
+    public void getProjectSucc(final ProjectDetail detail) {
         this.detail = detail;
         if (detail.supervise == 0) {
             is_checked_state.setTextColor(0xffd0021b);
@@ -573,6 +644,13 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         district_state.setText(detail.district);
         state_state.setText(detail.state);
         address_state.setText(detail.address);
+
+        address_state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MapActivity.launch(view.getContext(), detail.address);
+            }
+        });
 
         contract_name.setText(detail.contract.contractCompany);
         contract_person.setText(detail.contract.contractLeader);

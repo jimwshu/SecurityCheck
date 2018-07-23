@@ -68,6 +68,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
 
     private ImageView mBack;
     private TextView mType;
+    private TextView mSubmit;
 
 
     @Override
@@ -101,7 +102,8 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
         mType.setText("监督整改列表");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MySupervisionProjectListAdapter(data, this);
-
+        mSubmit = findViewById(R.id.submit);
+        mSubmit.setVisibility(View.GONE);
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);

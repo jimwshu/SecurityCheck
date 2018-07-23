@@ -12,6 +12,6 @@ public class Construction extends JSONAble {
     public int id;
     public String constructionCompany;//单位名称
     public String constructionLeader;//单位负责人
-
+    public int constructionLeaderId;
  
 }

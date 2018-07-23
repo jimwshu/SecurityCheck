@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        security {
+            keyAlias 'security'
+            keyPassword '123456'
+            storeFile file('/Users/wangshu/SecurityKeyTools.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "security.zw.com.securitycheck"
@@ -8,12 +16,32 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+            //说明so的路径为该libs路径，关联所有地图SDK的so文件
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            //include 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a', 'armeabi'
+            include 'armeabi-v7a'
+            universalApk false
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.security
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.security
         }
     }
 }
@@ -33,4 +61,5 @@ dependencies {
     compile 'com.drawthink:expandable-recyclerview:0.0.3'
     implementation files('libs/BASE64.jar')
     implementation files('libs/MiPush_SDK_Client_3_6_2.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
 }

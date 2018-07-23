@@ -34,21 +34,6 @@ public class ProjectInfo extends JSONAble {
     }
 
 
-
-    public static ProjectInfo parseUserInfoFromString(String u) {
-        try {
-            ProjectInfo userInfo = new ProjectInfo();
-            JSONObject jsonObject = new JSONObject(u);
-            userInfo.parseFromJSONObject(jsonObject);
-            return userInfo;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-
     @Override
     public String toString() {
         return encodeToJsonObject().toString();

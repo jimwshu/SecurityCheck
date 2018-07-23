@@ -12,6 +12,6 @@ public class Monitor extends JSONAble {
     public int id;
     public String monitorCompany;//单位名称
     public String projectDirector;//单位负责人
-
+    public int projectDirectorId;
  
 }
