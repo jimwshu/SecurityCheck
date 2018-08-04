@@ -85,7 +85,7 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText(item.name + "555");
+        mType.setText(item.name);
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }

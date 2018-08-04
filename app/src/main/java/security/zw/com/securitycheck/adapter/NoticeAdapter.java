@@ -68,7 +68,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.CompanyVie
     @Override
     public void onBindViewHolder(NoticeAdapter.CompanyViewHolder holder, final int position) {
         final Notice person = mData.get(position);
-        holder.name.setText(person.projectName);
+        holder.name.setText(person.name);
         if (person.type == 1) {
             holder.job.setText("随机检查");
         } else {
@@ -78,9 +78,9 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.CompanyVie
             @Override
             public void onClick(View view) {
                 ProjectDetail projectDetail = new ProjectDetail();
-                projectDetail.id = person.projectId;
+                projectDetail.id = person.id;
                 projectDetail.check_type = person.type;
-                projectDetail.name = person.projectName;
+                projectDetail.name = person.name;
                 projectDetail.check_mode = person.mode;
                 if (projectDetail.check_type == 2) {
                     CheckItemForMoreActivity.launch(view.getContext(), projectDetail);

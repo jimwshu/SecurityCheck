@@ -27,6 +27,16 @@ import security.zw.com.securitycheck.utils.TimeUtils;
 public class MyCheckProjectDetailAdapter extends RecyclerView.Adapter<MyCheckProjectDetailAdapter.ProjectDetailViewHolder> {
 
 
+    public interface Delete {
+        void delete(int pos);
+    }
+
+    public Delete delete;
+
+    public void setDelete(Delete delete) {
+        this.delete = delete;
+    }
+
     private ArrayList<MyCheckProjectDetail> mData;
 
     private Activity mContext;
@@ -57,6 +67,7 @@ public class MyCheckProjectDetailAdapter extends RecyclerView.Adapter<MyCheckPro
         public TextView score;
         public TextView check_result;
         public RelativeLayout rel;
+        public TextView delete;
 
         public ProjectDetailViewHolder(View itemView) {
             super(itemView);
@@ -66,6 +77,7 @@ public class MyCheckProjectDetailAdapter extends RecyclerView.Adapter<MyCheckPro
             score = itemView.findViewById(R.id.score);
             check_result = itemView.findViewById(R.id.check_result);
             rel = itemView.findViewById(R.id.rel);
+            delete = itemView.findViewById(R.id.delete);
         }
     }
 
@@ -95,6 +107,15 @@ public class MyCheckProjectDetailAdapter extends RecyclerView.Adapter<MyCheckPro
             holder.circle.setBackgroundResource(R.drawable.red_circle);
 
         }
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (delete != null) {
+                    delete.delete(position);
+                }
+            }
+        });
 
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override

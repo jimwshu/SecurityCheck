@@ -403,7 +403,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
 
             // 未完成分配，并且主检查官是自己
             if (!hasChildren) {
-                if (checkItem1.safetyInspector == SecurityApplication.mUser.id) {
+                if (safetyInspector == SecurityApplication.mUser.id) {
                     getCheckPerson(checkItem1);
                 }
             }
@@ -421,9 +421,8 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
             } else {
                 ToastUtil.Long("该项目已经分配");
             }
-            return;
         } else {
-            if (checkItem.safetyInspector == SecurityApplication.mUser.id) {
+            if (safetyInspector == SecurityApplication.mUser.id) {
                 getCheckPerson(checkItem);
             }
         }

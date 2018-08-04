@@ -35,7 +35,7 @@ public class Constans {
         @POST("/supervisorDiamond/message/getMessageCount")
         public Call<String> getMessageCount(@Body RequestBody route);
 
-        @POST("/supervisorDiamond/message/taskList")
+        @POST("/supervisorDiamond/message/projectList")
         public Call<String> getTaskList(@Body RequestBody route);
 
     }
@@ -115,6 +115,9 @@ public class Constans {
 
         @POST("/supervisorDiamond/myCheck/scoreDetail")
         public Call<String> getCheckScoreItemDetail(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/projectTag/remove/{id}")
+        public Call<String> deleteDetail(@Path("id") int id);
 
     }
 

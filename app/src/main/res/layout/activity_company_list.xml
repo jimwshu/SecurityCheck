@@ -17,9 +17,41 @@
             android:id="@+id/action_bar"
     ></include>
 
+    <RelativeLayout
+        android:id="@+id/search_rel"
+
+        android:layout_below="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:textColor="#ff0000"
+            android:textSize="16dp"
+            android:id="@+id/search_buttom"
+            android:text="点击查询"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:layout_toLeftOf="@+id/search_buttom"
+            android:id="@+id/search"
+            android:textColorHint="#ff0000"
+            android:textColor="#ff0000"
+            android:textSize="16dp"
+            android:hint="请输入查询名称"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+
+
     <security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/action_bar"
+            android:layout_below="@+id/search_rel"
             android:id="@+id/refresher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

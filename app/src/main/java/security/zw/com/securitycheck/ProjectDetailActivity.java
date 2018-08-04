@@ -652,14 +652,20 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
             }
         });
 
-        contract_name.setText(detail.contract.contractCompany);
-        contract_person.setText(detail.contract.contractLeader);
+        if (detail.contract != null) {
+            contract_name.setText(detail.contract.contractCompany);
+            contract_person.setText(detail.contract.contractLeader);
+        }
 
-        construction_name.setText(detail.construction.constructionCompany);
-        construction_person.setText(detail.construction.constructionLeader);
+        if (detail.construction != null) {
+            construction_name.setText(detail.construction.constructionCompany);
+            construction_person.setText(detail.construction.constructionLeader);
+        }
 
-        monitor_name.setText(detail.monitor.monitorCompany);
-        monitor_person.setText(detail.monitor.projectDirector);
+        if (detail.monitor != null) {
+            monitor_name.setText(detail.monitor.monitorCompany);
+            monitor_person.setText(detail.monitor.projectDirector);
+        }
 
     }
 

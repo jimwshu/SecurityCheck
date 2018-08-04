@@ -1,24 +1,41 @@
 package security.zw.com.securitycheck;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import security.zw.com.securitycheck.adapter.MyCheckProjectDetailAdapter;
 import security.zw.com.securitycheck.adapter.MyProjectAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
+import security.zw.com.securitycheck.postbean.CheckBean;
 import security.zw.com.securitycheck.presenter.MyProjectPresenter;
+import security.zw.com.securitycheck.utils.imagepicker.ImageInfo;
+import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
 import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
@@ -94,6 +111,13 @@ public class MyCheckDetailActivity extends BaseSystemBarTintActivity implements 
         presenter = new MyProjectPresenter(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MyCheckProjectDetailAdapter(data, this, 1);
+        mAdapter.setDelete(new MyCheckProjectDetailAdapter.Delete() {
+            @Override
+            public void delete(int pos) {
+                MyCheckProjectDetail myCheckProjectDetail = data.get(pos);
+                showWarmDialog(myCheckProjectDetail);
+            }
+        });
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresher);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -110,6 +134,72 @@ public class MyCheckDetailActivity extends BaseSystemBarTintActivity implements 
         onRefresh();
     }
 
+    private void showWarmDialog(final MyCheckProjectDetail myCheckProjectDetail) {
+        new AlertDialog.Builder(this)
+                .setMessage("是否删除随机检查？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        deleteDetail(myCheckProjectDetail);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        })
+                .show();
+
+    }
+
+    Retrofit mRetrofit;
+    Constans.GetCheckItemList addCheck;
+    Call<String> mCall;
+    public void deleteDetail(MyCheckProjectDetail myCheckProjectDetail) {
+        isLoading = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.GetCheckItemList.class);
+
+        mCall = addCheck.deleteDetail(myCheckProjectDetail.id);
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                isLoading = false;
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                onRefresh();
+                            } else {
+                                ToastUtil.Long("删除失败，请重试");
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        ToastUtil.Long("删除失败，请重试");
+                    }
+                } else {
+                    ToastUtil.Long("删除失败，请重试");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                isLoading = false;
+                ToastUtil.Long("删除失败，请重试");
+            }
+        });
+    }
 
     private void onRefresh() {
         loadData();

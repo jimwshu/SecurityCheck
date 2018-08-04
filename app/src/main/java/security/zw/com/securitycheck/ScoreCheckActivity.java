@@ -50,6 +50,7 @@ import security.zw.com.securitycheck.postbean.CheckItemDetailBean;
 import security.zw.com.securitycheck.utils.Base64Img;
 import security.zw.com.securitycheck.utils.DeviceUtils;
 import security.zw.com.securitycheck.utils.ImageUtils;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.WindowUtils;
 import security.zw.com.securitycheck.utils.image.FrescoImageloader;
 import security.zw.com.securitycheck.utils.imagepicker.ImageInfo;
@@ -166,6 +167,11 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
     private ProgressDialog mProgressDialog = null;
 
+    private boolean isTwe = false;
+    private double min;
+    private double max;
+    private double unit;
+
 
     private boolean isCancel() {
         return mProgressDialog == null || !mProgressDialog.isShowing();
@@ -242,16 +248,17 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkItem.min == checkItem.max) {
+
+                if (min == max) {
                     if (cCount == 0) {
-                        cCount = (int) checkItem.min;
+                        cCount = (int) min;
                     }
                 } else {
                     if (cCount == 0) {
-                        cCount = (int) checkItem.max;
+                        cCount = (int) max;
                     } else {
-                        if (cCount - 1 >= checkItem.min) {
-                            cCount -= 1;
+                        if (cCount - unit >= min) {
+                            cCount -= unit;
                         }
                     }
 
@@ -263,17 +270,17 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkItem.min == checkItem.max) {
-                    if (cCount == checkItem.max) {
+                if (min == max) {
+                    if (cCount == max) {
                         cCount = 0;
                     }
                 } else {
 
-                    if (cCount == checkItem.max) {
+                    if (cCount == max) {
                         cCount = 0;
                     } else {
-                        if (cCount + 1 <= checkItem.max) {
-                            cCount += 1;
+                        if (cCount + unit <= max) {
+                            cCount += unit;
                         }
                     }
 
@@ -281,6 +288,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                 count.setText("" + cCount);
             }
         });
+
 
         respon_rel = findViewById(R.id.respon_rel);
         respon_rel.setVisibility(View.GONE);
@@ -397,8 +405,19 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
             checkItem = (CheckItem) getIntent().getSerializableExtra("check");
             cCount = (int) checkItem.realScore;
-        }
+            if (checkItem.max == checkItem.min && checkItem.max == -2) {
+                isTwe = true;
+                min = -10d;
+                max = -2d;
+                unit = 2;
+            } else {
+                isTwe = false;
+                min = checkItem.min;
+                max = checkItem.max;
+                unit = 1;
+            }
 
+        }
     }
 
 
@@ -540,7 +559,26 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
-        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("checkItemId", checkItem.checkItemId);
+        jsonObject.addProperty("checkMode", detail.check_mode);
+        jsonObject.addProperty("checkType", detail.check_type);
+        jsonObject.addProperty("ilegalItems", illegel.getText().toString());
+        jsonObject.addProperty("baseItemrs", basic.getText().toString());
+        jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        jsonObject.addProperty("personLiable", respon.getText().toString());
+        jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
+
+        if (!TextUtils.isEmpty(images)) {
+            jsonObject.addProperty("image", images.toString().substring(0, images.length() - 1));
+        }
+
+        if (checkItem.id > 0) {
+            jsonObject.addProperty("id",  checkItem.id);
+        }
+        /*Gson gson = new Gson();
         CheckBean basicBean = new CheckBean();
         basicBean.userId = SecurityApplication.mUser.id;
         basicBean.projectId = detail.id;
@@ -560,8 +598,8 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             basicBean.image = images.toString().substring(0, images.length() - 1);
         }
 
-        String s = gson.toJson(basicBean);
-        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+        String s = gson.toJson(basicBean);*/
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
 
         if (checkItem.id > 0) {
             mCall = addCheck.updateScoreCheck(requestBody);

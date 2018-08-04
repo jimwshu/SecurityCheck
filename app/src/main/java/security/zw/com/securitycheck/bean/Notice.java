@@ -7,8 +7,8 @@ package security.zw.com.securitycheck.bean;
 
 public class Notice {
 
-    public String projectName;
+    public int id;
+    public String name;
     public int type;
-    public int projectId;
     public int mode;
 }

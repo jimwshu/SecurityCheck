@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -71,7 +73,8 @@ public class CompanyActivity extends BaseSystemBarTintActivity {
 
     private ImageView mBack;
     private TextView mType;
-
+    private EditText name;
+    private TextView search_buttom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,14 @@ public class CompanyActivity extends BaseSystemBarTintActivity {
                 finish();
             }
         });
-
+        name = findViewById(R.id.search);
+        search_buttom = findViewById(R.id.search_buttom);
+        search_buttom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRefresh();
+            }
+        });
         mType = findViewById(R.id.perrmission);
         mType.setText("企业列表");
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
@@ -141,7 +151,9 @@ public class CompanyActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
         jsonObject.addProperty("page", page);
         jsonObject.addProperty("size", 10);
-
+        if (!TextUtils.isEmpty(name.getText().toString())) {
+            jsonObject.addProperty("name", name.getText().toString());
+        }
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);

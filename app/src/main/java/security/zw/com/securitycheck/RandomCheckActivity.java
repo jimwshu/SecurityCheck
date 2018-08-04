@@ -403,22 +403,25 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
-        Gson gson = new Gson();
-        CheckBean basicBean = new CheckBean();
-        basicBean.userId = SecurityApplication.mUser.id;
-        basicBean.projectId = detail.id;
-        basicBean.checkMode = detail.check_mode;
-        basicBean.checkType = detail.check_type;
-        basicBean.ilegalItems = illegel.getText().toString();
-        basicBean.baseItemrs = basic.getText().toString();
-        basicBean.reCheckTime = recheck.getText().toString();
-        basicBean.personLiable = respon.getText().toString();
-        basicBean.assistPersonIds = detail.assistPersonIds;
+
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("checkMode", detail.check_mode);
+        jsonObject.addProperty("checkType", detail.check_type);
+        jsonObject.addProperty("ilegalItems", illegel.getText().toString());
+        jsonObject.addProperty("baseItemrs", basic.getText().toString());
+        jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        jsonObject.addProperty("personLiable", respon.getText().toString());
+        jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
+        jsonObject.addProperty("assistPersonIds", detail.assistPersonIds);
+
         if (!TextUtils.isEmpty(images)) {
-            basicBean.image = images.toString().substring(0, images.length() - 1);
+            jsonObject.addProperty("image", images.toString().substring(0, images.length() - 1));
         }
-        String s = gson.toJson(basicBean);
-        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mCall = addCheck.addRandomCheck(requestBody);
         mCall.enqueue(new Callback<String>() {
             @Override
