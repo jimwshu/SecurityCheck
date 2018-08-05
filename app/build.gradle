@@ -9,6 +9,7 @@ android {
             storePassword '123456'
         }
     }
+    buildToolsVersion "26.0.2"
     compileSdkVersion 26
     defaultConfig {
         applicationId "security.zw.com.securitycheck"
@@ -47,9 +48,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
@@ -59,7 +60,8 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0'
     compile 'com.drawthink:expandable-recyclerview:0.0.3'
-    implementation files('libs/BASE64.jar')
-    implementation files('libs/MiPush_SDK_Client_3_6_2.jar')
-    implementation files('libs/BaiduLBS_Android.jar')
+    compile files('libs/BASE64.jar')
+    compile files('libs/MiPush_SDK_Client_3_6_2.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile 'com.google.zxing:core:3.3.0'
 }
