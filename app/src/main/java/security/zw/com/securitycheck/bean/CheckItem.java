@@ -47,4 +47,40 @@ public class CheckItem extends JSONAble{
     public ArrayList<CheckItem> childrens;
 
     public int safetyInspector;
+
+
+    public String code;
+    public boolean haveScored;
+
+    @Override
+    public String toString() {
+        return "CheckItem{" +
+                "isSelected=" + isSelected +
+                ", id=" + id +
+                ", parentId=" + parentId +
+                ", projectId=" + projectId +
+                ", parentCheckItemId=" + parentCheckItemId +
+                ", checkItemId=" + checkItemId +
+                ", name='" + name + '\'' +
+                ", level=" + level +
+                ", worker=" + worker +
+                ", checker='" + checker + '\'' +
+                ", assigned=" + assigned +
+                ", deserveScore=" + deserveScore +
+                ", realScore=" + realScore +
+                ", scoreRule='" + scoreRule + '\'' +
+                ", min=" + min +
+                ", max=" + max +
+                ", interval=" + interval +
+                ", type='" + type + '\'' +
+                ", score=" + score +
+                ", hasAssigned=" + hasAssigned +
+                ", childrens=" + childrens +
+                ", safetyInspector=" + safetyInspector +
+                ", code='" + code + '\'' +
+                ", haveScored=" + haveScored +
+                '}';
+    }
 }
+
+

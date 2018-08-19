@@ -46,6 +46,9 @@ public class CheckItemAdapter extends BaseRecyclerViewAdapter<CheckItem,CheckIte
             holder.parentRemind.setVisibility(View.GONE);
         }
 
+        if (groupData.haveScored) {
+            holder.groupTitle.setTextColor(0xffff0000);
+        }
         if (type == 1) {
             if (TextUtils.isEmpty(groupData.checker)) {
                 holder.parentCheckName.setVisibility(View.GONE);
@@ -67,6 +70,12 @@ public class CheckItemAdapter extends BaseRecyclerViewAdapter<CheckItem,CheckIte
     @Override
     public void onBindChildpHolder(CheckItemViewHolder holder, int groupPos,int childPos,int position, CheckItem childData) {
         holder.childTitle.setText(childData.name);
+        if (childData.haveScored) {
+            holder.childTitle.setTextColor(0xffff0000);
+        } else {
+            holder.childTitle.setTextColor(0xff1a1a1a);
+        }
+
         if (type == 1) {
             if (TextUtils.isEmpty(childData.checker)) {
                 holder.childCheckName.setVisibility(View.GONE);

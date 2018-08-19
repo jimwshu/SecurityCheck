@@ -1,97 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:id="@+id/bar"
-                android:background="#00ffffff"
->
+    android:id="@+id/bar"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="#00ffffff">
 
     <LinearLayout
-            android:layout_marginLeft="8dp"
-            android:visibility="gone"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:id="@+id/bar_left"
-            android:layout_alignParentLeft="true"
-            android:orientation="horizontal"
-            android:paddingRight="8dp"
-            android:descendantFocusability="blocksDescendants"
-    >
-        <ImageView
-                android:visibility="gone"
-                android:paddingLeft="16dp"
-                android:paddingRight="15dp"
-                android:layout_height="16dp"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical|left"
-                android:scaleType="centerInside"
-                android:id="@+id/bar_back"
-                android:contentDescription="@null"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:src="@mipmap/bar_back"
-        />
+        android:id="@+id/bar_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal"
+        android:paddingRight="8dp"
+        android:visibility="gone">
 
         <ImageView
-                android:scaleType="fitXY"
-                android:src="@mipmap/check"
-                android:visibility="gone"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:id="@+id/bar_close"
-                android:contentDescription="@null"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_gravity="center_vertical"
-        />
+            android:id="@+id/bar_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|left"
+            android:clickable="false"
+            android:contentDescription="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/bar_back"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/bar_close"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:contentDescription="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitXY"
+            android:src="@mipmap/check"
+            android:visibility="gone" />
 
 
     </LinearLayout>
 
     <TextView
-            android:gravity="center"
-            android:id="@+id/bar_title"
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:text="登录"
-            android:textColor="#ffffff"
-            android:textSize="17dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+        android:id="@+id/bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="登录"
+        android:textColor="#ffffff"
+        android:textSize="17dp" />
 
 
     <RelativeLayout
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:id="@+id/bar_right_rel"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        android:id="@+id/bar_right_rel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
 
-    >
+        >
 
         <ImageView
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                android:layout_centerInParent="true"
-                android:id="@+id/checked"
-                android:src="@mipmap/map"
-                android:layout_width="17dp"
-                android:layout_height="17dp"/>
+            android:id="@+id/checked"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/map"
+            android:visibility="gone" />
 
         <TextView
-                android:visibility="gone"
-                android:textColor="#ffffff"
-                android:text="取消"
-                android:id="@+id/cancel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="取消"
+            android:textColor="#ffffff"
+            android:visibility="gone" />
 
     </RelativeLayout>
-
 
 
 </RelativeLayout>

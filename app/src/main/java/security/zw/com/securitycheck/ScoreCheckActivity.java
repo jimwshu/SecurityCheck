@@ -130,6 +130,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         initWidget();
         if (checkItem.id > 0) {
             loadData();
+            recheck_rel.setVisibility(View.GONE);
+        } else {
+            recheck_rel.setVisibility(View.GONE);
         }
 
     }
@@ -161,7 +164,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
     private EditText respon;
     private TextView recheck;
-
+    private RelativeLayout recheck_rel;
     private Button confirm;
     private RelativeLayout count_rel;
 
@@ -294,6 +297,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         respon_rel.setVisibility(View.GONE);
         respon = findViewById(R.id.respon);
         recheck = findViewById(R.id.recheck);
+        recheck_rel = findViewById(R.id.recheck_rel);
         recheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -304,7 +308,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                 recheck.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
                             }
                         },
-                        2018, 05, 20).show();
+                        2018, 8, 9).show();
 
             }
         });
@@ -511,12 +515,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
                                         count.setText("" + checkBean.score);
                                         respon.setText(checkBean.personLiable);
-                                        recheck.setText(checkBean.reCheckTime);
+                                        recheck.setText("");
                                         if (checkItem != null) {
                                             score_des.setText(checkItem.min + "_" + checkItem.max);
                                         }
                                         if (!TextUtils.isEmpty(checkBean.image)) {
-                                            String [] imgs = checkBean.image.split(";");
+                                            String[] imgs = checkBean.image.split(";");
                                             if (imgs.length > 0) {
                                                 imagePaths.clear();
                                                 for (int i = 0; i < (imgs.length > 3 ? 3 : imgs.length); i++) {
@@ -567,7 +571,9 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("checkType", detail.check_type);
         jsonObject.addProperty("ilegalItems", illegel.getText().toString());
         jsonObject.addProperty("baseItemrs", basic.getText().toString());
-        jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        if (!TextUtils.isEmpty(recheck.getText().toString())) {
+            jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        }
         jsonObject.addProperty("personLiable", respon.getText().toString());
         jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
 
@@ -576,7 +582,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         }
 
         if (checkItem.id > 0) {
-            jsonObject.addProperty("id",  checkItem.id);
+            jsonObject.addProperty("id", checkItem.id);
         }
         /*Gson gson = new Gson();
         CheckBean basicBean = new CheckBean();
@@ -619,12 +625,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加评分检查成功");
-                                if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                                setResult(RESULT_OK);
+                                finish();
+                                /*if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
                                     setResult(RESULT_OK);
                                     finish();
                                 } else {
                                     showFinishDialog();
-                                }
+                                }*/
                             }
                         }
                     } catch (JSONException e) {
@@ -662,12 +670,12 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         new AlertDialog.Builder(this)
                 .setMessage("是否结束本项目的评分检查？")
                 .setPositiveButton("是", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                postFinish();
-            }
-        }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        postFinish();
+                    }
+                }).setNegativeButton("否", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

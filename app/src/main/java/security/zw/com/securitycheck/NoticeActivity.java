@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -69,7 +71,7 @@ public class NoticeActivity extends BaseSystemBarTintActivity {
 
     private ImageView mBack;
     private TextView mType;
-
+    private RelativeLayout search_rel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,8 @@ public class NoticeActivity extends BaseSystemBarTintActivity {
                 finish();
             }
         });
-
+        search_rel = findViewById(R.id.search_rel);
+        search_rel.setVisibility(View.GONE);
         mType = findViewById(R.id.perrmission);
         mType.setText("通知");
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);

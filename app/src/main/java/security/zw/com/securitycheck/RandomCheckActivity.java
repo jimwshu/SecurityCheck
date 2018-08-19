@@ -71,7 +71,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         ctx.startActivity(intent);
     }
 
-    public static void launch(Context ctx,  ProjectDetail detail) {
+    public static void launch(Context ctx, ProjectDetail detail) {
         Intent intent = new Intent(ctx, RandomCheckActivity.class);
         intent.putExtra("detail", detail);
         ctx.startActivity(intent);
@@ -131,6 +131,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         initWidget();
 
     }
+
     private RelativeLayout respon_rel;
 
     private RelativeLayout check_result_rel;
@@ -151,6 +152,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     private TextView count;
     private ImageView increase;
 
+    private RelativeLayout recheck_rel;
     private EditText respon;
     private TextView recheck;
 
@@ -193,7 +195,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     private void initWidget() {
         initIntent();
         initBar();
-
+        recheck_rel = findViewById(R.id.recheck_rel);
         respon_rel = findViewById(R.id.respon_rel);
         respon_rel.setVisibility(View.GONE);
         imagesContainer = findViewById(R.id.images_container);
@@ -236,7 +238,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                                 recheck.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
                             }
                         },
-                        2018, 05, 03).show();
+                        2018, 8, 9).show();
 
             }
         });
@@ -247,6 +249,8 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                 submit();
             }
         });
+        recheck_rel.setVisibility(View.GONE);
+
         initListenner();
     }
 
@@ -404,7 +408,6 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
 
-
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
         jsonObject.addProperty("projectId", detail.id);
@@ -412,9 +415,11 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("checkType", detail.check_type);
         jsonObject.addProperty("ilegalItems", illegel.getText().toString());
         jsonObject.addProperty("baseItemrs", basic.getText().toString());
-        jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        if (!TextUtils.isEmpty(recheck.getText().toString())) {
+            jsonObject.addProperty("reCheckTime", recheck.getText().toString());
+        }
         jsonObject.addProperty("personLiable", respon.getText().toString());
-        jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
+        //jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
         jsonObject.addProperty("assistPersonIds", detail.assistPersonIds);
 
         if (!TextUtils.isEmpty(images)) {
@@ -437,6 +442,11 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加随机检查成功");
                                 showFinishDialog();
+                            } else {
+                                ToastUtil.Long("增加随机检查失败");
+                                hideSubmitLoading();
+                                complete = false;
+                                images = new StringBuilder();
                             }
                         }
                     } catch (JSONException e) {
@@ -472,24 +482,30 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
         new AlertDialog.Builder(this)
                 .setMessage("是否结束本项目的随机检查？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         postFinish();
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("否", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                setResult(RESULT_OK);
-                finish();
+                illegel.setText("");
+                basic.setText("");
+                respon.setText("");
+                images = new StringBuilder();
+                resetImageViews();
+             /*   setResult(RESULT_OK);
+                finish();*/
             }
         }).setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
+                /*
                 setResult(RESULT_OK);
-                finish();
+                finish();*/
             }
         })
                 .show();
@@ -526,6 +542,10 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                                 ToastUtil.Long("项目结束检查已提交");
                                 setResult(RESULT_OK);
                                 finish();
+                            } else {
+                                ToastUtil.Long("提交失败，请检查后重试");
+                                hideSubmitLoading();
+                                showRetryDialog();
                             }
                         }
                     } catch (JSONException e) {
@@ -747,7 +767,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
                                         if (!TextUtils.isEmpty(checkBean.image)) {
-                                            String [] imgs = checkBean.image.split(";");
+                                            String[] imgs = checkBean.image.split(";");
                                             if (imgs.length > 0) {
                                                 imagePaths.clear();
                                                 for (int i = 0; i < (imgs.length > 3 ? 3 : imgs.length); i++) {

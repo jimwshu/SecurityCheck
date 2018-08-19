@@ -13,6 +13,7 @@ import drawthink.expandablerecyclerview.bean.RecyclerViewData;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.bean.CheckItem;
+import security.zw.com.securitycheck.utils.LogUtils;
 
 public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckItem, CheckItemForMoreViewHolder> {
 
@@ -36,6 +37,9 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
         } else {
             holder.groupTitle.setTextColor(0xff1a1a1a);
             holder.parentRemind.setVisibility(View.GONE);
+        }
+        if (groupData.haveScored) {
+            holder.groupTitle.setTextColor(0xffff0000);
         }
 
         if (groupData.childrens != null && groupData.childrens.size() == 0) {
@@ -102,7 +106,11 @@ public class CheckItemForMoreAdapter extends BaseRecyclerViewAdapter<CheckItem, 
     @Override
     public void onBindChildpHolder(CheckItemForMoreViewHolder holder, int groupPos, int childPos, int position, CheckItem childData) {
         holder.childTitle.setText(childData.name);
-
+        if (childData.haveScored) {
+            holder.childTitle.setTextColor(0xffff0000);
+        } else {
+            holder.childTitle.setTextColor(0xff1a1a1a);
+        }
 
         if (childData.hasAssigned) {
             holder.childHasWorker.setVisibility(View.VISIBLE);

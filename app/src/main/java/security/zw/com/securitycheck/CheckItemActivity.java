@@ -1,6 +1,9 @@
 package security.zw.com.securitycheck;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,16 +12,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import drawthink.expandablerecyclerview.bean.RecyclerViewData;
 import drawthink.expandablerecyclerview.listener.OnRecyclerViewListener;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import security.zw.com.securitycheck.adapter.CheckItemAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.presenter.CheckItemPresenter;
 import security.zw.com.securitycheck.utils.LogUtils;
+import security.zw.com.securitycheck.utils.net.NetRequest;
+import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.CheckItemView;
 
 
@@ -76,6 +91,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     protected CheckItemPresenter presenter;
 
     public int select = -1;
+    protected TextView finish_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +122,34 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         initBar();
         initData();
     }
+    private ProgressDialog mProgressDialog = null;
+    Retrofit mRetrofit;
+    Constans.AddCheck addCheck;
+    Call<String> mCall;
+    private boolean get_code = false;
+
+    private void showSubmitLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+        mProgressDialog = ProgressDialog.show(this, null, "发布中，请稍候..", true, true);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if (mCall != null && mCall.isExecuted()) {
+                    mCall.cancel();
+                }
+            }
+        });
+    }
+
+    private void hideSubmitLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
 
     private void initData() {
         detail = (ProjectDetail) getIntent().getSerializableExtra("detail");
@@ -123,9 +167,94 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-        presenter.getProjectList();
+        presenter.getProjectList(detail.id);
+        finish_check = findViewById(R.id.finish_check);
+        finish_check.setVisibility(View.VISIBLE);
+        finish_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFinishDialog();
+            }
+        });
+    }
+    public void showFinishDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("是否结束本项目的评分检查？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        postFinish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                dialogInterface.dismiss();
+            }
+        })
+                .show();
     }
 
+    private void postFinish() {
+        showSubmitLoading();
+        get_code = true;
+        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+        addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("creator", SecurityApplication.mUser.id);
+        jsonObject.addProperty("checkType", detail.check_type);
+
+        String s = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+        mCall = addCheck.finishCheck(requestBody);
+
+        mCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                get_code = false;
+                if (response.isSuccessful()) {
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        if (jsonObject.has("code")) {
+                            int code = jsonObject.optInt("code");
+                            if (code == 0) {
+                                hideSubmitLoading();
+                                ToastUtil.Long("项目结束检查已提交");
+                                setResult(111);
+                                finish();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        hideSubmitLoading();
+                        ToastUtil.Long("项目结束检查提交失败，请重试");
+                    }
+                } else {
+                    hideSubmitLoading();
+                    ToastUtil.Long("项目结束检查提交失败，请重试");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+                get_code = false;
+                hideSubmitLoading();
+                ToastUtil.Long("项目结束检查提交失败，请重试");
+            }
+        });
+
+    }
 
     @Override
     public void onGroupItemClick(int position, int groupPosition, View view) {
