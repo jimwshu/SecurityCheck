@@ -64,4 +64,5 @@ dependencies {
     compile files('libs/MiPush_SDK_Client_3_6_2.jar')
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.google.zxing:core:3.3.0'
+    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
 }

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
+import security.zw.com.securitycheck.zxing.ZxingUtils;
 
 
 public class ProjectDetailActivity extends BaseSystemBarTintActivity implements MyProjectView {
@@ -123,7 +125,15 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         mType = findViewById(R.id.perrmission);
         mType.setText(info.name);
         mSubmit = findViewById(R.id.submit);
-        mSubmit.setVisibility(View.GONE);
+        mSubmit.setText("生成二维码");
+        mSubmit.setVisibility(View.VISIBLE);
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap bitmap = ZxingUtils.createBitmap("se://id=" + info.id);
+                ZxingUtils.saveBitmap(ProjectDetailActivity.this, bitmap);
+            }
+        });
     }
 
 
@@ -638,7 +648,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         construct_state.setText(detail.structure);
         area_state.setText(detail.area);
         cost_state.setText(detail.cost);
-
+        mType.setText(detail.name);
         image_state.setText(detail.imageProgress);
 
         district_state.setText(detail.district);

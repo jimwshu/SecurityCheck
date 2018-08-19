@@ -1,6 +1,7 @@
 package security.zw.com.securitycheck.fragment;
 
 import com.google.gson.JsonObject;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ import security.zw.com.securitycheck.adapter.BaseHomeAdapter;
 import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
+import security.zw.com.securitycheck.zxing.ScanActivity;
 
 
 /**
@@ -95,6 +97,16 @@ public class HomeFragment extends BaseStatisticsFragment {
             @Override
             public void onClick(View view) {
                 MapActivity.launch(view.getContext(), "衡阳");
+            }
+        });
+
+        barClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new IntentIntegrator(getActivity())
+                        .setOrientationLocked(false)
+                        .setCaptureActivity(ScanActivity.class)// 设置自定义的activity是ScanActivity
+                        .initiateScan(); // 初始化扫描
             }
         });
     }

@@ -227,6 +227,11 @@
             android:name=".MapActivity"
             android:screenOrientation="portrait"
             ></activity>
+
+        <activity
+            android:name=".zxing.ScanActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <service
                 android:enabled="true"
                 android:process=":pushservice"

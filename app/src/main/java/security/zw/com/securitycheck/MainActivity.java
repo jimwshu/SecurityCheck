@@ -15,13 +15,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.bean.ProjectDetail;
+import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.fragment.HomeFragment;
 import security.zw.com.securitycheck.fragment.MyFragment;
 import security.zw.com.securitycheck.utils.imagepicker.ImagesPickerActivity;
@@ -257,5 +262,40 @@ public class MainActivity extends BaseSystemBarTintActivity {
         super.onNewIntent(intent);
         int index = intent.getIntExtra("index", 0);
         setSelect(index);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == 300) {
+            String res = data.getStringExtra("result");
+            if (res.startsWith("se://id=")) {
+                int id = Integer.parseInt(res.substring(8)) ;
+                ProjectInfo p = new ProjectInfo();
+                p.id = id;
+                ProjectDetailActivity.launch(MainActivity.this, p);
+            }
+        } else if (requestCode == RESULT_OK){
+            IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+            if(intentResult != null) {
+                if(intentResult.getContents() == null) {
+                    Toast.makeText(this,"内容为空",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this,"扫描成功",Toast.LENGTH_LONG).show();
+                    // ScanResult 为 获取到的字符串
+                    String ScanResult = intentResult.getContents();
+                    if (ScanResult.startsWith("se://id=")) {
+                        int id = Integer.parseInt(ScanResult.substring(8)) ;
+                        ProjectInfo p = new ProjectInfo();
+                        p.id = id;
+                        ProjectDetailActivity.launch(MainActivity.this, p);
+                    }
+
+                }
+            } else {
+                super.onActivityResult(requestCode,resultCode,data);
+            }
+        }
     }
 }
