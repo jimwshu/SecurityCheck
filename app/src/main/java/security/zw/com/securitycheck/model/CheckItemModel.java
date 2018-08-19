@@ -34,13 +34,18 @@ public class CheckItemModel implements BaseModel {
     }
 
 
-    public void getList(final NetworkCallback callback){
+    public void getList(int projectId, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("projectId", projectId);
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
+
             Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
-            mCall = getCheckItemList.getCheckItemList();
+            mCall = getCheckItemList.getCheckItemList(requestBody);
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -70,22 +75,18 @@ public class CheckItemModel implements BaseModel {
     }
 
 
-    public void getCheckItemDetail(int projectId, int checkItemId, final NetworkCallback callback){
+    public void getCheckItemDetail(int projectId, int checkItemId, int checkmode, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
             Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
-
-            Gson gson = new Gson();
-            CheckItemDetailBean detailBean = new CheckItemDetailBean();
-            detailBean.projectId = projectId;
-            detailBean.checkItemId = checkItemId;
-            detailBean.userId = SecurityApplication.mUser.id;
-
-            String s = gson.toJson(detailBean);
-            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
-
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("projectId", projectId);
+            jsonObject.addProperty("checkItemId", checkItemId);
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            jsonObject.addProperty("checkMode", checkmode);
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
             mCall = getCheckItemList.getCheckItemDetail(requestBody);
             mCall.enqueue(new Callback<String>() {
                 @Override

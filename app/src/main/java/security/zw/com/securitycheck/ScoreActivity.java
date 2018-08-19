@@ -137,24 +137,24 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
             @Override
             public void onRefresh() {
                 if (type == 2) {
-                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
                 } else {
                     if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId,projectDetail.check_mode);
                     } else {
-                        presenter.getCheckItemDetail(projectDetail.id,item.id);
+                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
                     }
                 }
             }
         });
 
         if (type == 2) {
-            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
         } else {
             if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
             } else {
-                presenter.getCheckItemDetail(projectDetail.id,item.id);
+                presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
             }
         }
 
@@ -197,12 +197,12 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
                 if (type == 2) {
-                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
                 } else {
                     if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId);
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
                     } else {
-                        presenter.getCheckItemDetail(projectDetail.id,item.id);
+                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
                     }
                 }
             } else if (resultCode == 111) {

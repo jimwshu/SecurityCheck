@@ -38,8 +38,8 @@ public class CheckItemPresenter implements BasePresenter{
     }
 
 
-    public void getProjectList() {
-        checkItemModel.getList(new NetworkCallback() {
+    public void getProjectList(int projectId) {
+        checkItemModel.getList(projectId,new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);
@@ -110,8 +110,8 @@ public class CheckItemPresenter implements BasePresenter{
     }
 
 
-    public void getCheckItemDetail(int projectId, int checkItemId) {
-        checkItemModel.getCheckItemDetail(projectId, checkItemId, new NetworkCallback() {
+    public void getCheckItemDetail(int projectId, int checkItemId, int check_mode) {
+        checkItemModel.getCheckItemDetail(projectId, checkItemId, check_mode, new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);

@@ -102,7 +102,7 @@ public class Constans {
     public interface GetCheckItemList {
 
         @POST("/supervisorDiamond/checkItem/list")
-        public Call<String> getCheckItemList();
+        public Call<String> getCheckItemList(@Body RequestBody route);
 
         @POST("/supervisorDiamond/checkItem/checkBasis")
         public Call<String> getCheckItemDetail(@Body RequestBody route);

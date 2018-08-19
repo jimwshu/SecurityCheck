@@ -152,16 +152,16 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
             @Override
             public void onRefresh() {
                 if (projectDetail != null) {
-                    presenter.getCheckItemDetail(projectDetail.id, item.id);
+                    presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
                 } else if (myCheckProjectDetail != null) {
-                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
                 }
             }
         });
         if (projectDetail != null) {
-            presenter.getCheckItemDetail(projectDetail.id, item.id);
+            presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
         } else if (myCheckProjectDetail != null) {
-            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
         }
 
     }
@@ -213,9 +213,9 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
                 if (projectDetail != null) {
-                    presenter.getCheckItemDetail(projectDetail.id, item.id);
+                    presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
                 } else if (myCheckProjectDetail != null) {
-                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id);
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
                 }
             } else if (resultCode == 111) {
                 setResult(111);

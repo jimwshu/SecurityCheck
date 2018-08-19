@@ -450,7 +450,6 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                 hasFinish = checkItem.hasAssigned;
                 this.safetyInspector = checkItem.safetyInspector;
 
-
                 if (hasFinish) {
                     if (this.safetyInspector == SecurityApplication.mUser.id) {
                         finish_check.setVisibility(View.VISIBLE);
