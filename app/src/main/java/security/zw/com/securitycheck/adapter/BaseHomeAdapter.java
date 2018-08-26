@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -68,16 +69,29 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    private int HOME_MY_WORKER = 0;         // 我的项目：
-    private int HOME_MY_CHANGE = 1;     //我的整改：
-    private int HOME_MY_CHECKER = 2;    //我的检查：
-    private int HOME_MY_STOP_WORKER = 3;    //停工复工：
-    private int HOME_MY_REMINGDER = 5;    //录控提醒：
-    private int HOME_MY_Head_WORKER = 4;    //人员库：
-    private int HOME_MY_DEVICE = 7;    //设备一览：
-    private int HOME_MY_COMPANY = 8;    //企业库：企
+    public int HOME_MY_WORKER = 0;         // 我的项目：
+    public int HOME_MY_CHANGE = 1;     //我的整改：
+    public int HOME_MY_CHECKER = 2;    //我的检查：
+    public int HOME_MY_STOP_WORKER = 3;    //停工复工：
+    public int HOME_MY_REMINGDER = 5;    //录控提醒：
+    public int HOME_MY_Head_WORKER = 4;    //人员库：
+    public int HOME_MY_DEVICE = 7;    //设备一览：
+    public int HOME_MY_COMPANY = 8;    //企业库：企
     public static int HOME_MY_NOTICE = 6; //通知：发布
 
+    public static int HOME_MY_EQUIPMENT = 9; //相关设备
+    public static int HOME_MY_INSTALL = 10; //安拆管理
+    public static int HOME_MY_RECORD   = 11; //使用登记
+    public static int HOME_MY_LOW   = 12; //相关执法
+    public static int HOME_MY_FILING   = 13; //产权备案
+
+
+
+    public static int HOME_MY_CHECKED   = 14; //复核
+    public static int HOME_MY_CASE   = 15; //办案
+    public static int HOME_MY_SUPERVISE   = 16; //下达督办
+
+    public static int HOME_MY_CHECKER_COMPANY   = 17; //检测单位一览
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -196,11 +210,89 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         NoticeActivity.launch(view.getContext());
                     }
                 });
+            }  else if (item.type == HOME_MY_EQUIPMENT) {
+                viewHolder.name.setText("相关设备");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("相关设备");
+                    }
+                });
+            }  else if (item.type == HOME_MY_INSTALL) {
+                viewHolder.name.setText("安拆管理");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("安拆管理");
+                    }
+                });
+            } else if (item.type == HOME_MY_RECORD) {
+                viewHolder.name.setText("使用登记");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("使用登记");
+                    }
+                });
+            } else if (item.type == HOME_MY_LOW) {
+                viewHolder.name.setText("相关执法");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("相关执法");
+                    }
+                });
+            } else if (item.type == HOME_MY_FILING) {
+                viewHolder.name.setText("产权备案");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("产权备案");
+                    }
+                });
+            } else if (item.type == HOME_MY_CHECKED) {
+                viewHolder.name.setText("复核");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("复核");
+                    }
+                });
+            } else if (item.type == HOME_MY_CASE) {
+                viewHolder.name.setText("办案");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("办案");
+                    }
+                });
+            } else if (item.type == HOME_MY_SUPERVISE) {
+                viewHolder.name.setText("下达督办");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("下达督办");
+                    }
+                });
+            } else if (item.type == HOME_MY_CHECKER_COMPANY) {
+                viewHolder.name.setText("检测单位");
+                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ToastUtil.Short("检测单位");
+                    }
+                });
             }
-
         }
-
-
     }
 
     @Override

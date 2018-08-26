@@ -112,16 +112,184 @@ public class HomeFragment extends BaseStatisticsFragment {
     }
 
     public void initView(LayoutInflater inflater, ViewGroup container) {
-        if (SecurityApplication.mUser != null) {
-            for (int i = 0; i < 9; i++) {
-                Item item = new Item();
-                item.type = i;
-                data.add(item);
-            }
-        } else {
+        //
+        if (SecurityApplication.mUser == null) {
             System.exit(0);
             return;
         }
+
+        // 站长
+        if (SecurityApplication.mUser.type == 1) {
+            Item item = new Item();
+            item.type = 0;
+            data.add(item);
+
+            Item item1 = new Item();
+            item1.type = 1;
+            data.add(item1);
+
+            Item item2 = new Item();
+            item2.type = 2;
+            data.add(item2);
+
+            Item item3 = new Item();
+            item3.type = 7;
+            data.add(item3);
+
+            Item item4 = new Item();
+            item4.type = 12;
+            data.add(item4);
+
+            Item item5 = new Item();
+            item5.type = 16;
+            data.add(item5);
+
+            Item item6 = new Item();
+            item6.type = 6;
+            data.add(item6);
+
+            Item item7 = new Item();
+            item7.type = 8;
+            data.add(item7);
+
+            Item item8 = new Item();
+            item8.type = 4;
+            data.add(item8);
+        } else if (SecurityApplication.mUser.type == 2) {
+            Item item = new Item();
+            item.type = 0;
+            data.add(item);
+
+            Item item1 = new Item();
+            item1.type = 2;
+            data.add(item1);
+
+            Item item2 = new Item();
+            item2.type = 9;
+            data.add(item2);
+
+            Item item3 = new Item();
+            item3.type = 10;
+            data.add(item3);
+
+            Item item4 = new Item();
+            item4.type = 11;
+            data.add(item4);
+
+            Item item5 = new Item();
+            item5.type = 12;
+            data.add(item5);
+
+            Item item6 = new Item();
+            item6.type = 6;
+            data.add(item6);
+
+            Item item7 = new Item();
+            item7.type = 8;
+            data.add(item7);
+
+            Item item8 = new Item();
+            item8.type = 4;
+            data.add(item8);
+        } else if (SecurityApplication.mUser.type == 3) {
+            Item item = new Item();
+            item.type = 0;
+            data.add(item);
+
+            Item item1 = new Item();
+            item1.type = 1;
+            data.add(item1);
+
+            Item item2 = new Item();
+            item2.type = 14;
+            data.add(item2);
+
+            Item item3 = new Item();
+            item3.type = 15;
+            data.add(item3);
+
+            Item item4 = new Item();
+            item4.type = 8;
+            data.add(item4);
+
+            Item item5 = new Item();
+            item5.type = 4;
+            data.add(item5);
+
+            Item item6 = new Item();
+            item6.type = 6;
+            data.add(item6);
+
+        } else if (SecurityApplication.mUser.type == 4) {
+            Item item = new Item();
+            item.type = 0;
+            data.add(item);
+
+            Item item1 = new Item();
+            item1.type = 9;
+            data.add(item1);
+
+            Item item2 = new Item();
+            item2.type = 13;
+            data.add(item2);
+
+            Item item3 = new Item();
+            item3.type = 10;
+            data.add(item3);
+
+            Item item4 = new Item();
+            item4.type = 17;
+            data.add(item4);
+
+            Item item5 = new Item();
+            item5.type = 11;
+            data.add(item5);
+
+            Item item6 = new Item();
+            item6.type = 6;
+            data.add(item6);
+
+            Item item7 = new Item();
+            item7.type = 8;
+            data.add(item7);
+
+            Item item8 = new Item();
+            item8.type = 4;
+            data.add(item8);
+        } else if (SecurityApplication.mUser.type == 5) {
+            Item item = new Item();
+            item.type = 0;
+            data.add(item);
+
+            Item item1 = new Item();
+            item1.type = 2;
+            data.add(item1);
+
+            Item item2 = new Item();
+            item2.type = 1;
+            data.add(item2);
+
+            Item item3 = new Item();
+            item3.type = 7;
+            data.add(item3);
+
+            Item item4 = new Item();
+            item4.type = 2;
+            data.add(item4);
+
+            Item item5 = new Item();
+            item5.type = 6;
+            data.add(item5);
+
+            Item item6 = new Item();
+            item6.type = 8;
+            data.add(item6);
+
+            Item item7 = new Item();
+            item7.type = 4;
+            data.add(item7);
+        }
+
         view = inflater.inflate(R.layout.layout_home_fragment, container, false);
         //actionBar = (RelativeLayout) view.findViewById(R.id.action_bar);
         mRecyclerView = view.findViewById(R.id.recycler_view);
