@@ -221,6 +221,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 get_code = false;
+                hideSubmitLoading();
                 if (response.isSuccessful()) {
 
                     try {
@@ -228,10 +229,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
                         if (jsonObject.has("code")) {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
-                                hideSubmitLoading();
                                 ToastUtil.Long("项目结束检查已提交");
                                 setResult(111);
                                 finish();
+                            } else {
+                                ToastUtil.Long("项目结束检查失败");
                             }
                         }
                     } catch (JSONException e) {

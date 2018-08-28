@@ -49,26 +49,29 @@
                     android:layout_toRightOf="@+id/check_result">
 
                     <RadioButton
+                        android:visibility="gone"
                         android:id="@+id/check_result_fit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="符合"
+                        android:text="合格"
                         android:textColor="#1A1A1A"
                         android:textSize="16dp" />
 
                     <RadioButton
+                        android:visibility="gone"
                         android:id="@+id/check_result_unfit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不符合（不需整改）"
+                        android:text=""
                         android:textColor="#1A1A1A"
                         android:textSize="16dp" />
 
                     <RadioButton
+                        android:visibility="visible"
                         android:id="@+id/check_result_unfit_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不符合（需要整改）"
+                        android:text="不合格"
                         android:textColor="#1A1A1A"
                         android:textSize="16dp" />
 
@@ -195,6 +198,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/photo_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

@@ -154,6 +154,11 @@ public class Constans {
         @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/update")
         public Call<String> updateScoreCheck(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/projectCheckItem/itemByItemCheck/add")
+        public Call<String> addEveryCheck(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/projectCheckItem/itemByItemCheck/update")
+        public Call<String> updateEveryCheck(@Body RequestBody route);
 
         @POST("/supervisorDiamond/checkUsers/list")
         public Call<String> getCheckPerson();
@@ -173,7 +178,6 @@ public class Constans {
 
         @POST("/supervisorDiamond/projectTag/add")
         public Call<String> finishCheck(@Body RequestBody route);
-
 
         @POST("/supervisorDiamond/projectCheckItem/assign/judge")
         public Call<String> finishCheckPerson(@Body RequestBody route);

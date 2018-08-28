@@ -30,7 +30,7 @@ public class ProjectDetail extends JSONAble {
     public int supervise;// 是否督办
 
     public int check_type;//随机检查，评分检查
-    public static final int CHECK_TYPE_RANDOM = 1, CHECK_TYPE_COUNT = 2;
+    public static final int CHECK_TYPE_RANDOM = 1, CHECK_TYPE_COUNT = 2, CHECK_TYPE_EVERY = 3;
 
     public int check_mode;//单人模式，多人模式
     public static final int CHECK_MODE_SINGLE = 1, CHECK_MODE_MORE = 2;

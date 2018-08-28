@@ -212,7 +212,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             }  else if (item.type == HOME_MY_EQUIPMENT) {
                 viewHolder.name.setText("相关设备");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_z);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -221,7 +221,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             }  else if (item.type == HOME_MY_INSTALL) {
                 viewHolder.name.setText("安拆管理");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_y);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -230,7 +230,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_RECORD) {
                 viewHolder.name.setText("使用登记");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_x);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -239,7 +239,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_LOW) {
                 viewHolder.name.setText("相关执法");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_w);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -248,7 +248,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_FILING) {
                 viewHolder.name.setText("产权备案");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_v);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -257,7 +257,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_CHECKED) {
                 viewHolder.name.setText("复核");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_u);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -266,7 +266,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_CASE) {
                 viewHolder.name.setText("办案");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_t);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -275,7 +275,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             } else if (item.type == HOME_MY_SUPERVISE) {
                 viewHolder.name.setText("下达督办");
-                viewHolder.icon.setImageResource(R.mipmap.t_f);
+                viewHolder.icon.setImageResource(R.mipmap.t_s);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

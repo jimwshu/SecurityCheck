@@ -120,8 +120,11 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         title = findViewById(R.id.title);
         mRecyclerView = findViewById(R.id.recycler_view);
         mSwipeRefreshLayout = findViewById(R.id.refresher);
-
-        adapter = new ScoreAdapter(mData, this);
+        if (projectDetail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            adapter = new ScoreAdapter(mData, this, 2);
+        } else {
+            adapter = new ScoreAdapter(mData, this);
+        }
         adapter.setClickListenner(new ScoreAdapter.RecheckClickListenner() {
             @Override
             public void onClick(int pos, CheckItem item) {
@@ -180,8 +183,12 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         mData.add(detail);
         mData.addAll(detail.childrens);
         adapter.notifyDataSetChanged();
-
-        score.setText("实得分： " + detail.realScore + "分");
+        if (projectDetail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            score.setVisibility(View.INVISIBLE);
+        } else {
+            score.setVisibility(View.VISIBLE);
+            score.setText("实得分： " + detail.realScore + "分");
+        }
         title.setText(detail.name);
     }
 

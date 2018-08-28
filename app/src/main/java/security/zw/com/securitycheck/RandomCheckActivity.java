@@ -415,6 +415,8 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("checkType", detail.check_type);
         jsonObject.addProperty("ilegalItems", illegel.getText().toString());
         jsonObject.addProperty("baseItemrs", basic.getText().toString());
+        jsonObject.addProperty("type", 1);
+
         if (!TextUtils.isEmpty(recheck.getText().toString())) {
             jsonObject.addProperty("reCheckTime", recheck.getText().toString());
         }
@@ -521,6 +523,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("projectId", detail.id);
         jsonObject.addProperty("creator", SecurityApplication.mUser.id);
         jsonObject.addProperty("checkType", detail.check_type);
+        jsonObject.addProperty("type", 1);
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);

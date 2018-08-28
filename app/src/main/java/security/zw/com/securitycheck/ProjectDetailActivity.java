@@ -47,8 +47,14 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     public int check_mode = -1;
     public int startType;
 
-    public static final String[] CHECK_CLASS = new String[]{
-            "随机检查", "评分检查"
+    // 技术科：评分检查，安监科：随机，逐项检查，都有单人模式和多人模式
+    public String[] CHECK_CLASS;
+
+    public static final String[] CHECK_CLASS_1= new String[]{
+        "随机检查", "逐项检查"
+    };
+    public static final String[] CHECK_CLASS_2 = new String[]{
+            "评分检查"
     };
 
     public static final String[] CHECK_MODE = new String[]{
@@ -251,7 +257,11 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
             finish();
         }
         startType = getIntent().getIntExtra("type", -1);
-
+        if (SecurityApplication.mUser.type == 2) {
+            CHECK_CLASS = CHECK_CLASS_1;
+        } else if (SecurityApplication.mUser.type == 5) {
+            CHECK_CLASS = CHECK_CLASS_2;
+        }
         initWidget();
 
         presenter = new MyProjectPresenter(this);
@@ -277,21 +287,30 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                     return;
                 }
 
-                detail.check_type = check_type;
+                if (SecurityApplication.mUser.type == 2) {
+                    if (check_type == 1) {
+                        detail.check_type = ProjectDetail.CHECK_TYPE_RANDOM;
+                    } else if (check_type == 2) {
+                        detail.check_type = ProjectDetail.CHECK_TYPE_EVERY;
+                    }
+                } else if (SecurityApplication.mUser.type == 5) {
+                    if (check_type == 1) {
+                        detail.check_type = ProjectDetail.CHECK_TYPE_COUNT;
+                    }
+                }
                 detail.check_mode = check_mode;
 
                 // 单人检查 并且是 随机模式
                 if (detail.check_mode == ProjectDetail.CHECK_MODE_SINGLE) {
                     if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                         RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
-                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
-                        LogUtils.e("iiii");
+                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
                         CheckItemActivity.launch(view.getContext(), detail);
                     }
                 } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
                     if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
                         getCheckPerson();
-                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
                         CheckItemForMoreActivity.launch(ProjectDetailActivity.this, detail);
                     }
                 }

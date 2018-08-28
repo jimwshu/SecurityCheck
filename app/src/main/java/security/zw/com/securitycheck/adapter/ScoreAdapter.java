@@ -67,10 +67,11 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class StoreTotalItem extends RecyclerView.ViewHolder {
 
         public TextView totalScore;
-
+        public RelativeLayout relativeLayout;
         public StoreTotalItem(View itemView) {
             super(itemView);
             totalScore = itemView.findViewById(R.id.score);
+            relativeLayout = itemView.findViewById(R.id.rel);
         }
     }
 
@@ -100,8 +101,13 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof StoreTotalItem) {
             StoreTotalItem totalItem = (StoreTotalItem) holder;
-            CheckItem checkItem = (CheckItem) mData.get(position);
-            totalItem.totalScore.setText("应得分： " + checkItem.deserveScore + "分");
+            if (type == 2) {
+                totalItem.relativeLayout.setVisibility(View.GONE);
+            } else {
+                totalItem.relativeLayout.setVisibility(View.VISIBLE);
+                CheckItem checkItem = (CheckItem) mData.get(position);
+                totalItem.totalScore.setText("应得分： " + checkItem.deserveScore + "分");
+            }
         } else if (holder instanceof StoreItem) {
             final CheckItem item = (CheckItem) mData.get(position);
             StoreItem storeItem = (StoreItem) holder;
@@ -111,11 +117,19 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ss.setSpan(new ForegroundColorSpan(0xffd0021b), 5, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             storeItem.score.setText(ss);
-            storeItem.title.setText(item.name + " " + "（" + item.scoreRule+ "）");
             if (type == -1) {
+                storeItem.title.setText(item.name + " " + "（" + item.scoreRule+ "）");
+                storeItem.score.setVisibility(View.VISIBLE);
+                storeItem.recheck.setVisibility(View.VISIBLE);
                 storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
             } else if (type == 1){
+                storeItem.title.setText(item.name + " " + "（" + item.scoreRule+ "）");
+                storeItem.score.setVisibility(View.VISIBLE);
                 storeItem.recheck.setVisibility(View.GONE);
+            } else if (type == 2) {
+                storeItem.title.setText(item.name);
+                storeItem.score.setVisibility(View.INVISIBLE);
+                storeItem.recheck.setVisibility(View.INVISIBLE);
             }
             storeItem.rel.setOnClickListener(new View.OnClickListener() {
                 @Override

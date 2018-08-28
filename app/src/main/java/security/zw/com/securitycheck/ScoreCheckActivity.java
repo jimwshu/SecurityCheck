@@ -110,7 +110,11 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("评分检查");
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            mType.setText("逐项检查");
+        } else {
+            mType.setText("评分检查");
+        }
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -150,6 +154,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
 
     private View imagesContainer;
+    private View photoView;
     private SimpleDraweeView[] imageViews = new SimpleDraweeView[3];
     private View[] imageDeleteBtns = new View[3];
 
@@ -217,13 +222,25 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         imageDeleteBtns[0] = findViewById(R.id.imageDelete1);
         imageDeleteBtns[1] = findViewById(R.id.imageDelete2);
         imageDeleteBtns[2] = findViewById(R.id.imageDelete3);
+        photoView = findViewById(R.id.photo_view);
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            photoView.setVisibility(View.GONE);
+        }
 
         checkResult = findViewById(R.id.check_result_group);
         fit = findViewById(R.id.check_result_fit);
         unfit = findViewById(R.id.check_result_unfit);
         unfit2 = findViewById(R.id.check_result_unfit_2);
         check_result_rel = findViewById(R.id.check_result_rel);
-        check_result_rel.setVisibility(View.GONE);
+        count_rel = findViewById(R.id.count_rel);
+
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            check_result_rel.setVisibility(View.VISIBLE);
+            count_rel.setVisibility(View.GONE);
+        } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT){
+            check_result_rel.setVisibility(View.GONE);
+            count_rel.setVisibility(View.VISIBLE);
+        }
         score_des = findViewById(R.id.score_des);
         illegal_rel = findViewById(R.id.illegal_rel);
         illegal_rel.setVisibility(View.GONE);
@@ -233,12 +250,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
         illegel = findViewById(R.id.illegal);
         basic = findViewById(R.id.basic);
-        count_rel = findViewById(R.id.count_rel);
-        if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
-            count_rel.setVisibility(View.VISIBLE);
-        } else if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
-            count_rel.setVisibility(View.GONE);
-        }
+
 
         decrease = findViewById(R.id.decrease);
         increase = findViewById(R.id.increase);
@@ -324,7 +336,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
     private void submit() {
 
-        if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
             addCheck();
         }
 
@@ -406,8 +418,8 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             finish();
             return;
         }
+        checkItem = (CheckItem) getIntent().getSerializableExtra("check");
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
-            checkItem = (CheckItem) getIntent().getSerializableExtra("check");
             cCount = (int) checkItem.realScore;
             if (checkItem.max == checkItem.min && checkItem.max == -2) {
                 isTwe = true;
@@ -510,6 +522,21 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                                 new Handler().post(new Runnable() {
                                     @Override
                                     public void run() {
+
+                                        if (checkBean.result == 1) {
+                                            fit.setChecked(true);
+                                            unfit.setChecked(false);
+                                            unfit2.setChecked(false);
+                                        } else if (checkBean.result == 2) {
+                                            fit.setChecked(false);
+                                            unfit.setChecked(true);
+                                            unfit2.setChecked(false);
+                                        } else if (checkBean.result == 3) {
+                                            fit.setChecked(false);
+                                            unfit.setChecked(false);
+                                            unfit2.setChecked(true);
+                                        }
+
                                         illegel.setText(checkBean.ilegalItems);
                                         basic.setText(checkBean.baseItemrs);
 
@@ -564,6 +591,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
         JsonObject jsonObject = new JsonObject();
+
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
         jsonObject.addProperty("projectId", detail.id);
         jsonObject.addProperty("checkItemId", checkItem.checkItemId);
@@ -575,7 +603,27 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             jsonObject.addProperty("reCheckTime", recheck.getText().toString());
         }
         jsonObject.addProperty("personLiable", respon.getText().toString());
-        jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
+
+        // type:1是随机检查，type：2是评分检查  type：3 是 逐项检查？
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+            jsonObject.addProperty("type", 3);
+
+            if (fit.isChecked()) {
+                jsonObject.addProperty("result", 1);
+            }
+
+            if (unfit.isChecked()) {
+                jsonObject.addProperty("result", 2);
+            }
+
+            if (unfit2.isChecked()) {
+                jsonObject.addProperty("result", 3);
+            }
+
+        } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT){
+            jsonObject.addProperty("type", 2);
+            jsonObject.addProperty("score", Double.parseDouble(count.getText().toString()));
+        }
 
         if (!TextUtils.isEmpty(images)) {
             jsonObject.addProperty("image", images.toString().substring(0, images.length() - 1));
@@ -608,9 +656,18 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
 
         if (checkItem.id > 0) {
-            mCall = addCheck.updateScoreCheck(requestBody);
+            if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+                mCall = addCheck.updateEveryCheck(requestBody);
+            } else {
+                mCall = addCheck.updateScoreCheck(requestBody);
+            }
+
         } else {
-            mCall = addCheck.addScoreCheck(requestBody);
+            if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+                mCall = addCheck.addEveryCheck(requestBody);
+            } else {
+                mCall = addCheck.addScoreCheck(requestBody);
+            }
         }
         mCall.enqueue(new Callback<String>() {
             @Override
