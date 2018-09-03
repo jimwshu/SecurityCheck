@@ -47,6 +47,18 @@
             android:layout_width="58dp"
             android:layout_height="30dp"/>
 
+    <TextView
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/unfit"
+        android:textColor="#d0021b"
+        android:textSize="14dp"
+        android:text="不合格"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="58dp"
+        android:layout_height="30dp"/>
 
     <View
             android:background="#f6f6f6"

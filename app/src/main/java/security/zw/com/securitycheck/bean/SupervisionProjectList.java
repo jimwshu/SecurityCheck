@@ -19,15 +19,18 @@ public class SupervisionProjectList extends JSONAble {
 
     public String code;
 
-    public int status;//状态 0 整改中 1整改合格
+    public int status = -1;//状态 0 整改中 1整改合格  （1）	（整改中、整改合格、移交执法）；
 
     public String checkItemName;
 
     public int checkType;
+    public int checkMode;
 
     public String personLiable;
 
     public int rank;
 
     public double score;
+
+    public String ilegalContent;
 }

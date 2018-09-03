@@ -37,7 +37,7 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         ctx.startActivityForResult(intent, 111);
     }
 
-    // type:-1 多人模式来的，2 单人模式 脚手架，物料提升机和施工升降机，塔式起重机和起重塔吊来的，3，我的检查来的
+    // type:-1 多人模式来的，2 单人模式 脚手架，物料提升机和施工升降机，塔式起重机和起重塔吊来的，3，我的检查来的, 1 单人模式，逐项检查，来的
     public static void launch(Activity ctx, ProjectDetail projectDetail, CheckItem item, int type) {
         Intent intent = new Intent(ctx, ScoreForMoreActivity.class);
         intent.putExtra("detail", projectDetail);
@@ -152,16 +152,24 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
             @Override
             public void onRefresh() {
                 if (projectDetail != null) {
-                    presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
+                    if (type == 1) {
+                        presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, 3);
+                    } else {
+                        presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, projectDetail.check_type);
+                    }
                 } else if (myCheckProjectDetail != null) {
-                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode, projectDetail.check_type);
                 }
             }
         });
         if (projectDetail != null) {
-            presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
+            if (type == 1) {
+                presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, 3);
+            } else {
+                presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, projectDetail.check_type);
+            }
         } else if (myCheckProjectDetail != null) {
-            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
+            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, myCheckProjectDetail.check_mode, myCheckProjectDetail.check_type);
         }
 
     }
@@ -213,9 +221,13 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
                 if (projectDetail != null) {
-                    presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode);
+                    if (type == 1) {
+                        presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, 3);
+                    } else {
+                        presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, projectDetail.check_type);
+                    }
                 } else if (myCheckProjectDetail != null) {
-                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, projectDetail.check_mode);
+                    presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, myCheckProjectDetail.check_mode, myCheckProjectDetail.check_type);
                 }
             } else if (resultCode == 111) {
                 setResult(111);
@@ -232,12 +244,31 @@ public class ScoreForMoreActivity extends BaseSystemBarTintActivity implements C
         if (type == 3) {
             ScoreForMyCheckDetailActivity.launch(ScoreForMoreActivity.this, myCheckProjectDetail, checkItem, type);
         } else {
-            ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem, type);
+            if (type == 1) {
+                ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem, 2);
+            } else {
+                ScoreActivity.launch(ScoreForMoreActivity.this, projectDetail, checkItem, type);
+            }
         }
     }
 
     @Override
     public void onChildItemClick(int position, int groupPosition, int childPosition, View view) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (projectDetail != null) {
+            if (type == 1) {
+                presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, 3);
+            } else {
+                presenter.getCheckItemDetail(projectDetail.id, item.id, projectDetail.check_mode, projectDetail.check_type);
+            }
+        } else if (myCheckProjectDetail != null) {
+            presenter.getCheckItemDetail(myCheckProjectDetail.id, item.id, myCheckProjectDetail.check_mode, myCheckProjectDetail.check_type);
+        }
     }
 }

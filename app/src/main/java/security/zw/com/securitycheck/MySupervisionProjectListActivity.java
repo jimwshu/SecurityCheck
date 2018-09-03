@@ -87,6 +87,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
         initWidget();
 
     }
+    private TextView check;
 
     private void initWidget() {
         mBack = findViewById(R.id.cancel);
@@ -96,10 +97,12 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
                 finish();
             }
         });
+        check = findViewById(R.id.check);
 
+        check.setVisibility(View.GONE);
         mType = findViewById(R.id.perrmission);
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        mType.setText("监督整改列表");
+        mType.setText("监督整改列表2");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MySupervisionProjectListAdapter(data, this);
         mSubmit = findViewById(R.id.submit);

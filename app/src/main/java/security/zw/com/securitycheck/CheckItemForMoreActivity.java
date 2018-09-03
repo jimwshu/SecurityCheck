@@ -185,7 +185,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                                 int code = jsonObject.optInt("code");
                                 if (code == 0) {
                                     ToastUtil.Long("完成分配成功");
-                                    presenter.getFilter(detail.id);
+                                    presenter.getFilter(detail.id, detail.check_type);
                                 }
                             }
                         } catch (JSONException e) {
@@ -214,7 +214,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     public void showFinishDialog() {
 
         new AlertDialog.Builder(this)
-                .setMessage("是否结束本项目的评分检查？")
+                .setMessage("是否结束本项目的检查？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -622,7 +622,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
                                 int code = jsonObject.optInt("code");
                                 if (code == 0) {
                                     ToastUtil.Long("分配成功");
-                                    presenter.getFilter(detail.id);
+                                    presenter.getFilter(detail.id, detail.check_type);
                                 }
                             }
                         } catch (JSONException e) {
@@ -648,7 +648,7 @@ public class CheckItemForMoreActivity extends BaseSystemBarTintActivity implemen
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getFilter(detail.id);
+        presenter.getFilter(detail.id, detail.check_type);
     }
 
     @Override

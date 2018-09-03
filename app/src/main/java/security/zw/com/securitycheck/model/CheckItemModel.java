@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 
 import android.content.Context;
 
+import org.json.JSONObject;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +36,7 @@ public class CheckItemModel implements BaseModel {
     }
 
 
-    public void getList(int projectId, final NetworkCallback callback){
+    public void getList(int projectId,int check_type, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
@@ -42,10 +44,17 @@ public class CheckItemModel implements BaseModel {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("projectId", projectId);
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            jsonObject.addProperty("checkMode", 1);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
 
             Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
-            mCall = getCheckItemList.getCheckItemList(requestBody);
+
+            if (check_type == 3) {
+                mCall = getCheckItemList.getCheckItemListForType3(requestBody);
+            } else {
+                mCall = getCheckItemList.getCheckItemList(requestBody);
+            }
+
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -75,7 +84,7 @@ public class CheckItemModel implements BaseModel {
     }
 
 
-    public void getCheckItemDetail(int projectId, int checkItemId, int checkmode, final NetworkCallback callback){
+    public void getCheckItemDetail(int projectId, int checkItemId, int checkmode, int check_type, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
@@ -85,9 +94,19 @@ public class CheckItemModel implements BaseModel {
             jsonObject.addProperty("projectId", projectId);
             jsonObject.addProperty("checkItemId", checkItemId);
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-            jsonObject.addProperty("checkMode", checkmode);
-            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
-            mCall = getCheckItemList.getCheckItemDetail(requestBody);
+
+
+            if (check_type == 3) {
+                if (checkmode > 0) {
+                    jsonObject.addProperty("checkMode", checkmode);
+                }
+                RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
+                mCall = getCheckItemList.getCheckItemDetailForType3(requestBody);
+            } else {
+                RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
+                mCall = getCheckItemList.getCheckItemDetail(requestBody);
+            }
+
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -117,21 +136,28 @@ public class CheckItemModel implements BaseModel {
     }
 
 
-    public void getFilter(int projectId, final NetworkCallback callback){
+    public void getFilter(int projectId,int check_type, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
             Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
 
-            Gson gson = new Gson();
-            CheckItemDetailBean detailBean = new CheckItemDetailBean();
-            detailBean.projectId = projectId;
-            detailBean.userId = SecurityApplication.mUser.id;
-            String s = gson.toJson(detailBean);
-            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 
-            mCall = getCheckItemList.getFilter(requestBody);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("projectId", projectId);
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+
+            if (check_type == 3) {
+                jsonObject.addProperty("checkMode",2);
+                String s = jsonObject.toString();
+                RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
+                mCall = getCheckItemList.getFilterForType3(requestBody);
+            } else {
+                String s = jsonObject.toString();
+                RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
+                mCall = getCheckItemList.getFilter(requestBody);
+            }
             mCall.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {

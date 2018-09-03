@@ -179,7 +179,7 @@ public class StopWorkActivity extends BaseSystemBarTintActivity implements MyPro
     }
 
     @Override
-    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page, int total) {
         isLoading = false;
         mSwipeRefreshLayout.setRefreshing(false);
         this.hasMore = hasMore;

@@ -12,7 +12,7 @@ import security.zw.com.securitycheck.bean.ProjectInfo;
 
 public interface MyProjectView {
 
-    void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean has_more, int page);
+    void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean has_more, int page, int total);
 
     void getListFailed(int code, String error);
 

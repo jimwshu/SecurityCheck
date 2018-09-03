@@ -38,8 +38,8 @@ public class CheckItemPresenter implements BasePresenter{
     }
 
 
-    public void getProjectList(int projectId) {
-        checkItemModel.getList(projectId,new NetworkCallback() {
+    public void getProjectList(int projectId, final int check_type) {
+        checkItemModel.getList(projectId,check_type, new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);
@@ -51,7 +51,16 @@ public class CheckItemPresenter implements BasePresenter{
                 super.onRealSuccess(date);
                 try {
                     JSONObject jsonObject = new JSONObject(date);
-                    JSONArray jsonObject1 = jsonObject.optJSONArray("data");
+
+                    JSONArray jsonObject1 = null;
+
+                    if (check_type == 3) {
+                        JSONObject jsonObject2 = jsonObject.optJSONObject("data");
+                        jsonObject1 = jsonObject2.optJSONArray("checkItemAssignVOS");
+                    } else {
+                        jsonObject1 = jsonObject.optJSONArray("data");
+                    }
+
                     ArrayList<CheckItem> checkItems = new ArrayList<>();
                     if (jsonObject1 != null && jsonObject1.length() > 0) {
                         for (int i = 0; i< jsonObject1.length(); i++) {
@@ -69,8 +78,8 @@ public class CheckItemPresenter implements BasePresenter{
         });
     }
 
-    public void getFilter(int projectId) {
-        checkItemModel.getFilter(projectId, new NetworkCallback() {
+    public void getFilter(int projectId, int check_type) {
+        checkItemModel.getFilter(projectId, check_type, new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);
@@ -110,8 +119,8 @@ public class CheckItemPresenter implements BasePresenter{
     }
 
 
-    public void getCheckItemDetail(int projectId, int checkItemId, int check_mode) {
-        checkItemModel.getCheckItemDetail(projectId, checkItemId, check_mode, new NetworkCallback() {
+    public void getCheckItemDetail(int projectId, int checkItemId, int check_mode, int check_type) {
+        checkItemModel.getCheckItemDetail(projectId, checkItemId, check_mode,check_type, new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);

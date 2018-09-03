@@ -498,6 +498,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                 basic.setText("");
                 respon.setText("");
                 images = new StringBuilder();
+                imagePaths = new ArrayList<>();
                 resetImageViews();
              /*   setResult(RESULT_OK);
                 finish();*/
@@ -634,7 +635,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
 
     private static class Compress extends AsyncTask<Uri, Void, String> {
-        final static int MAX = 960;
+        final static int MAX = 720;
         final ICompress iCompress;
 
 

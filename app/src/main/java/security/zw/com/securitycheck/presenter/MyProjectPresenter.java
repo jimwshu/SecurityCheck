@@ -51,6 +51,7 @@ public class MyProjectPresenter implements BasePresenter{
                 try {
                     JSONObject jsonObject = new JSONObject(date);
                     JSONObject object = jsonObject.optJSONObject("data");
+                    int total = object.optInt("total");
                     JSONArray data = object.optJSONArray("projects");
                     ArrayList<ProjectInfo> arrayList = new ArrayList<>();
                     if (data != null && data.length() > 0) {
@@ -60,7 +61,7 @@ public class MyProjectPresenter implements BasePresenter{
                             projectInfo.parseFromJSONObject(object1);
                             arrayList.add(projectInfo);
                         }
-                        myProjectView.getListSucc(arrayList, jsonObject.optBoolean("has_more"), page);
+                        myProjectView.getListSucc(arrayList, jsonObject.optBoolean("has_more"), page, total);
                     }
 
                 } catch (JSONException e) {

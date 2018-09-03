@@ -76,6 +76,7 @@ public class MySupervisionProjectDetailActivity extends BaseSystemBarTintActivit
 
 
     public SupervisionProjectList info;
+    public int checkType;
 
 
     private RelativeLayout is_checked;// 整改名称
@@ -177,7 +178,7 @@ public class MySupervisionProjectDetailActivity extends BaseSystemBarTintActivit
 
     private SimpleDraweeView[] imageViews = new SimpleDraweeView[3];
 
-
+    private RelativeLayout photo_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,6 +192,7 @@ public class MySupervisionProjectDetailActivity extends BaseSystemBarTintActivit
         if (info == null) {
             finish();
         }
+        checkType = info.checkType;
         initWidget();
 
     }
@@ -217,7 +219,12 @@ public class MySupervisionProjectDetailActivity extends BaseSystemBarTintActivit
                 postResult(2);
             }
         });
-
+        photo_view = findViewById(R.id.photo_view);
+        if (checkType == 3) {
+            photo_view.setVisibility(View.GONE);
+        } else {
+            photo_view.setVisibility(View.VISIBLE);
+        }
         imageViews[0] = (SimpleDraweeView) findViewById(R.id.image1);
         imageViews[1] = (SimpleDraweeView) findViewById(R.id.image2);
         imageViews[2] = (SimpleDraweeView) findViewById(R.id.image3);
@@ -305,6 +312,11 @@ public class MySupervisionProjectDetailActivity extends BaseSystemBarTintActivit
         bar_next_8.setVisibility(View.GONE);
         map_8.setVisibility(View.GONE);
 
+        if (checkType == 3) {
+            district.setVisibility(View.GONE);
+        } else {
+            district.setVisibility(View.VISIBLE);
+        }
 
         address = findViewById(R.id.address);
         address_title = address.findViewById(R.id.title);

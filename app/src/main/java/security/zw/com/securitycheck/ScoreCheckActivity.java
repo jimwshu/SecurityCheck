@@ -597,12 +597,21 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("checkItemId", checkItem.checkItemId);
         jsonObject.addProperty("checkMode", detail.check_mode);
         jsonObject.addProperty("checkType", detail.check_type);
-        jsonObject.addProperty("ilegalItems", illegel.getText().toString());
-        jsonObject.addProperty("baseItemrs", basic.getText().toString());
+        if (!TextUtils.isEmpty(illegel.getText().toString())) {
+            jsonObject.addProperty("illegalItems", illegel.getText().toString());
+        }
+
+        if (!TextUtils.isEmpty(basic.getText().toString())) {
+            jsonObject.addProperty("baseItemrs", basic.getText().toString());
+        }
+
         if (!TextUtils.isEmpty(recheck.getText().toString())) {
             jsonObject.addProperty("reCheckTime", recheck.getText().toString());
         }
-        jsonObject.addProperty("personLiable", respon.getText().toString());
+
+        if (!TextUtils.isEmpty(respon.getText().toString())) {
+            jsonObject.addProperty("personLiable", respon.getText().toString());
+        }
 
         // type:1是随机检查，type：2是评分检查  type：3 是 逐项检查？
         if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
@@ -681,7 +690,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
                                 hideSubmitLoading();
-                                ToastUtil.Long("增加评分检查成功");
+                                ToastUtil.Long("评分成功");
                                 setResult(RESULT_OK);
                                 finish();
                                 /*if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
@@ -696,14 +705,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
                         e.printStackTrace();
                         setResult(RESULT_CANCELED);
 
-                        ToastUtil.Long("增加评分检查失败");
+                        ToastUtil.Long("评分失败");
                         hideSubmitLoading();
                         complete = false;
                         images = new StringBuilder();
 
                     }
                 } else {
-                    ToastUtil.Long("增加评分检查失败");
+                    ToastUtil.Long("评分失败");
                     hideSubmitLoading();
                     complete = false;
                     images = new StringBuilder();
@@ -714,7 +723,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
                 get_code = false;
-                ToastUtil.Long("增加评分检查失败");
+                ToastUtil.Long("评分失败");
                 hideSubmitLoading();
                 complete = false;
                 images = new StringBuilder();
@@ -725,7 +734,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     public void showFinishDialog() {
 
         new AlertDialog.Builder(this)
-                .setMessage("是否结束本项目的评分检查？")
+                .setMessage("是否结束本项目的检查？")
                 .setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -865,7 +874,7 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
 
 
     private static class Compress extends AsyncTask<Uri, Void, String> {
-        final static int MAX = 960;
+        final static int MAX = 720;
         final ICompress iCompress;
 
 

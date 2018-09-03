@@ -167,6 +167,8 @@ public class UserInfo extends JSONAble {
 
     public int type;
 
+    public String roleName;
+
     public UserInfo() {
     }
 
@@ -193,20 +195,23 @@ public class UserInfo extends JSONAble {
 
 
     public String getTypeName() {
-        if (type == 1) {
-            return "站长";
-        } else if (type == 2) {
-            return "安监员";
-        } else if (type == 3) {
-            return "执法员";
-        } else if (type == 4) {
-            return "设备员";
-        } else if (type == 5) {
-            return "技术员";
-        } else if (type == 6) {
-            return "综合科";
-        }
-        return "管理员";
+        return roleName;
     }
 
+    /**
+     *  if (type == 1) {
+     return "站长";
+     } else if (type == 2) {
+     return "安监员";
+     } else if (type == 3) {
+     return "执法员";
+     } else if (type == 4) {
+     return "设备员";
+     } else if (type == 5) {
+     return "技术员";
+     } else if (type == 6) {
+     return "综合科";
+     }
+     return "管理员";
+     */
 }

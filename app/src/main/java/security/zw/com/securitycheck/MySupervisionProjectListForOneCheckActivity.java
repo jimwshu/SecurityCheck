@@ -86,6 +86,7 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         initWidget();
 
     }
+    private TextView check;
 
     private void initWidget() {
         mBack = findViewById(R.id.cancel);
@@ -97,7 +98,7 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("监督整改列表");
+        mType.setText("监督整改列表1");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setText("移交执法");
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +107,16 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
                 postResult(2);
             }
         });
+
+        check = findViewById(R.id.check);
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postResult(1);
+            }
+        });
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MySupervisionListForOneCheckAdapter(data, this);
         mManager = new LinearLayoutManager(this);
@@ -138,7 +149,8 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
         jsonObject.addProperty("id", info.id);
-
+        jsonObject.addProperty("checkMode", info.checkMode);
+        jsonObject.addProperty("checkType", info.checkType);
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
@@ -211,6 +223,10 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
             jsonObject.addProperty("id", info.id);
             jsonObject.addProperty("status", status);
+
+            jsonObject.addProperty("checkMode", info.checkMode);
+            jsonObject.addProperty("checkType", info.checkType);
+
             String s = jsonObject.toString();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
             mCall = addCheck.updateSupervisionListDetailForProject(requestBody);
@@ -251,4 +267,7 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
 
 
     }
+
+
+
 }

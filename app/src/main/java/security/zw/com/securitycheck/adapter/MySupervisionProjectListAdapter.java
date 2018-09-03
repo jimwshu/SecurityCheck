@@ -16,6 +16,7 @@ import security.zw.com.securitycheck.MySupervisionProjectDetailActivity;
 import security.zw.com.securitycheck.MySupervisionProjectListForOneCheckActivity;
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.SupervisionProjectList;
 import security.zw.com.securitycheck.utils.TimeUtils;
@@ -57,12 +58,16 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
         public TextView time;
         public TextView name;
         public RelativeLayout rel;
+        public TextView type;
+        public TextView mode;
 
         public ProjectViewHolder(View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.time);
             name = itemView.findViewById(R.id.name);
             rel = itemView.findViewById(R.id.rel);
+            type = itemView.findViewById(R.id.type);
+            mode = itemView.findViewById(R.id.mode);
         }
     }
 
@@ -71,6 +76,21 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
         final SupervisionProjectList p = mData.get(position);
         holder.name.setText(p.operator + "");
         holder.time.setText(TimeUtils.secToTime(p.createTime));
+
+        if (p.checkType == ProjectDetail.CHECK_TYPE_RANDOM) {
+            holder.type.setText("随机检查");
+        } else if (p.checkType == ProjectDetail.CHECK_TYPE_COUNT) {
+            holder.type.setText("评分检查");
+        } else if (p.checkType == ProjectDetail.CHECK_TYPE_EVERY) {
+            holder.type.setText("逐项检查");
+        }
+
+        if (p.checkMode == ProjectDetail.CHECK_MODE_SINGLE) {
+            holder.mode.setText("单人模式");
+        } else {
+            holder.mode.setText("多人模式");
+        }
+
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

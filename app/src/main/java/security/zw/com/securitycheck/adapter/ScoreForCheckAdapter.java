@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,16 +99,41 @@ public class ScoreForCheckAdapter extends RecyclerView.Adapter<RecyclerView.View
             final CheckItem item = (CheckItem) mData.get(position);
             StoreItem storeItem = (StoreItem) holder;
 
-            SpannableString ss = new SpannableString("扣减分： " + item.score + "");
-            ss.setSpan(new ForegroundColorSpan(0xff92969c), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            ss.setSpan(new ForegroundColorSpan(0xffd0021b), 5, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (item.score < 0) {
+                SpannableString ss = new SpannableString("扣减分： " + item.score + "");
+                ss.setSpan(new ForegroundColorSpan(0xff92969c), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new ForegroundColorSpan(0xffd0021b), 5, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                storeItem.score.setText(ss);
 
-            storeItem.score.setText(ss);
-            storeItem.title.setText(item.name);
+
+                SpannableString sss = new SpannableString(item.name);
+                sss.setSpan(new ForegroundColorSpan(0xff1a1a1a), 0, sss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                storeItem.title.setText(sss);
+
+            } else {
+                SpannableString ss = new SpannableString("扣减分： " + item.score + "");
+                ss.setSpan(new ForegroundColorSpan(0xff92969c), 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                storeItem.score.setText(ss);
+
+                SpannableString sss = new SpannableString(item.name);
+                sss.setSpan(new ForegroundColorSpan(0xff1a1a1a), 0, sss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                storeItem.title.setText(sss);
+            }
+
             if (type == -1) {
                 storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
             } else if (type == 1){
                 storeItem.recheck.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(item.checkName)) {
+                    storeItem.recheck.setVisibility(View.VISIBLE);
+
+                    SpannableString ss = new SpannableString("评分人：" + item.checkName);
+                    ss.setSpan(new ForegroundColorSpan(0xffd0021b), 0, ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    storeItem.recheck.setText(ss);
+
+                } else {
+                    storeItem.recheck.setVisibility(View.GONE);
+                }
             }
             storeItem.rel.setOnClickListener(new View.OnClickListener() {
                 @Override

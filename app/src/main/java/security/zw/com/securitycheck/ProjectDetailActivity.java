@@ -643,7 +643,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
 
 
     @Override
-    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page, int total) {
 
     }
 

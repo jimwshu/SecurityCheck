@@ -149,7 +149,7 @@ public class MyCheckActivity extends BaseSystemBarTintActivity implements MyProj
     }
 
     @Override
-    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page, int total) {
 
     }
 

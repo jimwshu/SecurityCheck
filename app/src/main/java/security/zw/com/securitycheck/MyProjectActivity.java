@@ -80,7 +80,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
 
     private ImageView mBack;
     private TextView mType;
-
+    private TextView total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     }
 
     private void initWidget() {
+        total = findViewById(R.id.total);
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,11 +175,13 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     }
 
     @Override
-    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page, int total) {
         isLoading = false;
         mSwipeRefreshLayout.setRefreshing(false);
         this.hasMore = hasMore;
         this.page = page;
+
+        this.total.setText("总共：" + total);
 
         if (projectInfos.size() > 0) {
             if (page > 1) {

@@ -38,7 +38,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
             holder.parentRemind.setVisibility(View.GONE);
         }
 
-        if (groupData.haveScored) {
+        if (groupData.haveScored || groupData.haveItemChecked) {
             holder.groupTitle.setTextColor(0xffff0000);
         }
         if (groupData.childrens != null && groupData.childrens.size() == 0) {
@@ -83,7 +83,7 @@ public class ScoreListAdapter extends BaseRecyclerViewAdapter<CheckItem, CheckIt
         holder.childTitle.setText(childData.name);
 
 
-        if (childData.haveScored) {
+        if (childData.haveScored || childData.haveItemChecked) {
             holder.childTitle.setTextColor(0xffff0000);
         } else {
             holder.childTitle.setTextColor(0xff1a1a1a);

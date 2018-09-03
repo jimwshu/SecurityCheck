@@ -29,7 +29,8 @@
 
 
         <TextView
-                android:background="#0f86ff"
+            android:visibility="gone"
+            android:background="#0f86ff"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:id="@+id/check"
@@ -183,7 +184,8 @@
             ></include>
 
             <RelativeLayout
-                    android:layout_width="match_parent"
+                android:id="@+id/photo_view"
+                android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                 <TextView

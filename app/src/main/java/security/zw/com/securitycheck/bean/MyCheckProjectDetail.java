@@ -20,4 +20,9 @@ public class MyCheckProjectDetail extends JSONAble {
     public int rank;
 
     public long createTime;
+
+    public int check_mode;
+    public int check_type;
+
+
 }

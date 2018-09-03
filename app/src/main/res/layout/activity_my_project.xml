@@ -17,9 +17,19 @@
             android:id="@+id/action_bar"
     ></include>
 
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:textColor="#ff0000"
+        android:textSize="30dp"
+        android:layout_below="@+id/action_bar"
+        android:id="@+id/total"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
     <security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/action_bar"
+            android:layout_below="@+id/total"
             android:id="@+id/refresher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

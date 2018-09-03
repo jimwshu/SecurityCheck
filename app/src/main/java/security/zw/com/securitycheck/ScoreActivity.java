@@ -140,24 +140,24 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
             @Override
             public void onRefresh() {
                 if (type == 2) {
-                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
                 } else {
                     if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId,projectDetail.check_mode);
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId,projectDetail.check_mode, projectDetail.check_type);
                     } else {
-                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
+                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode, projectDetail.check_type);
                     }
                 }
             }
         });
 
         if (type == 2) {
-            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
+            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
         } else {
             if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
+                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
             } else {
-                presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
+                presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode, projectDetail.check_type);
             }
         }
 
@@ -204,17 +204,31 @@ public class ScoreActivity extends BaseSystemBarTintActivity implements CheckIte
         if (requestCode == REQUEST_SCORE_CHECK) {
             if (resultCode == RESULT_OK) {
                 if (type == 2) {
-                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
+                    presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
                 } else {
                     if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
-                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode);
+                        presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
                     } else {
-                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode);
+                        presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode, projectDetail.check_type);
                     }
                 }
             } else if (resultCode == 111) {
                 setResult(111);
                 finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (type == 2) {
+            presenter.getCheckItemDetail(projectDetail.id,item.checkItemId, projectDetail.check_mode, projectDetail.check_type);
+        } else {
+            if (projectDetail.check_mode == ProjectDetail.CHECK_MODE_MORE) {
+                presenter.getCheckItemDetail(projectDetail.id,item.checkItemId,projectDetail.check_mode, projectDetail.check_type);
+            } else {
+                presenter.getCheckItemDetail(projectDetail.id,item.id, projectDetail.check_mode, projectDetail.check_type);
             }
         }
     }

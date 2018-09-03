@@ -216,7 +216,7 @@ public class MyCheckDetailActivity extends BaseSystemBarTintActivity implements 
 
 
     @Override
-    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page) {
+    public void getListSucc(ArrayList<ProjectInfo> projectInfos, boolean hasMore, int page, int total) {
 
     }
 

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,7 @@ public class MySupervisionListForOneCheckAdapter extends RecyclerView.Adapter<My
         public TextView score;
         public TextView change;
         public TextView check_result;
-
+        public TextView illegal;
         public RelativeLayout rel;
 
         public ProjectDetailViewHolder(View itemView) {
@@ -94,6 +95,7 @@ public class MySupervisionListForOneCheckAdapter extends RecyclerView.Adapter<My
             check_result = itemView.findViewById(R.id.check_result);
             rel = itemView.findViewById(R.id.rel);
             change = itemView.findViewById(R.id.change);
+            illegal = itemView.findViewById(R.id.illegal);
         }
     }
 
@@ -101,15 +103,38 @@ public class MySupervisionListForOneCheckAdapter extends RecyclerView.Adapter<My
     public void onBindViewHolder(MySupervisionListForOneCheckAdapter.ProjectDetailViewHolder holder, final int position) {
         final SupervisionProjectList myCheckProjectDetail = mData.get(position);
 
-        holder.name.setText(myCheckProjectDetail.projectName);
+        if (!TextUtils.isEmpty(myCheckProjectDetail.ilegalContent)) {
+            holder.name.setText(myCheckProjectDetail.ilegalContent);
+        } else {
+            holder.name.setText(myCheckProjectDetail.projectName);
+        }
         holder.time.setText(TimeUtils.secToTime(myCheckProjectDetail.createTime));
 
-        if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_COUNT) {
-            holder.score.setText("评分检查");
-        } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_RANDOM) {
-            holder.score.setText("随机检查");
-        } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_EVERY){
-            holder.score.setText("逐项检查");
+
+        if (myCheckProjectDetail.status >= 0) {
+            if (myCheckProjectDetail.status == 0) {
+                holder.score.setText("整改中");
+            } else if (myCheckProjectDetail.status == 1) {
+                holder.score.setText("整改合格");
+            } else if (myCheckProjectDetail.status == 2){
+                holder.score.setText("移交执法");
+            }
+        } else {
+            if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_COUNT) {
+                holder.score.setText("评分检查");
+            } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_RANDOM) {
+                holder.score.setText("随机检查");
+            } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_EVERY){
+                holder.score.setText("逐项检查");
+            }
+
+        }
+
+        if (!TextUtils.isEmpty(myCheckProjectDetail.ilegalContent)) {
+            holder.illegal.setText(myCheckProjectDetail.ilegalContent);
+            holder.illegal.setVisibility(View.VISIBLE);
+        } else {
+            holder.illegal.setVisibility(View.GONE);
         }
 
         holder.check_result.setText("不合格");

@@ -21,7 +21,7 @@ public class ProjectInfo extends JSONAble {
     //项目状态 1整改、2正常、3竣工、4 未办开工前安全条件审查
 
 
-
+    public int total;
     public int id;
     public String name;
     public String des;

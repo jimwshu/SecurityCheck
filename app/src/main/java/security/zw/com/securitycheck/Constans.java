@@ -104,11 +104,21 @@ public class Constans {
         @POST("/supervisorDiamond/checkItem/list")
         public Call<String> getCheckItemList(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/checkItem/listItemCheckFilter")
+        public Call<String> getCheckItemListForType3(@Body RequestBody route);
+
         @POST("/supervisorDiamond/checkItem/checkBasis")
         public Call<String> getCheckItemDetail(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/checkItem/itemCheckBasis")
+        public Call<String> getCheckItemDetailForType3(@Body RequestBody route);
+
         @POST("/supervisorDiamond/checkItem/listFilter")
         public Call<String> getFilter(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/checkItem/listItemCheckFilter")
+        public Call<String> getFilterForType3(@Body RequestBody route);
+
 
         @POST("/supervisorDiamond/myCheck/scoreList")
         public Call<String> getCheckScoreList(@Body RequestBody route);

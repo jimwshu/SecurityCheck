@@ -12,5 +12,6 @@ public class CheckItemDetailBean extends JSONAble {
     public int projectId;
     public int checkItemId;
     public int userId;
+    public int checkMode;
 
 }

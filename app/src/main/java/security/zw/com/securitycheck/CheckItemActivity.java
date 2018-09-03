@@ -76,7 +76,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查");
+        mType.setText("新建评分检查1");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -167,7 +167,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-        presenter.getProjectList(detail.id);
+        presenter.getProjectList(detail.id, detail.check_type);
         finish_check = findViewById(R.id.finish_check);
         finish_check.setVisibility(View.VISIBLE);
         finish_check.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +180,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     public void showFinishDialog() {
 
         new AlertDialog.Builder(this)
-                .setMessage("是否结束本项目的评分检查？")
+                .setMessage("是否结束本项目的检查？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -268,24 +268,26 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
             for (int i = 0; i < data.size(); i++) {
                 RecyclerViewData d = data.get(i);
                 CheckItem checkItem = (CheckItem) d.getGroupData();
-
-                if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
-                    hasChildren = true;
-                }
-
                 if (i != select) {
                     checkItem.isSelected = false;
                 } else {
                     checkItem.isSelected = true;
+                    if (checkItem.childrens != null && checkItem.childrens.size() > 0) {
+                        hasChildren = true;
+                    }
                 }
             }
             mAdapter.notifyRecyclerViewData();
         }
-
         if (!hasChildren) {
             RecyclerViewData d = data.get(groupPosition);
             CheckItem checkItem = (CheckItem) d.getGroupData();
-            ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
+
+            if (detail.check_type == 3) {
+                ScoreForMoreActivity.launch(CheckItemActivity.this, detail, checkItem, 1);
+            } else {
+                ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
+            }
         }
 
     }
@@ -296,7 +298,6 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         CheckItem checkItem = (CheckItem) d.getChild(childPosition);
 
         if (integerArrayList.contains(checkItem.id)) {
-            LogUtils.e("type = 2");
             ScoreForMoreActivity.launch(CheckItemActivity.this, detail, checkItem, 2);
         } else {
             ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
@@ -317,6 +318,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
     @Override
     public void getCheckItemSucc(ArrayList<CheckItem> items) {
+
+        if (data.size() > 0) {
+            data.clear();
+        }
+
         for (int i = 0; i< items.size(); i++) {
             CheckItem checkItem = items.get(i);
             ArrayList<CheckItem> checkItems = null;
@@ -353,5 +359,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
             setResult(111);
             finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getProjectList(detail.id, detail.check_type);
     }
 }

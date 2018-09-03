@@ -81,13 +81,14 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public TextView score;
         public TextView recheck;
         public RelativeLayout rel;
-
+        public TextView unfit;
         public StoreItem(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             score = itemView.findViewById(R.id.decrease_score);
             recheck = itemView.findViewById(R.id.recheck);
             rel = itemView.findViewById(R.id.rel);
+            unfit = itemView.findViewById(R.id.unfit);
         }
     }
 
@@ -122,14 +123,25 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 storeItem.score.setVisibility(View.VISIBLE);
                 storeItem.recheck.setVisibility(View.VISIBLE);
                 storeItem.recheck.setVisibility(item.realScore < 0 ? View.VISIBLE : View.GONE);
+                storeItem.unfit.setVisibility(View.GONE);
             } else if (type == 1){
                 storeItem.title.setText(item.name + " " + "（" + item.scoreRule+ "）");
                 storeItem.score.setVisibility(View.VISIBLE);
                 storeItem.recheck.setVisibility(View.GONE);
+                storeItem.unfit.setVisibility(View.GONE);
+
             } else if (type == 2) {
                 storeItem.title.setText(item.name);
                 storeItem.score.setVisibility(View.INVISIBLE);
-                storeItem.recheck.setVisibility(View.INVISIBLE);
+                storeItem.recheck.setVisibility(View.GONE);
+
+                if (item.haveItemChecked) {
+                    storeItem.unfit.setVisibility(View.VISIBLE);
+                } else {
+                    storeItem.unfit.setVisibility(View.GONE);
+                }
+
+
             }
             storeItem.rel.setOnClickListener(new View.OnClickListener() {
                 @Override
