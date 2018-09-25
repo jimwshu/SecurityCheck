@@ -34,7 +34,7 @@ public class MyProjectModel implements BaseModel {
     }
 
 
-    public void getList(int type, int page, final NetworkCallback callback){
+    public void getList(int type, int page, String name, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
@@ -48,6 +48,7 @@ public class MyProjectModel implements BaseModel {
             loginBean.type = type;
             loginBean.page = page;
             loginBean.size = 10;
+            loginBean.name = name;
             String s = gson.toJson(loginBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 

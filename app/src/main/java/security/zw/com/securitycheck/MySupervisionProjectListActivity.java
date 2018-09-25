@@ -102,7 +102,7 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
         check.setVisibility(View.GONE);
         mType = findViewById(R.id.perrmission);
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        mType.setText("监督整改列表2");
+        mType.setText("监督整改列表");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MySupervisionProjectListAdapter(data, this);
         mSubmit = findViewById(R.id.submit);

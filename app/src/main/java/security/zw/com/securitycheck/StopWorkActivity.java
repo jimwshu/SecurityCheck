@@ -152,7 +152,7 @@ public class StopWorkActivity extends BaseSystemBarTintActivity implements MyPro
             return;
         }
         isLoading = true;
-        presenter.getProjectList(type, page);
+        presenter.getProjectList(type, page, "");
 
     }
 

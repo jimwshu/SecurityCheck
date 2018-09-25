@@ -13,7 +13,7 @@ public class MyProjectBean extends JSONAble {
     public int userId;
     public int page;
     public int size;
-
+    public String name;
     public MyProjectBean() {
     }
 

@@ -1,5 +1,6 @@
 package security.zw.com.securitycheck;
 
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -99,6 +100,7 @@ public class SecurityApplication extends Application {
 
     public void init() {
         SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         loadUserInfoFromLocalPreference();
         // 初始化bugly，设置渠道
         String channel = DeviceUtils.getChannel();

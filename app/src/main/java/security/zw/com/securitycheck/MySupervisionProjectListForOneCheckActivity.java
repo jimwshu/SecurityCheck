@@ -98,7 +98,7 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("监督整改列表1");
+        mType.setText("监督整改列表");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setText("移交执法");
         mSubmit.setOnClickListener(new View.OnClickListener() {

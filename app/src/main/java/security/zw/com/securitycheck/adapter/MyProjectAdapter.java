@@ -17,6 +17,7 @@ import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
+import security.zw.com.securitycheck.utils.LogUtils;
 
 
 /**
@@ -72,6 +73,7 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
     public void onBindViewHolder(MyProjectAdapter.ProjectViewHolder holder, final int position) {
         final ProjectInfo p = mData.get(position);
         holder.name.setText(p.name);
+        LogUtils.e(" " + p.state);
         if (p.state == ProjectInfo.TYPE_NEED_CHANGE) {
             holder.des.setText("需要整改项目");
             holder.icon.setBackgroundResource(R.drawable.red_circle);

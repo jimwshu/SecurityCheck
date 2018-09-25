@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,7 +85,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     private ImageView mBack;
     private TextView mType;
     private TextView total;
-
+    private EditText search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +99,22 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     }
 
     private void initWidget() {
+        search = findViewById(R.id.et_search);
+        search.setVisibility(View.VISIBLE);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH  ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    String content = search.getText().toString();
+                    presenter.getProjectList(type, page, content);
+                    return true;
+                }
+                return false;
+            }
+        });
         total = findViewById(R.id.total);
+        total.setVisibility(View.VISIBLE);
         mBack = findViewById(R.id.cancel);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +167,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             return;
         }
         isLoading = true;
-        presenter.getProjectList(type, page);
+        presenter.getProjectList(type, page, search.getText().toString());
 
     }
 
@@ -181,7 +200,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
         this.hasMore = hasMore;
         this.page = page;
 
-        this.total.setText("总共：" + total);
+        this.total.setText("共有项目：" + total);
 
         if (projectInfos.size() > 0) {
             if (page > 1) {
