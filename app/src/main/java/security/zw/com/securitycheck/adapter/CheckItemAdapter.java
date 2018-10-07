@@ -68,13 +68,13 @@ public class CheckItemAdapter extends BaseRecyclerViewAdapter<CheckItem,CheckIte
             holder.parentCheckName.setVisibility(View.VISIBLE);
             holder.parentCheckScore.setVisibility(View.GONE);
 
-            if (groupData.isPassed) {
-                holder.parentCheckName.setText("已通过");
-            } else {
-                holder.parentCheckName.setText("未通过");
+            if (groupData.result == 1) {
+                holder.parentCheckName.setText("合格");
+            } else if (groupData.result == 2){
+                holder.parentCheckName.setText("不合格");
+            } else if (groupData.result == 0) {
+                holder.parentCheckName.setText("未检查");
             }
-
-
         }
     }
 

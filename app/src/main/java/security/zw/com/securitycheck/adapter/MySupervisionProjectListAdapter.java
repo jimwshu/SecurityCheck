@@ -83,6 +83,8 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
             holder.type.setText("评分检查");
         } else if (p.checkType == ProjectDetail.CHECK_TYPE_EVERY) {
             holder.type.setText("逐项检查");
+        } else if (p.checkType == ProjectDetail.CHECK_TYPE_DUST) {
+            holder.type.setText("扬尘检查");
         }
 
         if (p.checkMode == ProjectDetail.CHECK_MODE_SINGLE) {

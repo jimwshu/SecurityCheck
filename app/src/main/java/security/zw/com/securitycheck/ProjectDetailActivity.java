@@ -70,6 +70,10 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                         if (check_type != which + 1) {
                             check_type = which + 1;
                             check_class_state.setText(CHECK_CLASS[which]);
+                            if (check_type == 3) {
+                                check_mode = 1;
+                                check_mode_state.setText(CHECK_MODE[0]);
+                            }
                         }
                     }
                 })
@@ -292,6 +296,8 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                         detail.check_type = ProjectDetail.CHECK_TYPE_RANDOM;
                     } else if (check_type == 2) {
                         detail.check_type = ProjectDetail.CHECK_TYPE_EVERY;
+                    }  else if (check_type == 3) {
+                        detail.check_type = ProjectDetail.CHECK_TYPE_DUST;
                     }
                 } else if (SecurityApplication.mUser.type == 5) {
                     if (check_type == 1) {

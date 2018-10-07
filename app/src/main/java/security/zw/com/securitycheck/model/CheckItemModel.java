@@ -46,11 +46,13 @@ public class CheckItemModel implements BaseModel {
             jsonObject.addProperty("userId", SecurityApplication.mUser.id);
             jsonObject.addProperty("checkMode", 1);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),jsonObject.toString());
-
             Constans.GetCheckItemList getCheckItemList = mRetrofit.create(Constans.GetCheckItemList.class);
 
             if (check_type == 3) {
                 mCall = getCheckItemList.getCheckItemListForType3(requestBody);
+            } else if (check_type == 4) {
+
+                mCall = getCheckItemList.getCheckItemListForType4(requestBody);
             } else {
                 mCall = getCheckItemList.getCheckItemList(requestBody);
             }

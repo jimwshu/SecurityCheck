@@ -55,8 +55,10 @@ public class CheckItem extends JSONAble{
 
     public String checkName;
 
-
-    public boolean isPassed;
+    // 扬尘治理 检查结论 1不合格 2合格 0， 没有检查
+    public int result;
+    public String demand;// 扬尘治理原因
+    public boolean haveChecked; // 是否已检查
     @Override
     public String toString() {
         return "CheckItem{" +

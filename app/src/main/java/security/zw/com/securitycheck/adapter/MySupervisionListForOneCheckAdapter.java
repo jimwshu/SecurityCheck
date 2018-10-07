@@ -126,6 +126,8 @@ public class MySupervisionListForOneCheckAdapter extends RecyclerView.Adapter<My
                 holder.score.setText("随机检查");
             } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_EVERY){
                 holder.score.setText("逐项检查");
+            } else if (myCheckProjectDetail.checkType == ProjectDetail.CHECK_TYPE_DUST){
+                holder.score.setText("扬尘治理");
             }
 
         }

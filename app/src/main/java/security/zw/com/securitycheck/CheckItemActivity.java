@@ -51,7 +51,33 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         ctx.startActivity(intent);
     }
 
+    public int checkResult = 0;
+    public static final String[] CHECK_RESULT= new String[]{
+            "通过", "不通过"
+    };
 
+
+    public void selectCheckClass() {
+        new AlertDialog.Builder(this)
+                .setItems(CHECK_RESULT, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (checkResult != which + 1) {
+                            checkResult = which + 1;
+                            setPass();
+                        }
+                    }
+                })
+                .show();
+    }
+
+    public void setPass() {
+        if (checkResult == 1) {
+            pass.setText("通过");
+        } else if (checkResult == 2){
+            pass.setText("未通过");
+        }
+    }
     /*
     * 是否设置沉浸式状态栏
     */
@@ -172,7 +198,13 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
             check_for_dust.setVisibility(View.VISIBLE);
             mAdapter = new CheckItemAdapter( this,data, 4);
-            finish_check.setVisibility(View.GONE);
+            finish_check.setVisibility(View.VISIBLE);
+            check_for_dust.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectCheckClass();
+                }
+            });
         } else {
             check_for_dust.setVisibility(View.GONE);
             mAdapter = new CheckItemAdapter( this,data);
@@ -222,6 +254,15 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     }
 
     private void postFinish() {
+
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+            if (checkResult < 1) {
+                ToastUtil.Short("请选择治理结果");
+                return;
+            }
+        }
+
+
         showSubmitLoading();
         get_code = true;
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
@@ -231,6 +272,13 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         jsonObject.addProperty("projectId", detail.id);
         jsonObject.addProperty("creator", SecurityApplication.mUser.id);
         jsonObject.addProperty("checkType", detail.check_type);
+
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+            jsonObject.addProperty("result", checkResult);
+        }
+
+
+
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
@@ -253,7 +301,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
                                 setResult(111);
                                 finish();
                             } else {
-                                ToastUtil.Long("项目结束检查失败");
+                                ToastUtil.Long(jsonObject.optInt("项目结束检查提交失败"));
                             }
                         }
                     } catch (JSONException e) {

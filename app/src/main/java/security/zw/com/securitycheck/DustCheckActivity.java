@@ -129,7 +129,9 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
         }
         setContentView(R.layout.activity_obtain_evidence);
         initWidget();
-
+        if (checkItem.id > 0) {
+            loadData();
+        }
     }
 
     private RelativeLayout respon_rel;
@@ -161,6 +163,7 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
 
     private ProgressDialog mProgressDialog = null;
 
+    private RelativeLayout illegal_rel;
 
     private boolean isCancel() {
         return mProgressDialog == null || !mProgressDialog.isShowing();
@@ -195,6 +198,8 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
     private void initWidget() {
         initIntent();
         initBar();
+        illegal_rel = findViewById(R.id.illegal_rel);
+        illegal_rel.setVisibility(View.GONE);
         recheck_rel = findViewById(R.id.recheck_rel);
         respon_rel = findViewById(R.id.respon_rel);
         respon_rel.setVisibility(View.GONE);
@@ -211,10 +216,15 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
         fit = findViewById(R.id.check_result_fit);
         unfit = findViewById(R.id.check_result_unfit);
         unfit2 = findViewById(R.id.check_result_unfit_2);
-        check_result_rel.setVisibility(View.GONE);
+        check_result_rel.setVisibility(View.VISIBLE);
+        unfit.setVisibility(View.GONE);
 
         illegel = findViewById(R.id.illegal);
         basic = findViewById(R.id.basic);
+        basic.setText(checkItem.demand);
+
+        ((TextView)findViewById(R.id.basic_content)).setText("检查标准");
+
         count_rel = findViewById(R.id.count_rel);
         count_rel.setVisibility(View.GONE);
         decrease = findViewById(R.id.decrease);
@@ -328,9 +338,7 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
             finish();
             return;
         }
-        if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT) {
-            checkItem = (CheckItem) getIntent().getSerializableExtra("check");
-        }
+        checkItem = (CheckItem) getIntent().getSerializableExtra("check");
     }
 
 
@@ -393,6 +401,12 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
     }
 
     public void addRandomCheck() {
+
+        if (!fit.isChecked() && !unfit2.isChecked()) {
+            ToastUtil.Short("请选择检查结论");
+            return;
+        }
+
         get_code = true;
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
@@ -410,9 +424,22 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
         if (!TextUtils.isEmpty(images)) {
             jsonObject.addProperty("image", images.toString().substring(0, images.length() - 1));
         }
+        jsonObject.addProperty("result", fit.isChecked() ?  1 : 2);
 
+        if (checkItem.id > 0) {
+            jsonObject.addProperty("id", checkItem.id);
+        }
+
+        jsonObject.addProperty("checkItemId", checkItem.checkItemId);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-        mCall = addCheck.addRandomCheck(requestBody);
+
+        if (checkItem.id > 0) {
+            mCall = addCheck.updateDustCheck(requestBody);
+        } else {
+            mCall = addCheck.addDustCheck(requestBody);
+
+        }
+
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -618,7 +645,7 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
         String s = gson.toJson(checkItemDetailBean);
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getRandomCheckDetail(requestBody);
+        mCall = addCheck.getDustCheckDetail(requestBody);
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -639,6 +666,15 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
                                         basic.setText(checkBean.baseItemrs);
                                         respon.setText(checkBean.personLiable);
                                         recheck.setText(checkBean.reCheckTime);
+
+                                        if (checkBean.result == 1) {
+                                            fit.setChecked(true);
+                                            unfit2.setChecked(false);
+                                        } else if (checkBean.result == 2) {
+                                            fit.setChecked(false);
+                                            unfit2.setChecked(true);
+                                        }
+
                                         if (!TextUtils.isEmpty(checkBean.image)) {
                                             String[] imgs = checkBean.image.split(";");
                                             if (imgs.length > 0) {
