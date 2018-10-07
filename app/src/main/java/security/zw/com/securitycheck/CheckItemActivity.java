@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -76,7 +77,11 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("新建评分检查");
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+            mType.setText("扬尘治理");
+        } else {
+            mType.setText("新建评分检查");
+        }
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
     }
@@ -93,12 +98,20 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     public int select = -1;
     protected TextView finish_check;
 
+    protected RelativeLayout check_for_dust;
+    protected TextView pass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //如果activity被回收，则清除fragment缓存
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
+        }
+        detail = (ProjectDetail) getIntent().getSerializableExtra("detail");
+        if (detail == null) {
+            finish();
+            return;
         }
         integerArrayList.add(656);
         integerArrayList.add(714);
@@ -152,13 +165,21 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
     }
 
     private void initData() {
-        detail = (ProjectDetail) getIntent().getSerializableExtra("detail");
-        if (detail == null) {
-            finish();
-            return;
+
+        check_for_dust = findViewById(R.id.check_for_dust);
+        pass = findViewById(R.id.pass);
+        finish_check = findViewById(R.id.finish_check);
+        if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+            check_for_dust.setVisibility(View.VISIBLE);
+            mAdapter = new CheckItemAdapter( this,data, 4);
+            finish_check.setVisibility(View.GONE);
+        } else {
+            check_for_dust.setVisibility(View.GONE);
+            mAdapter = new CheckItemAdapter( this,data);
+            finish_check.setVisibility(View.VISIBLE);
         }
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new CheckItemAdapter( this,data);
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
 
@@ -168,8 +189,7 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
         mRecyclerView.setHasFixedSize(true);
 
         presenter.getProjectList(detail.id, detail.check_type);
-        finish_check = findViewById(R.id.finish_check);
-        finish_check.setVisibility(View.VISIBLE);
+
         finish_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,6 +305,9 @@ public class CheckItemActivity extends BaseSystemBarTintActivity implements OnRe
 
             if (detail.check_type == 3) {
                 ScoreForMoreActivity.launch(CheckItemActivity.this, detail, checkItem, 1);
+            } else if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+                // 直接去评分页面
+                DustCheckActivity.launch(CheckItemActivity.this, detail, checkItem, 4);
             } else {
                 ScoreActivity.launch(CheckItemActivity.this, detail, checkItem);
             }

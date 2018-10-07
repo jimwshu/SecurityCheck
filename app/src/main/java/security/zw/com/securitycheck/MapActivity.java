@@ -81,7 +81,7 @@ public class MapActivity extends BaseSystemBarTintActivity {
             }
         });
         GeoCodeOption option = new GeoCodeOption()
-                .city("北京")
+                .city("衡阳")
                 .address(address);
         geoCoder.geocode(option);
     }

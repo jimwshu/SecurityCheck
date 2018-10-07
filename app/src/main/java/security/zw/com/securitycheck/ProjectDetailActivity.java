@@ -51,7 +51,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     public String[] CHECK_CLASS;
 
     public static final String[] CHECK_CLASS_1= new String[]{
-        "随机检查", "逐项检查"
+        "随机检查", "逐项检查", "扬尘治理"
     };
     public static final String[] CHECK_CLASS_2 = new String[]{
             "评分检查"
@@ -301,19 +301,27 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
                 detail.check_mode = check_mode;
 
                 // 单人检查 并且是 随机模式
-                if (detail.check_mode == ProjectDetail.CHECK_MODE_SINGLE) {
-                    if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
-                        RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
-                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
-                        CheckItemActivity.launch(view.getContext(), detail);
-                    }
-                } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
-                    if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
-                        getCheckPerson();
-                    } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
-                        CheckItemForMoreActivity.launch(ProjectDetailActivity.this, detail);
+
+
+
+                if (detail.check_type == ProjectDetail.CHECK_TYPE_DUST) {
+                    CheckItemActivity.launch(view.getContext(), detail);
+                } else {
+                    if (detail.check_mode == ProjectDetail.CHECK_MODE_SINGLE) {
+                        if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
+                            RandomCheckActivity.launch(ProjectDetailActivity.this, detail, null, RANDOM_CHECK_REQUEST);
+                        } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+                            CheckItemActivity.launch(view.getContext(), detail);
+                        }
+                    } else if (detail.check_mode == ProjectDetail.CHECK_MODE_MORE){
+                        if (detail.check_type == ProjectDetail.CHECK_TYPE_RANDOM) {
+                            getCheckPerson();
+                        } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+                            CheckItemForMoreActivity.launch(ProjectDetailActivity.this, detail);
+                        }
                     }
                 }
+
 
 
 

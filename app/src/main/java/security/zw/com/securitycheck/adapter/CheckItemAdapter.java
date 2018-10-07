@@ -64,6 +64,17 @@ public class CheckItemAdapter extends BaseRecyclerViewAdapter<CheckItem,CheckIte
             holder.parentCheckName.setVisibility(View.GONE);
             holder.parentCheckScore.setVisibility(View.GONE);
 
+        } else if (type == 4) {
+            holder.parentCheckName.setVisibility(View.VISIBLE);
+            holder.parentCheckScore.setVisibility(View.GONE);
+
+            if (groupData.isPassed) {
+                holder.parentCheckName.setText("已通过");
+            } else {
+                holder.parentCheckName.setText("未通过");
+            }
+
+
         }
     }
 
@@ -88,6 +99,10 @@ public class CheckItemAdapter extends BaseRecyclerViewAdapter<CheckItem,CheckIte
 
 
         } else if (type == -1) {
+            holder.childCheckName.setVisibility(View.GONE);
+            holder.childCheckScore.setVisibility(View.GONE);
+
+        } else if (type == 4) {
             holder.childCheckName.setVisibility(View.GONE);
             holder.childCheckScore.setVisibility(View.GONE);
 

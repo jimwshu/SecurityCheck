@@ -130,6 +130,11 @@
         ></activity>
 
         <activity
+                android:name=".DustCheckActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
                 android:name=".ScoreActivity"
                 android:screenOrientation="portrait"
         ></activity>
@@ -220,6 +225,12 @@
 
         <activity
                 android:name=".MySupervisionProjectListForOneCheckActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+
+        <activity
+                android:name=".DustDetailActivity"
                 android:screenOrientation="portrait"
         ></activity>
 

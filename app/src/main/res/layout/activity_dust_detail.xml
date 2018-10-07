@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#f4f4f4"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <TextView
+            android:gravity="center"
+            android:id="@+id/check"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/login_bg"
+            android:textColor="#ffffff"
+            android:text="提交检查结果"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"/>
+
+
+    <ScrollView
+            android:layout_above="@+id/check"
+            android:layout_below="@+id/action_bar"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/dust_name"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/dust_area"
+            />
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/dust_progress"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/dust_address"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/contract"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/construction"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail_contract"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/monitor"
+            ></include>
+
+
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_1"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_2"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_3"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_4"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_5"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_6"
+            ></include>
+
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_7"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_8"
+            ></include>
+
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_9"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_dust_detail_for_choice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/state_10"
+            ></include>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
+

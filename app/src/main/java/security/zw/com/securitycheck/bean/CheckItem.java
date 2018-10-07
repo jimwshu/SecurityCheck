@@ -54,6 +54,9 @@ public class CheckItem extends JSONAble{
     public boolean haveItemChecked;
 
     public String checkName;
+
+
+    public boolean isPassed;
     @Override
     public String toString() {
         return "CheckItem{" +

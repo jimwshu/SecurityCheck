@@ -17,6 +17,41 @@
             android:id="@+id/action_bar"
     ></include>
 
+
+    <RelativeLayout
+            android:id="@+id/check_for_dust"
+            android:visibility="gone"
+            android:layout_below="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+        <TextView
+                android:id="@+id/pass"
+                android:layout_centerInParent="true"
+                android:textColor="#FF0000"
+                android:textSize="17dp"
+                android:text="通过"
+                android:drawableRight="@mipmap/circle_publish_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/pass"
+                android:textColor="#ffffff"
+                android:textSize="17dp"
+                android:text="处理意见"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+
+
+    </RelativeLayout>
+
     <TextView
             android:layout_marginTop="10dp"
             android:visibility="gone"
