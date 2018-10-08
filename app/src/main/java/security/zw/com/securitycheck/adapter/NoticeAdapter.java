@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import security.zw.com.securitycheck.CheckItemActivity;
 import security.zw.com.securitycheck.CheckItemForMoreActivity;
 import security.zw.com.securitycheck.PersonDetailActivity;
 import security.zw.com.securitycheck.R;
@@ -71,8 +72,10 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.CompanyVie
         holder.name.setText(person.name);
         if (person.type == 1) {
             holder.job.setText("随机检查");
-        } else {
+        } else if (person.type == 2) {
             holder.job.setText("评分检查");
+        } else if (person.type == 3) {
+            holder.job.setText("逐项检查");
         }
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +87,10 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.CompanyVie
                 projectDetail.check_mode = person.mode;
                 if (projectDetail.check_type == 2) {
                     CheckItemForMoreActivity.launch(view.getContext(), projectDetail);
-                } else {
+                } else if (projectDetail.check_type == 1) {
                     RandomCheckActivity.launch(view.getContext(), projectDetail);
+                } else if (projectDetail.check_type == 3){
+                    CheckItemActivity.launch(view.getContext(), projectDetail);
                 }
             }
         });
