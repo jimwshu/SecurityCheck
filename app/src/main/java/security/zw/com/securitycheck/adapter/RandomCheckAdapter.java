@@ -80,8 +80,8 @@ public class RandomCheckAdapter extends RecyclerView.Adapter<RandomCheckAdapter.
     public void onBindViewHolder(RandomCheckAdapter.ProjectViewHolder holder, final int position) {
         final RandomCheck p = mData.get(position);
 
-        holder.illegal.setText(p.illeage);
-        holder.basic.setText(p.basic);
+        holder.illegal.setText(p.ilegalItems);
+        holder.basic.setText(p.baseItemrs);
 
         if (!TextUtils.isEmpty(p.image)) {
             holder.photoView.setVisibility(View.VISIBLE);

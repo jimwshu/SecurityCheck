@@ -337,6 +337,14 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
     private void submit() {
 
         if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT || detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+
+            if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
+                if (!unfit.isChecked()) {
+                    ToastUtil.Short("请选择不合格");
+                    return;
+                }
+            }
+
             addCheck();
         }
 

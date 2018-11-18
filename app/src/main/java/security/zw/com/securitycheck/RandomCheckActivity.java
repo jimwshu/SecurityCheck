@@ -783,6 +783,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("projectId", detail.id);
+        jsonObject.addProperty("userId", SecurityApplication.mUser.id);
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 

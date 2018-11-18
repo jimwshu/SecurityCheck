@@ -12,8 +12,8 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
  */
 
 public class RandomCheck extends JSONAble{
-    public String illeage;
-    public String basic;
+    public String ilegalItems;
+    public String baseItemrs;
     public String image;
 
 }
