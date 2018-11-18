@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rel"
+                >
+
+
+    <RelativeLayout
+            android:id="@+id/illegal_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+                android:id="@+id/illegal_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="17dp"
+                android:text="违法内容"
+                android:textColor="#92969c"
+                android:textSize="16dp" />
+
+
+        <TextView
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:id="@+id/illegal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/illegal_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginLeft="40dp"
+                android:layout_toRightOf="@+id/illegal_content"
+                android:background="@null"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#bfc3c7"
+                android:textCursorDrawable="@drawable/edittext_bg"
+                android:textSize="16dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_below="@+id/illegal_rel"
+            android:id="@+id/basic_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+                android:id="@+id/basic_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="17dp"
+                android:text="违法依据"
+                android:textColor="#92969c"
+                android:textSize="16dp" />
+
+
+        <TextView
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:id="@+id/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/basic_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginLeft="40dp"
+                android:layout_toRightOf="@+id/basic_content"
+                android:background="@null"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#bfc3c7"
+                android:textCursorDrawable="@drawable/edittext_bg"
+                android:textSize="16dp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_below="@+id/basic_rel"
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="17dp"
+                android:text="现场照片"
+                android:textColor="#92969c"
+                android:textSize="16dp" />
+
+
+        <HorizontalScrollView
+                android:id="@+id/images_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="14dp"
+                android:layout_toRightOf="@+id/photo"
+                android:scrollbars="none">
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/image1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="5dp"
+                        android:scaleType="fitXY"
+                        fresco:actualImageResource="@mipmap/image_add"
+                        fresco:actualImageScaleType="fitXY"
+
+                />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/image2"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="78dp"
+                        android:layout_marginTop="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/my_default_icon"
+                        fresco:actualImageResource="@mipmap/image_add"
+                        fresco:actualImageScaleType="fitXY" />
+
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/image3"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="156dp"
+                        android:layout_marginTop="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/my_default_icon"
+                        fresco:actualImageResource="@mipmap/image_add"
+                        fresco:actualImageScaleType="fitXY" />
+
+            </FrameLayout>
+
+        </HorizontalScrollView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

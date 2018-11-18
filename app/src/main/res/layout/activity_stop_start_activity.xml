@@ -139,15 +139,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-        <EditText
-                android:hint="请输入"
+        <TextView
+                android:hint="请选择是否正常停工"
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:id="@+id/normal_tv"
                 android:layout_marginLeft="130dp"
                 android:textColor="#1a1a1a"
                 android:textSize="16dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
 
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"/>
 
         <TextView
-                android:hint="请输入"
+                android:hint="请选择时间"
                 android:background="@null"
                 android:layout_centerVertical="true"
                 android:id="@+id/time_tv"

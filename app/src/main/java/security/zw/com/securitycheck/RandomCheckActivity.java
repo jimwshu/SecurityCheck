@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -29,26 +31,32 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import security.zw.com.securitycheck.adapter.RandomCheckAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.CheckItem;
 import security.zw.com.securitycheck.bean.ProjectDetail;
+import security.zw.com.securitycheck.bean.ProjectInfo;
+import security.zw.com.securitycheck.bean.RandomCheck;
 import security.zw.com.securitycheck.postbean.CheckBean;
 import security.zw.com.securitycheck.postbean.CheckItemDetailBean;
 import security.zw.com.securitycheck.utils.Base64Img;
 import security.zw.com.securitycheck.utils.DeviceUtils;
 import security.zw.com.securitycheck.utils.ImageUtils;
+import security.zw.com.securitycheck.utils.LogUtils;
 import security.zw.com.securitycheck.utils.WindowUtils;
 import security.zw.com.securitycheck.utils.image.FrescoImageloader;
 import security.zw.com.securitycheck.utils.imagepicker.ImageInfo;
@@ -63,13 +71,12 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     private CheckItem checkItem;// 对应的检查类别
     private ArrayList<ImageInfo> imagePaths = new ArrayList<>();
 
+    private RecyclerView mRecyclerView;
+    private RandomCheckAdapter mRandomChcekAdapter;
+    private ArrayList<RandomCheck> randomChecks = new ArrayList<>();
+    protected LinearLayoutManager mManager;
 
     private int type;// 选择的违法内容
-
-    public static void launch(Context ctx) {
-        Intent intent = new Intent(ctx, RandomCheckActivity.class);
-        ctx.startActivity(intent);
-    }
 
     public static void launch(Context ctx, ProjectDetail detail) {
         Intent intent = new Intent(ctx, RandomCheckActivity.class);
@@ -87,8 +94,8 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     }
 
     /*
-    * 是否设置沉浸式状态栏
-    */
+     * 是否设置沉浸式状态栏
+     */
     protected boolean isNeedImmersiveStatusBar() {
         return true;
     }
@@ -127,8 +134,13 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         if (ConfigManager.ilegallItems.size() == 0) {
             ConfigManager.getInstance().getBasic();
         }
-        setContentView(R.layout.activity_obtain_evidence);
+        setContentView(R.layout.activity_random_check_only);
         initWidget();
+
+        if (detail != null) {
+            loadData();
+        }
+
 
     }
 
@@ -167,6 +179,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     }
 
     private void showSubmitLoading() {
+
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
@@ -252,6 +265,13 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         recheck_rel.setVisibility(View.GONE);
 
         initListenner();
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRandomChcekAdapter = new RandomCheckAdapter(randomChecks, this);
+        mManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mManager);
+        mRecyclerView.setAdapter(mRandomChcekAdapter);
+        mRecyclerView.setHasFixedSize(true);
+
     }
 
     private void submit() {
@@ -394,6 +414,15 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     private boolean get_code = false;
 
     public void addCheck() {
+        if (TextUtils.isEmpty(illegel.getText().toString())) {
+            ToastUtil.Short("请选择违法内容");
+            return;
+        }
+
+        if (TextUtils.isEmpty(basic.getText().toString())) {
+            ToastUtil.Short("请选择违法依据");
+            return;
+        }
         showSubmitLoading();
 
 
@@ -403,6 +432,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
     }
 
     public void addRandomCheck() {
+
         get_code = true;
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
@@ -433,6 +463,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+
                 get_code = false;
                 if (response.isSuccessful()) {
 
@@ -443,6 +474,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 hideSubmitLoading();
                                 ToastUtil.Long("增加随机检查成功");
+                                loadData();
                                 showFinishDialog();
                             } else {
                                 ToastUtil.Long("增加随机检查失败");
@@ -452,6 +484,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                             }
                         }
                     } catch (JSONException e) {
+
                         e.printStackTrace();
                         ToastUtil.Long("增加随机检查失败");
                         hideSubmitLoading();
@@ -460,6 +493,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
                     }
                 } else {
+
                     ToastUtil.Long("增加随机检查失败");
                     hideSubmitLoading();
                     complete = false;
@@ -469,6 +503,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+
                 t.printStackTrace();
                 get_code = false;
                 ToastUtil.Long("增加随机检查失败");
@@ -600,11 +635,15 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
 
     private String compressImages() {
         if (imagePaths.size() == 0) {
+
             addRandomCheck();
         } else {
+
             for (int i = 0; i < imagePaths.size(); i++) {
+
                 ImageInfo imageInfo = imagePaths.get(i);
                 if (imageInfo.status == ImageInfo.STATUS_NET) {
+
                     images.append(imageInfo.url);
                     images.append(";");
                     if (i == imagePaths.size() - 1) {
@@ -612,6 +651,7 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                         addRandomCheck();
                     }
                 } else if (imageInfo.status == ImageInfo.STATUS_LOCAL) {
+
                     final Uri uri = Uri.parse(imagePaths.get(i).url);
                     final int j = i;
                     new Compress(new Compress.ICompress() {
@@ -741,15 +781,12 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
         mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
         addCheck = mRetrofit.create(Constans.AddCheck.class);
 
-        CheckItemDetailBean checkItemDetailBean = new CheckItemDetailBean();
-        checkItemDetailBean.projectId = detail.id;
-        checkItemDetailBean.userId = SecurityApplication.mUser.id;
-
-        Gson gson = new Gson();
-        String s = gson.toJson(checkItemDetailBean);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("projectId", detail.id);
+        String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getRandomCheckDetail(requestBody);
+        mCall = addCheck.getRandomCheckList(requestBody);
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -760,42 +797,25 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
                         if (jsonObject.has("code")) {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
-                                JSONObject object = jsonObject.optJSONObject("data");
-                                final CheckBean checkBean = SecurityApplication.getGson().fromJson(object.toString(), CheckBean.class);
-
-                                new Handler().post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        illegel.setText(checkBean.ilegalItems);
-                                        basic.setText(checkBean.baseItemrs);
-                                        respon.setText(checkBean.personLiable);
-                                        recheck.setText(checkBean.reCheckTime);
-                                        if (!TextUtils.isEmpty(checkBean.image)) {
-                                            String[] imgs = checkBean.image.split(";");
-                                            if (imgs.length > 0) {
-                                                imagePaths.clear();
-                                                for (int i = 0; i < (imgs.length > 3 ? 3 : imgs.length); i++) {
-                                                    String url = imgs[i];
-                                                    ImageInfo imageInfo = new ImageInfo();
-                                                    imageInfo.status = ImageInfo.STATUS_NET;
-                                                    imageInfo.url = url;
-                                                    imagePaths.add(imageInfo);
-                                                }
-                                                if (imagePaths.size() > 0) {
-                                                    resetImageViews();
-                                                }
-                                            }
+                                //SONObject object = jsonObject.optJSONObject("data");
+                                JSONArray data1 = jsonObject.optJSONArray("data");
+                                if (data1 != null && data1.length() > 0) {
+                                    randomChecks.clear();
+                                    for (int i = 0; i < data1.length(); i++) {
+                                        RandomCheck r = new Gson().fromJson(data1.getJSONObject(i).toString(), RandomCheck.class);
+                                        if (r != null) {
+                                            randomChecks.add(r);
                                         }
                                     }
-                                });
+                                    mRandomChcekAdapter.notifyDataSetChanged();
+                                }
+
                             }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        ToastUtil.Long("获取评分信息失败，请重试");
                     }
                 } else {
-                    ToastUtil.Long("获取评分信息失败，请重试");
                 }
             }
 
@@ -803,7 +823,6 @@ public class RandomCheckActivity extends BaseSystemBarTintActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
                 get_code = false;
-                ToastUtil.Long("获取评分信息失败，请重试");
             }
         });
 

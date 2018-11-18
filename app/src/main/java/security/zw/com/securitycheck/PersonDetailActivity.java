@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -391,7 +392,15 @@ public class PersonDetailActivity extends BaseSystemBarTintActivity {
                                     construct_state.setText(info.position);
                                     cost_state.setText(info.companyName);
                                     state_state.setText(info.phone);
-
+                                    state.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_CALL);
+                                            Uri data = Uri.parse("tel:" + info.phone);
+                                            intent.setData(data);
+                                            PersonDetailActivity.this.startActivity(intent);
+                                        }
+                                    });
                                 }
                             }
                         } catch (JSONException e) {

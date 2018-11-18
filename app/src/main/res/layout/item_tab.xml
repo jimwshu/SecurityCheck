@@ -6,14 +6,14 @@
                 android:id="@+id/rel"
                 >
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
             android:layout_centerHorizontal="true"
             android:layout_marginTop="43dp"
             android:id="@+id/image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="7dp"
-            fresco:actualImageScaleType="centerCrop"
+            android:scaleType="fitXY"
             />
 
     <TextView

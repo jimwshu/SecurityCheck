@@ -18,6 +18,7 @@
 
 
     <TextView
+            android:visibility="gone"
             android:layout_marginBottom="20dp"
             android:layout_above="@+id/logout"
             android:text="特定版本"

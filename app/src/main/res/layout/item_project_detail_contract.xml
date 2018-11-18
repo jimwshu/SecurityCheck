@@ -59,7 +59,7 @@
             android:id="@+id/person"
             android:textColor="#1a1a1a"
             android:textSize="16dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
 

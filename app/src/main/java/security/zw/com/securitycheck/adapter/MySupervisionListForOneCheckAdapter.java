@@ -103,8 +103,8 @@ public class MySupervisionListForOneCheckAdapter extends RecyclerView.Adapter<My
     public void onBindViewHolder(MySupervisionListForOneCheckAdapter.ProjectDetailViewHolder holder, final int position) {
         final SupervisionProjectList myCheckProjectDetail = mData.get(position);
 
-        if (!TextUtils.isEmpty(myCheckProjectDetail.ilegalContent)) {
-            holder.name.setText(myCheckProjectDetail.ilegalContent);
+        if (!TextUtils.isEmpty(myCheckProjectDetail.checkItemName)) {
+            holder.name.setText(myCheckProjectDetail.checkItemName);
         } else {
             holder.name.setText(myCheckProjectDetail.projectName);
         }

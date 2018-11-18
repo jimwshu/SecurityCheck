@@ -436,7 +436,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         contract_person = contract.findViewById(R.id.person);
         contract_title.setText("建设单位");
 
-        contract_name.setOnClickListener(new View.OnClickListener() {
+        contract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (detail != null && detail.contract != null) {
@@ -461,7 +461,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         construction_person = construction.findViewById(R.id.person);
         construction_title.setText("施工单位");
 
-        construction_name.setOnClickListener(new View.OnClickListener() {
+        construction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (detail != null && detail.construction != null) {
@@ -487,7 +487,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         monitor_title.setText("监理单位");
 
 
-        monitor_name.setOnClickListener(new View.OnClickListener() {
+        monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (detail != null && detail.monitor != null) {
@@ -688,7 +688,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
         state_state.setText(detail.state);
         address_state.setText(detail.address);
 
-        address_state.setOnClickListener(new View.OnClickListener() {
+        address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MapActivity.launch(view.getContext(), detail.address, detail.supervise == 0);

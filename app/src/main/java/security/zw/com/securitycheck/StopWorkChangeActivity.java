@@ -46,6 +46,9 @@ import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
 public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
 
 
+    public static final String[] CHECK_CLASS_1 = new String[]{
+            "是", "否"
+    };
 
     public static void launch(Context ctx, ProjectInfo projectInfo) {
         Intent intent = new Intent(ctx, StopWorkChangeActivity.class);
@@ -55,8 +58,8 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
 
 
     /*
-    * 是否设置沉浸式状态栏
-    */
+     * 是否设置沉浸式状态栏
+     */
     protected boolean isNeedImmersiveStatusBar() {
         return true;
     }
@@ -71,7 +74,7 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
 
     private TextView name_tv;
     private EditText stop_tv;
-    private EditText normal_tv;
+    private TextView normal_tv;
 
     private TextView time_tv;
     private TextView time;
@@ -134,7 +137,19 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
 
             }
         });
-
+        normal_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(StopWorkChangeActivity.this)
+                        .setItems(CHECK_CLASS_1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                normal_tv.setText(CHECK_CLASS_1[which]);
+                            }
+                        })
+                        .show();
+            }
+        });
         if (info.workState == ProjectInfo.TYPE_STOP) {
             stopOrStart.setText("复工");
             time.setText("复工时间");
@@ -195,7 +210,6 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
 
-
         if (isAdd) {
             mCall = addCheck.addDetail(requestBody);
         } else {
@@ -233,7 +247,6 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
                 ToastUtil.Short("修改状态失败");
             }
         });
-
 
 
     }

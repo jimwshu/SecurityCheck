@@ -203,5 +203,8 @@ public class Constans {
 
         @POST("/supervisorDiamond/projectCheckItem/assign/judge")
         public Call<String> finishCheckPerson(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/list")
+        public Call<String> getRandomCheckList(@Body RequestBody route);
     }
 }

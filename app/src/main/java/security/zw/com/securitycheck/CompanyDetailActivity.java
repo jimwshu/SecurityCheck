@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -267,7 +268,6 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
         bar_next_3.setVisibility(View.GONE);
         map_3.setVisibility(View.GONE);
 
-
         area = findViewById(R.id.area);
         area_title = area.findViewById(R.id.title);
         area_state = area.findViewById(R.id.state);
@@ -422,6 +422,16 @@ public class CompanyDetailActivity extends BaseSystemBarTintActivity {
                                     if (data != null && data.size() > 0) {
                                         data.clear();
                                     }
+
+                                    construct.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_CALL);
+                                            Uri data = Uri.parse("tel:" + info.phone);
+                                            intent.setData(data);
+                                            CompanyDetailActivity.this.startActivity(intent);
+                                        }
+                                    });
 
                                     data.addAll(info.projects);
                                     mAdapter.notifyDataSetChanged();

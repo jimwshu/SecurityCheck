@@ -1,0 +1,488 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/common_title_bar_2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="visible"></include>
+
+
+    <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/action_bar"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/check_result_rel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/check_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="检查结论"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+
+                <RadioGroup
+                    android:id="@+id/check_result_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@+id/check_result">
+
+                    <RadioButton
+                        android:visibility="visible"
+                        android:id="@+id/check_result_fit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="合格"
+                        android:textColor="#1A1A1A"
+                        android:textSize="16dp" />
+
+                    <RadioButton
+                        android:visibility="gone"
+                        android:id="@+id/check_result_unfit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#1A1A1A"
+                        android:textSize="16dp" />
+
+                    <RadioButton
+                        android:visibility="visible"
+                        android:id="@+id/check_result_unfit_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不合格"
+                        android:textColor="#1A1A1A"
+                        android:textSize="16dp" />
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/check_result"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/illegal_rel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp">
+
+                <TextView
+                    android:id="@+id/illegal_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="违法内容"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/select_illegal_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/illegal_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="点击选择"
+                    android:textColor="#0f86ff"
+                    android:textSize="16dp"
+                    android:visibility="visible" />
+
+
+                <EditText
+                    android:id="@+id/illegal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/illegal_content"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_toRightOf="@+id/illegal_content"
+                    android:background="@null"
+                    android:hint="请输入违法内容"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#bfc3c7"
+                    android:textCursorDrawable="@drawable/edittext_bg"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/illegal_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/basic_rel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp">
+
+                <TextView
+                    android:id="@+id/basic_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="违法依据"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/select_basic_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/basic_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="点击选择"
+                    android:textColor="#0f86ff"
+                    android:textSize="16dp"
+                    android:visibility="gone" />
+
+
+                <EditText
+                    android:id="@+id/basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/basic_content"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_toRightOf="@+id/basic_content"
+                    android:background="@null"
+                    android:hint="请输入违法依据"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#bfc3c7"
+                    android:textCursorDrawable="@drawable/edittext_bg"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/basic_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/photo_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="现场照片"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+
+                <HorizontalScrollView
+                    android:id="@+id/images_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@+id/photo"
+                    android:scrollbars="none">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/image1"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
+                            fresco:actualImageResource="@mipmap/image_add"
+                            fresco:actualImageScaleType="fitXY"
+
+                            />
+
+                        <ImageView
+                            android:id="@+id/imageDelete1"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="52dp"
+                            android:src="@mipmap/image_delete" />
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/image2"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="78dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/my_default_icon"
+                            fresco:actualImageResource="@mipmap/image_add"
+                            fresco:actualImageScaleType="fitXY" />
+
+                        <ImageView
+                            android:id="@+id/imageDelete2"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="130dp"
+                            android:src="@mipmap/image_delete" />
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/image3"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="156dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/my_default_icon"
+                            fresco:actualImageResource="@mipmap/image_add"
+                            fresco:actualImageScaleType="fitXY" />
+
+                        <ImageView
+                            android:id="@+id/imageDelete3"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="208dp"
+                            android:src="@mipmap/image_delete" />
+
+                    </FrameLayout>
+
+                </HorizontalScrollView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/photo"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="17dp"
+                    android:background="#e9e9e9" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/count_rel"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <TextView
+                    android:id="@+id/decrease_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="扣分"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/decrease"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/decrease_content"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="72dp"
+                    android:layout_toRightOf="@+id/decrease_content"
+                    android:src="@mipmap/decrease" />
+
+                <EditText
+                    android:id="@+id/count"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/decrease"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@+id/decrease"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#1a1a1a"
+                    android:textCursorDrawable="@drawable/edittext_bg"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/increase"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/decrease_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@+id/count"
+                    android:src="@mipmap/increase" />
+
+                <TextView
+                    android:id="@+id/score_des"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/decrease_content"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#92969c"
+                    android:textSize="16dp"
+                    android:visibility="gone" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/decrease_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/respon_rel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/respon_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="责任人"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/respon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/respon_name"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_toRightOf="@+id/respon_name"
+                    android:background="@null"
+                    android:hint="请输入责任人"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#bfc3c7"
+                    android:textCursorDrawable="@drawable/edittext_bg"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/respon_name"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/recheck_rel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/recheck_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp"
+                    android:text="复查时间"
+                    android:textColor="#92969c"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/recheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/recheck_time"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_toRightOf="@+id/recheck_time"
+                    android:hint="请选择时间"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#bfc3c7"
+                    android:textSize="16dp" />
+
+
+                <ImageView
+                    android:id="@+id/bar_next"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/bar_next" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@+id/recheck_time"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e9e9e9" />
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_bg"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

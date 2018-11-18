@@ -354,6 +354,7 @@ public class ImagesPickerActivity extends BaseActivity implements ImageGridAdapt
             dialog.show();
             FileUtils.notifyFileChanged(ImagesPickerActivity.this, new File(mCameraFilePath.getPath()));
             ImageInfo cameraInfo = new ImageInfo(mCameraFilePath.toString());
+            cameraInfo.status = ImageInfo.STATUS_LOCAL;
             checkedArray.add(cameraInfo);
 
             folderView.postDelayed(new Runnable() {
