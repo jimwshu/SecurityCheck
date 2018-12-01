@@ -22,7 +22,7 @@ import retrofit2.http.Url;
  */
 
 public class Constans {
-    public static String DOMAIN = "http://39.106.107.203:7083/";
+    public static String DOMAIN = "http://47.107.236.231:7083/";
 
     public static String Login = DOMAIN + "supervisorDiamond/auth/login";
 

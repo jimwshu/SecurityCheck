@@ -82,10 +82,10 @@ public class StopWorkAdapter extends RecyclerView.Adapter<StopWorkAdapter.Projec
         holder.name.setText(p.name);
         if (p.workState == ProjectInfo.TYPE_STOP) {
             holder.des.setText("停工项目");
-            holder.icon.setBackgroundResource(R.drawable.green_circle);
+            holder.icon.setBackgroundResource(R.drawable.red_circle);
         } else if (p.workState == ProjectInfo.TYPE_START) {
             holder.des.setText("复工项目");
-            holder.icon.setBackgroundResource(R.drawable.red_circle);
+            holder.icon.setBackgroundResource(R.drawable.green_circle);
         }
 
         holder.rel.setOnClickListener(new View.OnClickListener() {

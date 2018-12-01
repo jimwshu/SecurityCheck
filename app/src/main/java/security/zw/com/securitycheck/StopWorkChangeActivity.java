@@ -50,6 +50,10 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
             "是", "否"
     };
 
+    public static final String[] CHECK_CLASS_2 = new String[]{
+            "节假日", "政策因素", "资金因素","其他"
+    };
+
     public static void launch(Context ctx, ProjectInfo projectInfo) {
         Intent intent = new Intent(ctx, StopWorkChangeActivity.class);
         intent.putExtra("info", projectInfo);
@@ -75,6 +79,7 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
     private TextView name_tv;
     private EditText stop_tv;
     private TextView normal_tv;
+    private TextView stop;
 
     private TextView time_tv;
     private TextView time;
@@ -115,6 +120,7 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
         mType = findViewById(R.id.perrmission);
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mType.setText("停复工");
+        stop = findViewById(R.id.stop);
         stopOrStart = findViewById(R.id.stopOrStart);
         name_tv = findViewById(R.id.name_tv);
         stop_tv = findViewById(R.id.stop_tv);
@@ -150,12 +156,29 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
                         .show();
             }
         });
+
+        findViewById(R.id.select_stop_content).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(StopWorkChangeActivity.this)
+                        .setItems(CHECK_CLASS_2, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                stop_tv.setText(CHECK_CLASS_2[which]);
+                            }
+                        })
+                        .show();
+            }
+        });
+
         if (info.workState == ProjectInfo.TYPE_STOP) {
             stopOrStart.setText("复工");
             time.setText("复工时间");
+            stop.setText("复工原因");
         } else if (info.workState == ProjectInfo.TYPE_START) {
             stopOrStart.setText("停工");
             time.setText("停工时间");
+            stop.setText("停工原因");
         }
         name_tv.setText(info.name);
 
