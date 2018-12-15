@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rel"
+>
+
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/time"
+            android:text="资料目录"
+            android:textColor="#92969c"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:layout_alignTop="@+id/time"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/time"
+            android:id="@+id/name"
+            android:text="产权单位法人营业执照"
+            android:textColor="#1a1a1a"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/type"
+            android:text="要求"
+            android:textColor="#92969c"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:layout_toRightOf="@+id/type"
+            android:layout_alignTop="@+id/type"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/mode"
+            android:text="加盖产权单位公章"
+            android:textColor="#1a1a1a"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/mode"
+            fresco:actualImageScaleType="fitXY"
+            android:id="@+id/image1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+    />
+
+    <TextView
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/mode"
+            android:id="@+id/check_detail_tv"
+            android:text="查看大图"
+            android:textColor="#92969c"
+            android:textSize="16dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@+id/image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <View
+            android:background="#1a1a1a"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+</RelativeLayout>

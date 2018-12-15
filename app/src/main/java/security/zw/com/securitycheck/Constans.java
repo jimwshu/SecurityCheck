@@ -207,4 +207,26 @@ public class Constans {
         @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/list")
         public Call<String> getRandomCheckList(@Body RequestBody route);
     }
+    public interface Equipment {
+        @POST("/supervisorDiamond/equipment/record")
+        public Call<String> getEquipmentRecord(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/uninstalled")
+        public Call<String> getEquipmentUninstall(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/installed")
+        public Call<String> getEquipmentInstall(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/used")
+        public Call<String> getEquipmentUsed(@Body RequestBody route);
+
+
+        @POST("/supervisorDiamond/equipment/recordDoc")
+        public Call<String> getEquipmentDoc(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/recordDocAudit")
+        public Call<String> recordDocAudit(@Body RequestBody route);
+    }
+
+
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import security.zw.com.securitycheck.CompanyActivity;
+import security.zw.com.securitycheck.EquipmentListActivity;
 import security.zw.com.securitycheck.MyCheckActivity;
 import security.zw.com.securitycheck.MyProjectActivity;
 import security.zw.com.securitycheck.MySupervisionProjectActivity;
@@ -22,10 +23,12 @@ import security.zw.com.securitycheck.PersonActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.RemindActivity;
 import security.zw.com.securitycheck.StopWorkActivity;
+import security.zw.com.securitycheck.allEqupment.AllEquipmentListActivity;
 import security.zw.com.securitycheck.bean.Company;
 import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.bean.Person;
 import security.zw.com.securitycheck.bean.UserInfo;
+import security.zw.com.securitycheck.installEqupment.allEqupment.InstallEquipmentListActivity;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 
@@ -79,11 +82,13 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int HOME_MY_COMPANY = 8;    //企业库：企
     public static int HOME_MY_NOTICE = 6; //通知：发布
 
-    public static int HOME_MY_EQUIPMENT = 9; //相关设备
-    public static int HOME_MY_INSTALL = 10; //安拆管理
+    public static int HOME_MY_EQUIPMENT = 9; //设备备案
+    public static int HOME_MY_INSTALL = 10; //安装管理
+    public static int HOME_MY_UNINSTALL = 19; //拆卸管理
+
     public static int HOME_MY_RECORD   = 11; //使用登记
     public static int HOME_MY_LOW   = 12; //相关执法
-    public static int HOME_MY_FILING   = 13; //产权备案
+    public static int HOME_MY_FILING   = 13; //设备变更
 
 
 
@@ -92,6 +97,8 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static int HOME_MY_SUPERVISE   = 16; //下达督办
 
     public static int HOME_MY_CHECKER_COMPANY   = 17; //检测单位一览
+
+    public static int HOME_ALL_EQUPMENT = 18;//所有设备
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -211,21 +218,30 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             }  else if (item.type == HOME_MY_EQUIPMENT) {
-                viewHolder.name.setText("相关设备");
+                viewHolder.name.setText("设备备案");
                 viewHolder.icon.setImageResource(R.mipmap.t_z);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("相关设备");
+                        EquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             }  else if (item.type == HOME_MY_INSTALL) {
-                viewHolder.name.setText("安拆管理");
+                viewHolder.name.setText("安装管理");
                 viewHolder.icon.setImageResource(R.mipmap.t_y);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("安拆管理");
+                        InstallEquipmentListActivity.launch(view.getContext(), 0);
+                    }
+                });
+            }  else if (item.type == HOME_MY_UNINSTALL) {
+                viewHolder.name.setText("拆卸管理");
+                viewHolder.icon.setImageResource(R.mipmap.t_y);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        security.zw.com.securitycheck.uninstallEqupment.allEqupment.allEqupment.InstallEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             } else if (item.type == HOME_MY_RECORD) {
@@ -234,7 +250,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("使用登记");
+                        security.zw.com.securitycheck.usedEqupment.allEqupment.InstallEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             } else if (item.type == HOME_MY_LOW) {
@@ -252,7 +268,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("产权备案");
+                        security.zw.com.securitycheck.recordedEqupment.allEqupment.InstallEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             } else if (item.type == HOME_MY_CHECKED) {
@@ -289,6 +305,15 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onClick(View view) {
                         ToastUtil.Short("检测单位");
+                    }
+                });
+            } else if (item.type == HOME_ALL_EQUPMENT) {
+                viewHolder.name.setText("所有设备");
+                viewHolder.icon.setImageResource(R.mipmap.t_z);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AllEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             }

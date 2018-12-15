@@ -144,6 +144,10 @@ public class HomeFragment extends BaseStatisticsFragment {
             item5.type = 16;
             data.add(item5);
 
+            Item item9 = new Item();
+            item9.type = 18;
+            data.add(item9);
+
             Item item6 = new Item();
             item6.type = 6;
             data.add(item6);
@@ -169,20 +173,25 @@ public class HomeFragment extends BaseStatisticsFragment {
             data.add(item9);
 
             Item item2 = new Item();
-            item2.type = 9;
+            item2.type = 18;
             data.add(item2);
 
             Item item3 = new Item();
             item3.type = 10;
             data.add(item3);
 
+
+            Item item19 = new Item();
+            item19.type = 19;
+            data.add(item19);
+
             Item item4 = new Item();
             item4.type = 11;
             data.add(item4);
 
-            Item item5 = new Item();
+            /*Item item5 = new Item();
             item5.type = 12;
-            data.add(item5);
+            data.add(item5);*/
 
             Item item6 = new Item();
             item6.type = 6;
@@ -212,6 +221,10 @@ public class HomeFragment extends BaseStatisticsFragment {
             item3.type = 15;
             data.add(item3);
 
+            Item item9 = new Item();
+            item9.type = 18;
+            data.add(item9);
+
             Item item4 = new Item();
             item4.type = 8;
             data.add(item4);
@@ -229,6 +242,10 @@ public class HomeFragment extends BaseStatisticsFragment {
             item.type = 0;
             data.add(item);
 
+            Item item9 = new Item();
+            item9.type = 18;
+            data.add(item9);
+
             Item item1 = new Item();
             item1.type = 9;
             data.add(item1);
@@ -237,17 +254,18 @@ public class HomeFragment extends BaseStatisticsFragment {
             item2.type = 13;
             data.add(item2);
 
-            Item item3 = new Item();
+            /*Item item3 = new Item();
             item3.type = 10;
             data.add(item3);
-
-            Item item4 = new Item();
+            */
+           /* Item item4 = new Item();
             item4.type = 17;
-            data.add(item4);
+            data.add(item4);*/
 
-            Item item5 = new Item();
+           /* Item item5 = new Item();
             item5.type = 11;
-            data.add(item5);
+            data.add(item5)*/;
+
 
             Item item6 = new Item();
             item6.type = 6;
@@ -277,9 +295,9 @@ public class HomeFragment extends BaseStatisticsFragment {
             item3.type = 7;
             data.add(item3);
 
-            Item item4 = new Item();
+            /*Item item4 = new Item();
             item4.type = 12;
-            data.add(item4);
+            data.add(item4);*/
 
             Item item5 = new Item();
             item5.type = 6;

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#f4f4f4"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <LinearLayout
+            android:paddingTop="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/bottom_lin"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="55dp">
+
+        <TextView
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="#0f86ff"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:text="审核通过"
+                android:id="@+id/check_yes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"/>
+
+        <TextView
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="#0f86ff"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:text="拒绝申请"
+                android:id="@+id/check_no"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"/>
+
+
+    </LinearLayout>
+
+    <EditText
+            android:id="@+id/edittext"
+            android:hint="请输入拒绝申请理由"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/bottom_lin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresher"
+            android:layout_above="@+id/edittext"
+            android:layout_below="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</RelativeLayout>
+

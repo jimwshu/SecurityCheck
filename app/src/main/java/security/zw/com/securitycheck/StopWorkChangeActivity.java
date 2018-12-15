@@ -221,9 +221,9 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
             jsonObject.addProperty("id", stopInfo.id);
         }
 
-        jsonObject.addProperty("stopReasom", stop_tv.getText().toString());
-        jsonObject.addProperty("stopTime", time.getText().toString());
-        if (TextUtils.equals(normal_tv.getText().toString(), "是")) {
+        jsonObject.addProperty("stopReason", stop_tv.getText().toString());
+        jsonObject.addProperty("stopTime", time_tv.getText().toString());
+        if (TextUtils.equals(normal_tv.getText().toString(), CHECK_CLASS_1[0])) {
             jsonObject.addProperty("normalStop", 0);
         } else {
             jsonObject.addProperty("normalStop", 1);
@@ -319,7 +319,7 @@ public class StopWorkChangeActivity extends BaseSystemBarTintActivity {
 
                                     } else {
                                         stop_tv.setText(stopInfo1.stopReason);
-                                        normal_tv.setText(stopInfo1.normalStop == 0 ? "是" : "否");
+                                        normal_tv.setText(stopInfo1.normalStop == 0 ? CHECK_CLASS_1[0] : CHECK_CLASS_1[1]);
                                         time_tv.setText(stopInfo1.stopTime);
                                     }
 
