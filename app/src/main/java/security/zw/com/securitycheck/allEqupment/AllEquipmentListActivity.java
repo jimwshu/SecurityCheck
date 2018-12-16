@@ -146,7 +146,7 @@ public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getEquipmentRecord(requestBody);
+        mCall = addCheck.getEquipmentList(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override

@@ -57,7 +57,7 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
         public RelativeLayout rel;
         public TextView type;
         public TextView mode;
-
+        public TextView status;
         public ProjectViewHolder(View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.time);
@@ -65,6 +65,7 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
             rel = itemView.findViewById(R.id.rel);
             type = itemView.findViewById(R.id.type);
             mode = itemView.findViewById(R.id.mode);
+            status = itemView.findViewById(R.id.status);
         }
     }
 
@@ -75,12 +76,26 @@ public class EquipmentListAdapter extends RecyclerView.Adapter<EquipmentListAdap
         holder.time.setText(TimeUtils.secToTime(p.applyTime));
         holder.type.setText(p.recordCompany);
 
+        if (p.status == 0) {
+            holder.status.setText("审核中");
+        } else if (p.status == 1) {
+            holder.status.setText("审核通过");
+        } else if (p.status == -1) {
+            holder.status.setText("审核不通过");
+        }
+
         if (p.state == 0) {
-            holder.mode.setText("审核中");
+
         } else if (p.state == 1) {
-            holder.mode.setText("审核通过");
-        } else if (p.state == -1) {
-            holder.mode.setText("审核不通过");
+            holder.mode.setText("设备备案");
+        } else if (p.state == 2) {
+            holder.mode.setText("使用登记");
+        } else if (p.state == 3) {
+            holder.mode.setText("安装告知");
+        }else if (p.state == 4) {
+            holder.mode.setText("拆卸告知");
+        }else if (p.state == 5) {
+            holder.mode.setText("设备变更");
         }
 
         holder.rel.setOnClickListener(new View.OnClickListener() {

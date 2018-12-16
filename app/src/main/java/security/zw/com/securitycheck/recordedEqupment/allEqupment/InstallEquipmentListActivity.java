@@ -99,7 +99,7 @@ public class InstallEquipmentListActivity extends BaseSystemBarTintActivity {
         check.setVisibility(View.GONE);
         mType = findViewById(R.id.perrmission);
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        mType.setText("产权备案");
+        mType.setText("产权变更");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mAdapter = new InstallEquipmentListAdapter(data, this);
@@ -145,7 +145,7 @@ public class InstallEquipmentListActivity extends BaseSystemBarTintActivity {
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getEquipmentUsed(requestBody);
+        mCall = addCheck.changeUsed(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override

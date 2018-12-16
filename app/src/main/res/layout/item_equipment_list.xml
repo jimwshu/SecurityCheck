@@ -57,6 +57,15 @@
             android:layout_height="wrap_content"/>
 
 
+    <TextView
+            android:textColor="#ff0000"
+            android:textSize="20dp"
+            android:id="@+id/status"
+            android:gravity="center"
+            android:layout_below="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     <View
             android:background="#e9e9e9"
             android:layout_alignParentBottom="true"

@@ -88,7 +88,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static int HOME_MY_RECORD   = 11; //使用登记
     public static int HOME_MY_LOW   = 12; //相关执法
-    public static int HOME_MY_FILING   = 13; //设备变更
+    public static int HOME_MY_FILING   = 13; //产权变更
 
 
 
@@ -263,7 +263,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_FILING) {
-                viewHolder.name.setText("产权备案");
+                viewHolder.name.setText("产权变更");
                 viewHolder.icon.setImageResource(R.mipmap.t_v);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override

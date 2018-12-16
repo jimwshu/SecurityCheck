@@ -220,12 +220,19 @@ public class Constans {
         @POST("/supervisorDiamond/equipment/used")
         public Call<String> getEquipmentUsed(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/equipment/changeUsed")
+        public Call<String> changeUsed(@Body RequestBody route);
+
 
         @POST("/supervisorDiamond/equipment/recordDoc")
         public Call<String> getEquipmentDoc(@Body RequestBody route);
 
         @POST("/supervisorDiamond/equipment/recordDocAudit")
         public Call<String> recordDocAudit(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/list")
+        public Call<String> getEquipmentList(@Body RequestBody route);
+
     }
 
 

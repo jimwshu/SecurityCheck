@@ -15,6 +15,6 @@ public class EquipmentList extends JSONAble {
     public String equipmentName;
     public long applyTime;
     public int state;
-
+    public int status;
 
 }

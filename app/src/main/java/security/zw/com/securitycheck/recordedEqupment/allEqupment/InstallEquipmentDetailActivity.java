@@ -72,7 +72,7 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
         });
 
         mType = findViewById(R.id.perrmission);
-        mType.setText("产权备案详情");
+        mType.setText("产权变更详情");
         mSubmit = findViewById(R.id.submit);
         mSubmit.setText("生成二维码");
         mSubmit.setVisibility(View.GONE);
@@ -184,7 +184,7 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getEquipmentUninstall(requestBody);
+        mCall = addCheck.getEquipmentDoc(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override
@@ -215,6 +215,9 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
                                     data.addAll(arrayList);
                                     mAdapter.notifyDataSetChanged();
                                 }
+                            } else {
+                                String msg = jsonObject.optString("msg");
+                                ToastUtil.Short(msg);
                             }
                         }
                     } catch (JSONException e) {
