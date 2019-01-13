@@ -49,4 +49,10 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="primary_background">#ffffff</color>
+    <color name="primaryText">#CC000000</color>
+    <color name="secondaryText">#66000000</color>
+    <color name="tertiaryText">#33000000</color>
+    <color name="small_divider_color">#33787878</color>
+
 </resources>

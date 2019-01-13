@@ -8,6 +8,7 @@ import security.zw.com.securitycheck.utils.json.JSONAble;
  */
 
 public class SupervisionProjectList extends JSONAble {
+    public int statusTypeType = 0;
 
     public int id;
 

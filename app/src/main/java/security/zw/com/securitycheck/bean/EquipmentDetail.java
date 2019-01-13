@@ -13,4 +13,5 @@ public class EquipmentDetail extends JSONAble {
     public String docDir;//目录
     public String docUrl;//图片Url
     public int num;
+    public boolean pass;
 }

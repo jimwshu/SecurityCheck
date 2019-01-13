@@ -136,6 +136,10 @@ public class HomeFragment extends BaseStatisticsFragment {
             item3.type = 7;
             data.add(item3);
 
+            Item item9 = new Item();
+            item9.type = 18;
+            data.add(item9);
+
             Item item4 = new Item();
             item4.type = 12;
             data.add(item4);
@@ -144,9 +148,7 @@ public class HomeFragment extends BaseStatisticsFragment {
             item5.type = 16;
             data.add(item5);
 
-            Item item9 = new Item();
-            item9.type = 18;
-            data.add(item9);
+
 
             Item item6 = new Item();
             item6.type = 6;

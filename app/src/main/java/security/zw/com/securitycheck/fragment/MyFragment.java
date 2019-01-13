@@ -15,6 +15,7 @@ import android.widget.TextView;
 import security.zw.com.securitycheck.LoginActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
+import security.zw.com.securitycheck.widget.MyDialog;
 
 
 /**
@@ -26,7 +27,7 @@ public class MyFragment extends BaseStatisticsFragment {
     protected View view;
 
     private TextView logout;
-
+    private TextView reset;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,8 +68,21 @@ public class MyFragment extends BaseStatisticsFragment {
         barClose.setVisibility(View.GONE);
         barBack.setVisibility(View.GONE);
         barTitle.setText("个人中心");
+        reset = view.findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
 
+    }
 
+    private void showDialog() {
+        MyDialog myDialog = new MyDialog(getActivity());
+        myDialog.show();
+        myDialog.setCancelable(true);
+        myDialog.setCanceledOnTouchOutside(true);
     }
 
 

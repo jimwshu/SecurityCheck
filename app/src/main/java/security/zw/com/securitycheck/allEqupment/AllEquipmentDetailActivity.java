@@ -304,4 +304,7 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
 
 
     }
+
+
+
 }

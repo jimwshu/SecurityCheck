@@ -18,14 +18,19 @@
 
 
     <TextView
-            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/reset"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="visible"
             android:layout_marginBottom="20dp"
             android:layout_above="@+id/logout"
-            android:text="特定版本"
+            android:text="修改密码"
             android:textColor="#ff0000"
-            android:textSize="12dp"
+            android:textSize="20dp"
+            android:background="#0f86ff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="50dp"/>
 
 
     <TextView

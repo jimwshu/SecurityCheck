@@ -64,6 +64,7 @@ public class AllEquipmentDetailAdapter extends RecyclerView.Adapter<AllEquipment
         public TextView mode;
         public SimpleDraweeView image;
         public TextView check;
+        public TextView passed;
 
         public ProjectViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +75,8 @@ public class AllEquipmentDetailAdapter extends RecyclerView.Adapter<AllEquipment
             mode = itemView.findViewById(R.id.mode);
             image = itemView.findViewById(R.id.image1);
             check = itemView.findViewById(R.id.check_detail_tv);
+            passed = itemView.findViewById(R.id.pass);
+
         }
     }
 
@@ -101,6 +104,23 @@ public class AllEquipmentDetailAdapter extends RecyclerView.Adapter<AllEquipment
             }
         });
 
+        if (p.pass) {
+            holder.passed.setText("审核通过。点击设置审核不通过");
+            holder.passed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        } else {
+            holder.passed.setText("审核不通过。点击设置审核通过");
+            holder.passed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -37,8 +37,8 @@ public class MyProjectPresenter implements BasePresenter{
     }
 
 
-    public void getProjectList(final int type,final int page, final String name) {
-        myProjectModel.getList(type, page, name, new NetworkCallback() {
+    public void getProjectList(final int type,final int page, final String name, final int departId) {
+        myProjectModel.getList(type, page, name,departId, new NetworkCallback() {
             @Override
             public void onRealFailed(int code, String msg) {
                 super.onRealFailed(code, msg);

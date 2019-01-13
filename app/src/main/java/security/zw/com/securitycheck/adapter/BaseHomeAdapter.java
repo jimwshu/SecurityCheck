@@ -137,7 +137,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.num.setVisibility(View.GONE);
             }
             if (item.type == HOME_MY_WORKER) {
-                viewHolder.name.setText("我的项目");
+                viewHolder.name.setText("工程项目");
                 viewHolder.icon.setImageResource(R.mipmap.t_a);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -146,7 +146,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_CHANGE) {
-                viewHolder.name.setText("我的整改");
+                viewHolder.name.setText("检查整改");
                 viewHolder.icon.setImageResource(R.mipmap.t_b);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -155,7 +155,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_CHECKER) {
-                viewHolder.name.setText("我的检查");
+                viewHolder.name.setText("安全考评");
                 viewHolder.icon.setImageResource(R.mipmap.t_i);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -182,7 +182,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_Head_WORKER) {
-                viewHolder.name.setText("人员库");
+                viewHolder.name.setText("安全管理人员库");
                 viewHolder.icon.setImageResource(R.mipmap.t_d);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -191,7 +191,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_DEVICE) {
-                viewHolder.name.setText("设备一览");
+                viewHolder.name.setText("设备产权");
                 viewHolder.icon.setImageResource(R.mipmap.t_g);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -209,7 +209,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_NOTICE) {
-                viewHolder.name.setText("通知");
+                viewHolder.name.setText("安全通知");
                 viewHolder.icon.setImageResource(R.mipmap.t_f);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,7 +254,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_LOW) {
-                viewHolder.name.setText("相关执法");
+                viewHolder.name.setText("安全执法");
                 viewHolder.icon.setImageResource(R.mipmap.t_w);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -290,7 +290,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_SUPERVISE) {
-                viewHolder.name.setText("下达督办");
+                viewHolder.name.setText("领导督办");
                 viewHolder.icon.setImageResource(R.mipmap.t_s);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -308,7 +308,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_ALL_EQUPMENT) {
-                viewHolder.name.setText("所有设备");
+                viewHolder.name.setText("已备案设备");
                 viewHolder.icon.setImageResource(R.mipmap.t_z);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override

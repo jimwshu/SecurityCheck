@@ -183,6 +183,9 @@ public class Constans {
         @POST("/supervisorDiamond/checkUsers/list")
         public Call<String> getCheckPerson();
 
+        @POST("/supervisorDiamond/departments/list")
+        public Call<String> getDepartments();
+
         @POST("/supervisorDiamond/projectCheckItem/reviewScoreCheck/detailById")
         public Call<String> getScoreCheckDetail(@Body RequestBody route);
 
@@ -214,11 +217,32 @@ public class Constans {
         @POST("/supervisorDiamond/equipment/uninstalled")
         public Call<String> getEquipmentUninstall(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/equipment/uninstalledDoc")
+        public Call<String> getEquipmentUninstallDoc(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/uninstalledDocAudit")
+        public Call<String> getEquipmentUninstallDocAudit(@Body RequestBody route);
+
+
         @POST("/supervisorDiamond/equipment/installed")
         public Call<String> getEquipmentInstall(@Body RequestBody route);
 
+        @POST("/supervisorDiamond/equipment/installDoc")
+        public Call<String> getEquipmentInstallDoc(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/installDocAudit")
+        public Call<String> getEquipmentInstallAudit(@Body RequestBody route);
+
         @POST("/supervisorDiamond/equipment/used")
         public Call<String> getEquipmentUsed(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/usedDoc")
+        public Call<String> getEquipmentUsedDoc(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/usedDocAudit")
+        public Call<String> getEquipmentUsedDocAudit(@Body RequestBody route);
+
+
 
         @POST("/supervisorDiamond/equipment/changeUsed")
         public Call<String> changeUsed(@Body RequestBody route);
@@ -232,6 +256,9 @@ public class Constans {
 
         @POST("/supervisorDiamond/equipment/list")
         public Call<String> getEquipmentList(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/users/resetPassword")
+        public Call<String> resetPassword(@Body RequestBody route);
 
     }
 

@@ -74,31 +74,49 @@ public class MySupervisionProjectListAdapter extends RecyclerView.Adapter<MySupe
     @Override
     public void onBindViewHolder(MySupervisionProjectListAdapter.ProjectViewHolder holder, final int position) {
         final SupervisionProjectList p = mData.get(position);
-        holder.name.setText(p.operator + "");
-        holder.time.setText(TimeUtils.secToTime(p.createTime));
 
-        if (p.checkType == ProjectDetail.CHECK_TYPE_RANDOM) {
-            holder.type.setText("随机检查");
-        } else if (p.checkType == ProjectDetail.CHECK_TYPE_COUNT) {
-            holder.type.setText("评分检查");
-        } else if (p.checkType == ProjectDetail.CHECK_TYPE_EVERY) {
-            holder.type.setText("逐项检查");
-        } else if (p.checkType == ProjectDetail.CHECK_TYPE_DUST) {
-            holder.type.setText("扬尘检查");
-        }
 
-        if (p.checkMode == ProjectDetail.CHECK_MODE_SINGLE) {
-            holder.mode.setText("单人模式");
+        if (p.statusTypeType > 0) {
+            holder.name.setVisibility(View.GONE);
+            holder.type.setVisibility(View.GONE);
+            holder.mode.setVisibility(View.GONE);
+            holder.time.setText(p.statusTypeType == 1 ? "本周内" : "一周前");
+            holder.time.setTextColor(0xffff0000);
         } else {
-            holder.mode.setText("多人模式");
+            holder.name.setVisibility(View.VISIBLE);
+            holder.type.setVisibility(View.VISIBLE);
+            holder.mode.setVisibility(View.VISIBLE);
+            holder.time.setTextColor(0xff92969c);
+
+            holder.name.setText(p.operator + "");
+            holder.time.setText(TimeUtils.secToTime(p.createTime));
+
+            if (p.checkType == ProjectDetail.CHECK_TYPE_RANDOM) {
+                holder.type.setText("随机检查");
+            } else if (p.checkType == ProjectDetail.CHECK_TYPE_COUNT) {
+                holder.type.setText("评分检查");
+            } else if (p.checkType == ProjectDetail.CHECK_TYPE_EVERY) {
+                holder.type.setText("逐项检查");
+            } else if (p.checkType == ProjectDetail.CHECK_TYPE_DUST) {
+                holder.type.setText("扬尘检查");
+            }
+
+            if (p.checkMode == ProjectDetail.CHECK_MODE_SINGLE) {
+                holder.mode.setText("单人模式");
+            } else {
+                holder.mode.setText("多人模式");
+            }
+
+            holder.rel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MySupervisionProjectListForOneCheckActivity.launch(view.getContext(), p);
+                }
+            });
         }
 
-        holder.rel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MySupervisionProjectListForOneCheckActivity.launch(view.getContext(), p);
-            }
-        });
+
+
     }
 
     @Override

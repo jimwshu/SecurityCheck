@@ -15,14 +15,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import security.zw.com.securitycheck.adapter.MyProjectAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.bean.CheckPerson;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.presenter.MyProjectPresenter;
+import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 import security.zw.com.securitycheck.view.MyProjectView;
 import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
@@ -34,19 +44,69 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             "我的项目", "监督整改","开工复工","督办项目"
     };
 
+    Retrofit mRetrofit;
+    Constans.AddCheck addCheck;
+    Call<String> mCall;
+    private boolean get_code = false;
+
     public void selectPermission() {
-        new AlertDialog.Builder(this)
-                .setItems(ACCESS_PERMISSION, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (type != which + 1) {
-                            type = which + 1;
-                            mType.setText(ACCESS_PERMISSION[which]);
-                            onRefresh();
+
+        if (!get_code) {
+            get_code = true;
+            mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            addCheck = mRetrofit.create(Constans.AddCheck.class);
+            mCall = addCheck.getDepartments();
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    get_code = false;
+                    if (response.isSuccessful()) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.has("code")) {
+                                int code = jsonObject.optInt("code");
+                                if (code == 0) {
+                                    JSONArray jsonArray = jsonObject.optJSONArray("data");
+                                    if (jsonArray != null && jsonArray.length() > 0) {
+                                        persons.clear();
+                                        personsName = new String[jsonArray.length()];
+                                        selectedId = -1;
+
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject object = jsonArray.optJSONObject(i);
+                                            CheckPerson checkPerson = new CheckPerson();
+                                            checkPerson = SecurityApplication.getGson().fromJson(object.toString(), CheckPerson.class);
+                                            persons.add(checkPerson);
+                                            personsName[i] = (checkPerson.name);
+                                        }
+
+                                        toShowDepartment();
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("获取检查人员失败");
+
                         }
+                    } else {
+                        ToastUtil.Long("获取检查人员失败");
                     }
-                })
-                .show();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    t.printStackTrace();
+                    get_code = false;
+                    ToastUtil.Long("获取检查人员失败");
+                }
+            });
+
+        }
+
+
+
     }
 
 
@@ -107,7 +167,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
                 if (actionId == EditorInfo.IME_ACTION_SEARCH  ||
                         (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     String content = search.getText().toString();
-                    presenter.getProjectList(type, page, content);
+                    presenter.getProjectList(type, page, content, selectedId != -1 ? persons.get(selectedId).id : -1);
                     return true;
                 }
                 return false;
@@ -167,7 +227,7 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             return;
         }
         isLoading = true;
-        presenter.getProjectList(type, page, search.getText().toString());
+        presenter.getProjectList(type, page, search.getText().toString(), selectedId != -1 ? persons.get(selectedId).id : -1);
 
     }
 
@@ -252,4 +312,33 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
     public void getMyCheckProjectDetailListFailed(int code, String error) {
 
     }
+
+    public ArrayList<CheckPerson> persons = new ArrayList<>();
+    public String[] personsName;
+    public int selectedId = -1;
+
+    private void toShowDepartment() {
+        new AlertDialog.Builder(this)
+                .setTitle("请选择部门")
+                .setSingleChoiceItems(personsName, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        selectedId = i;
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                onRefresh();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                selectedId = -1;
+            }
+        })
+                .show();
+    }
+
 }

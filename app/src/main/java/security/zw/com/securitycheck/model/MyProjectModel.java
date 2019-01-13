@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -34,22 +35,29 @@ public class MyProjectModel implements BaseModel {
     }
 
 
-    public void getList(int type, int page, String name, final NetworkCallback callback){
+    public void getList(int type, int page, String name, int departId, final NetworkCallback callback){
 
         if (!isLogin) {
             isLogin = true;
             Retrofit mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
             Constans.GetMyProjectList getSmsService = mRetrofit.create(Constans.GetMyProjectList.class);
 
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            jsonObject.addProperty("type", type);
+            jsonObject.addProperty("page", page);
+            jsonObject.addProperty("size", 10000);
 
-            Gson gson = new Gson();
-            MyProjectBean loginBean = new MyProjectBean();
-            loginBean.userId = SecurityApplication.mUser.id;
-            loginBean.type = type;
-            loginBean.page = page;
-            loginBean.size = 10;
-            loginBean.name = name;
-            String s = gson.toJson(loginBean);
+            if (!TextUtils.isEmpty(name)) {
+                jsonObject.addProperty("name", name);
+            }
+            if (departId > 0) {
+                jsonObject.addProperty("departmentId", departId);
+            } else {
+                jsonObject.addProperty("departmentId", 0);
+            }
+
+            String s = jsonObject.toString();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 
 
@@ -132,7 +140,7 @@ public class MyProjectModel implements BaseModel {
             MyProjectBean loginBean = new MyProjectBean();
             loginBean.userId = SecurityApplication.mUser.id;
             loginBean.page = page;
-            loginBean.size = 10;
+            loginBean.size = 10000;
             String s = gson.toJson(loginBean);
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),s);
 

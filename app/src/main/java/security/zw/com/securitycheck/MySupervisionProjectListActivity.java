@@ -61,7 +61,6 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
     protected LinearLayoutManager mManager;
     protected MySupervisionProjectListAdapter mAdapter;
 
-    private int page = 1;
     protected boolean isLoading = false;
     protected boolean hasMore = true;
 
@@ -157,20 +156,52 @@ public class MySupervisionProjectListActivity extends BaseSystemBarTintActivity 
                         if (jsonObject.has("code")) {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
-                                JSONArray object = jsonObject.optJSONArray("data");
+                                JSONObject jsonObject1 = jsonObject.optJSONObject("data");
                                 ArrayList<SupervisionProjectList> arrayList = new ArrayList<>();
-                                if (object != null && object.length() > 0) {
-                                    for (int i = 0; i < object.length(); i++) {
-                                        JSONObject object1 = object.optJSONObject(i);
-                                        SupervisionProjectList supervisionProjectList = new Gson().fromJson(object1.toString(), SupervisionProjectList.class);
-                                        arrayList.add(supervisionProjectList);
+                                if (jsonObject1 != null) {
+                                    JSONArray array = jsonObject1.optJSONArray("nowList");
+                                    if (array != null && array.length() > 0) {
+                                        for (int i = 0; i < array.length(); i++) {
+                                            JSONObject object1 = array.optJSONObject(i);
+                                            SupervisionProjectList supervisionProjectList = new Gson().fromJson(object1.toString(), SupervisionProjectList.class);
+                                            arrayList.add(supervisionProjectList);
+                                        }
                                     }
-                                }
+                                    ArrayList<SupervisionProjectList> arrayList1 = new ArrayList<>();
 
-                                if (arrayList.size() > 0) {
-                                    data.clear();
-                                    data.addAll(arrayList);
-                                    mAdapter.notifyDataSetChanged();
+                                    JSONArray array1 = jsonObject1.optJSONArray("beforeList");
+                                    if (array1 != null && array1.length() > 0) {
+                                        for (int i = 0; i < array1.length(); i++) {
+                                            JSONObject object1 = array1.optJSONObject(i);
+                                            SupervisionProjectList supervisionProjectList = new Gson().fromJson(object1.toString(), SupervisionProjectList.class);
+                                            arrayList1.add(supervisionProjectList);
+                                        }
+                                    }
+
+
+                                    if (arrayList.size() > 0 || arrayList1.size() > 0) {
+                                        data.clear();
+
+
+                                        if (arrayList.size() > 0) {
+                                            SupervisionProjectList supervisionProjectList = new SupervisionProjectList();
+                                            supervisionProjectList.statusTypeType = 1;
+                                            data.add(supervisionProjectList);
+
+                                            data.addAll(arrayList);
+                                        }
+
+                                        if (arrayList1.size() > 0) {
+                                            SupervisionProjectList supervisionProjectList = new SupervisionProjectList();
+                                            supervisionProjectList.statusTypeType = 2;
+                                            data.add(supervisionProjectList);
+
+                                            data.addAll(arrayList1);
+                                        }
+                                        mAdapter.notifyDataSetChanged();
+
+                                    }
+
                                 }
                             }
                         }

@@ -17,6 +17,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.Random;
 
+import security.zw.com.securitycheck.ChangePassed;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.EquipmentDetail;
 import security.zw.com.securitycheck.bean.EquipmentList;
@@ -64,6 +65,7 @@ public class InstallEquipmentDetailAdapter extends RecyclerView.Adapter<InstallE
         public TextView mode;
         public SimpleDraweeView image;
         public TextView check;
+        public TextView passed;
 
         public ProjectViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +76,7 @@ public class InstallEquipmentDetailAdapter extends RecyclerView.Adapter<InstallE
             mode = itemView.findViewById(R.id.mode);
             image = itemView.findViewById(R.id.image1);
             check = itemView.findViewById(R.id.check_detail_tv);
+            passed = itemView.findViewById(R.id.pass);
         }
     }
 
@@ -115,8 +118,35 @@ public class InstallEquipmentDetailAdapter extends RecyclerView.Adapter<InstallE
             }
         });
 
+        if (p.pass) {
+            holder.passed.setText("审核通过。点击设置审核不通过");
+            holder.passed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (changePassed != null) {
+                        changePassed.setPassed(position);
+                    }
+                }
+            });
+        } else {
+            holder.passed.setText("审核不通过。点击设置审核通过");
+            holder.passed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (changePassed != null) {
+                        changePassed.setPassed(position);
+                    }
+                }
+            });
+        }
+
     }
 
+    private ChangePassed changePassed;
+
+    public void setChangePassed(ChangePassed changePassed) {
+        this.changePassed = changePassed;
+    }
     @Override
     public int getItemCount() {
         return mData.size();

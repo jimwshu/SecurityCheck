@@ -1,6 +1,7 @@
 package security.zw.com.securitycheck.installEqupment.allEqupment;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import android.content.Context;
@@ -26,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import security.zw.com.securitycheck.ChangePassed;
 import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
@@ -133,6 +135,13 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new InstallEquipmentDetailAdapter(data, this);
+        mAdapter.setChangePassed(new ChangePassed() {
+            @Override
+            public void setPassed(int pos) {
+                data.get(pos).pass = !data.get(pos).pass;
+                mAdapter.notifyDataSetChanged();
+            }
+        });
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -184,7 +193,7 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getEquipmentDoc(requestBody);
+        mCall = addCheck.getEquipmentInstallDoc(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override
@@ -264,13 +273,23 @@ public class InstallEquipmentDetailActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("recordId", info.recordId);
         jsonObject.addProperty("accept", yes);
 
+        JsonArray jsonArray = new JsonArray();
+        for (int i = 0; i < data.size(); i++) {
+            JsonObject j = new JsonObject();
+            j.addProperty("accept", data.get(i).pass);
+            j.addProperty("num", data.get(i).num);
+            jsonArray.add(j);
+        }
+
+        jsonObject.add("equipmentRecordDocReqVOS", jsonArray);
+
         if (!yes) {
             jsonObject.addProperty("reason", editText.getText().toString());
         }
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.recordDocAudit(requestBody);
+        mCall = addCheck.getEquipmentInstallAudit(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override

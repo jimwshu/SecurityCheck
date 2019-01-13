@@ -1,13 +1,11 @@
 package security.zw.com.securitycheck;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +14,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -31,21 +28,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import security.zw.com.securitycheck.adapter.EquipmentDetailAdapter;
-import security.zw.com.securitycheck.adapter.EquipmentListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
-import security.zw.com.securitycheck.bean.CheckPerson;
-import security.zw.com.securitycheck.bean.Equipment;
 import security.zw.com.securitycheck.bean.EquipmentDetail;
 import security.zw.com.securitycheck.bean.EquipmentList;
-import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
-import security.zw.com.securitycheck.bean.ProjectDetail;
-import security.zw.com.securitycheck.bean.ProjectInfo;
-import security.zw.com.securitycheck.presenter.MyProjectPresenter;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
-import security.zw.com.securitycheck.view.MyProjectView;
-import security.zw.com.securitycheck.widget.refresh.SwipeRefreshLayoutBoth;
-import security.zw.com.securitycheck.zxing.ZxingUtils;
 
 
 public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
@@ -145,6 +132,14 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
         });
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new EquipmentDetailAdapter(data, this);
+        mAdapter.setChangePassed(new ChangePassed() {
+            @Override
+            public void setPassed(int pos) {
+                data.get(pos).pass = !data.get(pos).pass;
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -276,6 +271,15 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
         jsonObject.addProperty("recordId", info.recordId);
         jsonObject.addProperty("accept", yes);
 
+        JsonArray jsonArray = new JsonArray();
+        for (int i = 0; i < data.size(); i++) {
+            JsonObject j = new JsonObject();
+            j.addProperty("accept", data.get(i).pass);
+            j.addProperty("num", data.get(i).num);
+            jsonArray.add(j);
+        }
+
+        jsonObject.add("equipmentRecordDocReqVOS", jsonArray);
         if (!yes) {
             jsonObject.addProperty("reason", editText.getText().toString());
         }
@@ -325,4 +329,6 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
 
 
     }
+
+
 }
