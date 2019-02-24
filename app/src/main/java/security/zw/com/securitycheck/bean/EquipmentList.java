@@ -17,4 +17,8 @@ public class EquipmentList extends JSONAble {
     public int state;
     public int status;
 
+
+    public String companyName;
+    public String createTime;
+
 }

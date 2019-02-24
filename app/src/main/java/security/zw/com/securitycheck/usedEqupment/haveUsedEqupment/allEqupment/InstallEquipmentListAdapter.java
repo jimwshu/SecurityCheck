@@ -1,4 +1,4 @@
-package security.zw.com.securitycheck.allEqupment;
+package security.zw.com.securitycheck.usedEqupment.haveUsedEqupment.allEqupment;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import security.zw.com.securitycheck.EquipmentDetailActivity;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.bean.EquipmentList;
 import security.zw.com.securitycheck.utils.TimeUtils;
@@ -21,7 +20,7 @@ import security.zw.com.securitycheck.utils.TimeUtils;
  */
 
 
-public class AllEquipmentListAdapter extends RecyclerView.Adapter<AllEquipmentListAdapter.ProjectViewHolder> {
+public class InstallEquipmentListAdapter extends RecyclerView.Adapter<InstallEquipmentListAdapter.ProjectViewHolder> {
 
 
     private ArrayList<EquipmentList> mData;
@@ -30,19 +29,19 @@ public class AllEquipmentListAdapter extends RecyclerView.Adapter<AllEquipmentLi
 
     private int type = -1;
 
-    public AllEquipmentListAdapter(ArrayList<EquipmentList> mData, Activity mActivity) {
+    public InstallEquipmentListAdapter(ArrayList<EquipmentList> mData, Activity mActivity) {
         this.mData = mData;
         this.mContext = mActivity;
     }
 
-    public AllEquipmentListAdapter(ArrayList<EquipmentList> mData, Activity mActivity, int type) {
+    public InstallEquipmentListAdapter(ArrayList<EquipmentList> mData, Activity mActivity, int type) {
         this.mData = mData;
         this.mContext = mActivity;
         this.type = type;
     }
 
     @Override
-    public AllEquipmentListAdapter.ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InstallEquipmentListAdapter.ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_equipment_list, parent, false);
         return new ProjectViewHolder(view);
     }
@@ -55,7 +54,6 @@ public class AllEquipmentListAdapter extends RecyclerView.Adapter<AllEquipmentLi
         public TextView type;
         public TextView mode;
         public TextView status;
-
         public ProjectViewHolder(View itemView) {
             super(itemView);
             time = itemView.findViewById(R.id.time);
@@ -68,21 +66,37 @@ public class AllEquipmentListAdapter extends RecyclerView.Adapter<AllEquipmentLi
     }
 
     @Override
-    public void onBindViewHolder(AllEquipmentListAdapter.ProjectViewHolder holder, final int position) {
+    public void onBindViewHolder(InstallEquipmentListAdapter.ProjectViewHolder holder, final int position) {
         final EquipmentList p = mData.get(position);
         holder.name.setText(p.equipmentName + "");
-        holder.time.setText(p.createTime);
-        holder.type.setText(p.companyName);
+        holder.time.setText(TimeUtils.secToTime(p.applyTime));
+        holder.type.setText(p.recordCompany);
 
-        holder.status.setVisibility(View.GONE);
+        if (p.status == 0) {
+            holder.status.setText("审核中");
+        } else if (p.status == 1) {
+            holder.status.setText("审核通过");
+        } else if (p.status == -1) {
+            holder.status.setText("审核不通过");
+        }
 
+        if (p.state == 0) {
 
-        holder.mode.setVisibility(View.INVISIBLE);
-
+        } else if (p.state == 1) {
+            holder.mode.setText("设备备案");
+        } else if (p.state == 2) {
+            holder.mode.setText("使用登记");
+        } else if (p.state == 3) {
+            holder.mode.setText("安装告知");
+        }else if (p.state == 4) {
+            holder.mode.setText("拆卸告知");
+        }else if (p.state == 5) {
+            holder.mode.setText("设备变更");
+        }
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AllEquipmentDetailActivity.launch(view.getContext(), p);
+                InstallEquipmentDetailActivity.launch(view.getContext(), p);
             }
         });
     }

@@ -14,4 +14,20 @@ public class EquipmentDetail extends JSONAble {
     public String docUrl;//图片Url
     public int num;
     public boolean pass;
+
+
+    public String manufactureLicense = "";
+    public String lastCheckTime = "";
+    public String specificationModel = "";
+    public String recordTime = "";
+    public String lastValidTime = "";
+    public String manufacturingNum= "";
+    public String equipmentName= "";
+    public String recordUnit= "";
+    public String outManufactureTime= "";
+    public String recordNum= "";
+    public String recordValidTime= "";
+    public String manufacturer= "";
+
+
 }

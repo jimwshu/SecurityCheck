@@ -1,5 +1,7 @@
 package security.zw.com.securitycheck;
 
+import com.google.gson.JsonObject;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -208,6 +211,17 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             }
         });
 
+        mAdapter.setOnClick(new MyProjectAdapter.OnClick() {
+            @Override
+            public void onClick(int pos) {
+
+                if (pos < data.size()) {
+                    ProjectInfo pp = data.get(pos);
+                    toShowChangeStatus(pp);
+                }
+            }
+        });
+
         mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -339,6 +353,83 @@ public class MyProjectActivity extends BaseSystemBarTintActivity implements MyPr
             }
         })
                 .show();
+    }
+
+    private void toShowChangeStatus(final ProjectInfo pp) {
+        new AlertDialog.Builder(this).
+                setMessage("是否确定修改督办状态?").
+                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        toChangeStatus(pp);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void toChangeStatus(ProjectInfo pp) {
+        if (!get_code) {
+            get_code = true;
+            mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
+            addCheck = mRetrofit.create(Constans.AddCheck.class);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("userId", SecurityApplication.mUser.id);
+            jsonObject.addProperty("projectId", pp.id);
+            if (pp.supervise == 1) {
+                jsonObject.addProperty("status", false);
+            } else if (pp.supervise == 0) {
+                jsonObject.addProperty("status", true);
+            }
+
+            String s = jsonObject.toString();
+            RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
+
+            mCall = addCheck.toChangeStatus(requestBody);
+            mCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    get_code = false;
+                    if (response.isSuccessful()) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            if (jsonObject.has("code")) {
+                                int code = jsonObject.optInt("code");
+                                if (code == 0) {
+                                    ToastUtil.Short("修改状态成功");
+                                    onRefresh();
+                                } else {
+                                    ToastUtil.Long("修改状态失败");
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("修改状态失败");
+
+                        }
+                    } else {
+                        ToastUtil.Long("修改状态失败");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    t.printStackTrace();
+                    get_code = false;
+                    ToastUtil.Long("修改状态失败");
+                }
+            });
+
+        }
+
     }
 
 }

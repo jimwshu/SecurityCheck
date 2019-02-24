@@ -191,12 +191,12 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_DEVICE) {
-                viewHolder.name.setText("设备产权");
+                viewHolder.name.setText("设备使用登记");
                 viewHolder.icon.setImageResource(R.mipmap.t_g);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("设备一览");
+                        security.zw.com.securitycheck.usedEqupment.allEqupment.InstallEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             } else if (item.type == HOME_MY_COMPANY) {
@@ -308,7 +308,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_ALL_EQUPMENT) {
-                viewHolder.name.setText("已备案设备");
+                viewHolder.name.setText("设备产权");
                 viewHolder.icon.setImageResource(R.mipmap.t_z);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -209,7 +209,13 @@ public class Constans {
 
         @POST("/supervisorDiamond/projectCheckItem/reviewRandomCheck/list")
         public Call<String> getRandomCheckList(@Body RequestBody route);
+
+
+        @POST("/supervisorDiamond/myProject/modify/superiseStatus")
+        public Call<String> toChangeStatus(@Body RequestBody route);
     }
+
+
     public interface Equipment {
         @POST("/supervisorDiamond/equipment/record")
         public Call<String> getEquipmentRecord(@Body RequestBody route);
@@ -259,6 +265,13 @@ public class Constans {
 
         @POST("/supervisorDiamond/users/resetPassword")
         public Call<String> resetPassword(@Body RequestBody route);
+
+
+        @POST("/supervisorDiamond/equipmentProperty/alreadyRecords")
+        public Call<String> getAlreadyRecordsList(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipmentProperty/detail")
+        public Call<String> getAlreadyRecordsListDetail(@Body RequestBody route);
 
     }
 

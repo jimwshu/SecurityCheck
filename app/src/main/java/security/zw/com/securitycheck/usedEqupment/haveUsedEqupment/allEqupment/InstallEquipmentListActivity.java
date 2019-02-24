@@ -1,4 +1,4 @@
-package security.zw.com.securitycheck.allEqupment;
+package security.zw.com.securitycheck.usedEqupment.haveUsedEqupment.allEqupment;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,18 +27,17 @@ import retrofit2.Retrofit;
 import security.zw.com.securitycheck.Constans;
 import security.zw.com.securitycheck.R;
 import security.zw.com.securitycheck.SecurityApplication;
-import security.zw.com.securitycheck.adapter.EquipmentListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
 import security.zw.com.securitycheck.bean.EquipmentList;
 import security.zw.com.securitycheck.utils.net.NetRequest;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 // 整改列表（相对于项目）
-public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
+public class InstallEquipmentListActivity extends BaseSystemBarTintActivity {
 
 
     public static void launch(Context ctx, int type) {
-        Intent intent = new Intent(ctx, AllEquipmentListActivity.class);
+        Intent intent = new Intent(ctx, InstallEquipmentListActivity.class);
         intent.putExtra("type", type);
         ctx.startActivity(intent);
     }
@@ -59,7 +58,7 @@ public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
 
     private ArrayList<EquipmentList> data = new ArrayList<EquipmentList>();
     protected LinearLayoutManager mManager;
-    protected AllEquipmentListAdapter mAdapter;
+    protected InstallEquipmentListAdapter mAdapter;
 
     private int page = 1;
     protected boolean isLoading = false;
@@ -100,10 +99,10 @@ public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
         check.setVisibility(View.GONE);
         mType = findViewById(R.id.perrmission);
         mType.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        mType.setText("设备产权");
+        mType.setText("已登记列表");
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        mAdapter = new AllEquipmentListAdapter(data, this);
+        mAdapter = new InstallEquipmentListAdapter(data, this);
         mSubmit = findViewById(R.id.submit);
         mSubmit.setVisibility(View.GONE);
         mManager = new LinearLayoutManager(this);
@@ -114,7 +113,7 @@ public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                AllEquipmentListActivity.this.onRefresh();
+                InstallEquipmentListActivity.this.onRefresh();
             }
         });
     }
@@ -146,7 +145,7 @@ public class AllEquipmentListActivity extends BaseSystemBarTintActivity {
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getAlreadyRecordsList(requestBody);
+        mCall = addCheck.getEquipmentUsed(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override

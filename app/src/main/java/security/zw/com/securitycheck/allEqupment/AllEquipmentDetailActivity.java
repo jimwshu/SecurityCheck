@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -82,20 +83,94 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
     public EquipmentList info;
     private EquipmentDetail detail;
 
-    private RecyclerView mRecyclerView;
 
-    private ArrayList<EquipmentDetail> data = new ArrayList<EquipmentDetail>();
-    protected LinearLayoutManager mManager;
-    protected AllEquipmentDetailAdapter mAdapter;
+    private RelativeLayout equip_detail;// 是否督办
+    private TextView equip_detail_title;
+    private TextView equip_detail_state;
+    private ImageView bar_next;
+    private ImageView map;
+
+
+    private RelativeLayout equip_detail_1;// 是否督办
+    private TextView equip_detail_title_1;
+    private TextView equip_detail_state_1;
+    private ImageView bar_next_1;
+    private ImageView map_1;
+
+    private RelativeLayout equip_detail_2;// 是否督办
+    private TextView equip_detail_title_2;
+    private TextView equip_detail_state_2;
+    private ImageView bar_next_2;
+    private ImageView map_2;
+
+
+    private RelativeLayout equip_detail_3;// 是否督办
+    private TextView equip_detail_title_3;
+    private TextView equip_detail_state_3;
+    private ImageView bar_next_3;
+    private ImageView map_3;
+
+
+    private RelativeLayout equip_detail_4;// 是否督办
+    private TextView equip_detail_title_4;
+    private TextView equip_detail_state_4;
+    private ImageView bar_next_4;
+    private ImageView map_4;
+
+    private RelativeLayout equip_detail_5;// 是否督办
+    private TextView equip_detail_title_5;
+    private TextView equip_detail_state_5;
+    private ImageView bar_next_5;
+    private ImageView map_5;
+
+    private RelativeLayout equip_detail_6;// 是否督办
+    private TextView equip_detail_title_6;
+    private TextView equip_detail_state_6;
+    private ImageView bar_next_6;
+    private ImageView map_6;
+
+    private RelativeLayout equip_detail_7;// 是否督办
+    private TextView equip_detail_title_7;
+    private TextView equip_detail_state_7;
+    private ImageView bar_next_7;
+    private ImageView map_7;
+
+    private RelativeLayout equip_detail_8;// 是否督办
+    private TextView equip_detail_title_8;
+    private TextView equip_detail_state_8;
+    private ImageView bar_next_8;
+    private ImageView map_8;
+
+
+    private RelativeLayout equip_detail_9;// 是否督办
+    private TextView equip_detail_title_9;
+    private TextView equip_detail_state_9;
+    private ImageView bar_next_9;
+    private ImageView map_9;
+
+    private RelativeLayout equip_detail_11;// 是否督办
+    private TextView equip_detail_title_11;
+    private TextView equip_detail_state_11;
+    private ImageView bar_next_11;
+    private ImageView map_11;
+
+    private RelativeLayout equip_detail_12;// 是否督办
+    private TextView equip_detail_title_12;
+    private TextView equip_detail_state_12;
+    private ImageView bar_next_12;
+    private ImageView map_12;
+
+    private RelativeLayout equip_detail_10;// 是否督办
+    private TextView equip_detail_title_10;
+    private TextView equip_detail_state_10;
+    private ImageView bar_next_10;
+    private ImageView map_10;
 
     private int page = 1;
     protected boolean isLoading = false;
     protected boolean hasMore = true;
 
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private TextView checkNo;
-    private TextView checkYes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +179,7 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
         if (null != savedInstanceState) {
             savedInstanceState.remove("android:support:fragments");
         }
-        setContentView(R.layout.activity_equipment_detail);
+        setContentView(R.layout.activity_equipme_detail);
 
         info = (EquipmentList) getIntent().getSerializableExtra("info");
         if (info == null) {
@@ -121,38 +196,126 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
     }
 
     private void initView() {
-        findViewById(R.id.bottom_lin).setVisibility(View.GONE);
-        findViewById(R.id.edittext).setVisibility(View.GONE);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresher);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                AllEquipmentDetailActivity.this.onRefresh();
-            }
-        });
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new AllEquipmentDetailAdapter(data, this);
-        mManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
 
-        checkNo = findViewById(R.id.check_no);
-        checkYes = findViewById(R.id.check_yes);
 
-        checkNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setYseOrNo(false);
-            }
-        });
+        equip_detail = findViewById(R.id.detail);
+        equip_detail_title = equip_detail.findViewById(R.id.title);
+        equip_detail_state = equip_detail.findViewById(R.id.state);
+        bar_next = equip_detail.findViewById(R.id.bar_next);
+        map = equip_detail.findViewById(R.id.map);
+        bar_next.setVisibility(View.GONE);
+        map.setVisibility(View.GONE);
+        equip_detail_title.setText("产权单位名称");
 
-        checkYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setYseOrNo(true);
-            }
-        });
+
+
+        equip_detail_1 = findViewById(R.id.detail_1);
+        equip_detail_title_1 = equip_detail_1.findViewById(R.id.title);
+        equip_detail_state_1 = equip_detail_1.findViewById(R.id.state);
+        bar_next_1 = equip_detail_1.findViewById(R.id.bar_next);
+        map_1 = equip_detail_1.findViewById(R.id.map);
+        bar_next_1.setVisibility(View.GONE);
+        map_1.setVisibility(View.GONE);
+        equip_detail_title_1.setText("设备名称");
+
+        equip_detail_2 = findViewById(R.id.detail_2);
+        equip_detail_title_2 = equip_detail_2.findViewById(R.id.title);
+        equip_detail_state_2 = equip_detail_2.findViewById(R.id.state);
+        bar_next_2 = equip_detail_2.findViewById(R.id.bar_next);
+        map_2 = equip_detail_2.findViewById(R.id.map);
+        bar_next_2.setVisibility(View.GONE);
+        map_2.setVisibility(View.GONE);
+        equip_detail_title_2.setText("规格型号");
+
+        equip_detail_3 = findViewById(R.id.detail_3);
+        equip_detail_title_3 = equip_detail_3.findViewById(R.id.title);
+        equip_detail_state_3 = equip_detail_3.findViewById(R.id.state);
+        bar_next_3 = equip_detail_3.findViewById(R.id.bar_next);
+        map_3 = equip_detail_3.findViewById(R.id.map);
+        bar_next_3.setVisibility(View.GONE);
+        map_3.setVisibility(View.GONE);
+        equip_detail_title_3.setText("出场编号");
+
+        equip_detail_4 = findViewById(R.id.detail_4);
+        equip_detail_title_4 = equip_detail_4.findViewById(R.id.title);
+        equip_detail_state_4 = equip_detail_4.findViewById(R.id.state);
+        bar_next_4 = equip_detail_4.findViewById(R.id.bar_next);
+        map_4 = equip_detail_4.findViewById(R.id.map);
+        bar_next_4.setVisibility(View.GONE);
+        map_4.setVisibility(View.GONE);
+        equip_detail_title_4.setText("出产厂家");
+
+        equip_detail_5 = findViewById(R.id.detail_5);
+        equip_detail_title_5 = equip_detail_5.findViewById(R.id.title);
+        equip_detail_state_5 = equip_detail_5.findViewById(R.id.state);
+        bar_next_5 = equip_detail_5.findViewById(R.id.bar_next);
+        map_5 = equip_detail_5.findViewById(R.id.map);
+        bar_next_5.setVisibility(View.GONE);
+        map_5.setVisibility(View.GONE);
+        equip_detail_title_5.setText("负责人");
+
+        equip_detail_6 = findViewById(R.id.detail_6);
+        equip_detail_title_6 = equip_detail_6.findViewById(R.id.title);
+        equip_detail_state_6 = equip_detail_6.findViewById(R.id.state);
+        bar_next_6 = equip_detail_6.findViewById(R.id.bar_next);
+        map_6 = equip_detail_6.findViewById(R.id.map);
+        bar_next_6.setVisibility(View.GONE);
+        map_6.setVisibility(View.GONE);
+        equip_detail_title_6.setText("机械员");
+
+        equip_detail_7 = findViewById(R.id.detail_7);
+        equip_detail_title_7 = equip_detail_7.findViewById(R.id.title);
+        equip_detail_state_7 = equip_detail_7.findViewById(R.id.state);
+        bar_next_7 = equip_detail_7.findViewById(R.id.bar_next);
+        map_7 = equip_detail_7.findViewById(R.id.map);
+        bar_next_7.setVisibility(View.GONE);
+        map_7.setVisibility(View.GONE);
+        equip_detail_title_7.setText("联系电话");
+
+        equip_detail_8 = findViewById(R.id.detail_8);
+        equip_detail_title_8 = equip_detail_8.findViewById(R.id.title);
+        equip_detail_state_8 = equip_detail_8.findViewById(R.id.state);
+        bar_next_8 = equip_detail_8.findViewById(R.id.bar_next);
+        map_8 = equip_detail_8.findViewById(R.id.map);
+        bar_next_8.setVisibility(View.GONE);
+        map_8.setVisibility(View.GONE);
+        equip_detail_title_8.setText("备案编号");
+
+        equip_detail_9 = findViewById(R.id.detail_9);
+        equip_detail_title_9 = equip_detail_9.findViewById(R.id.title);
+        equip_detail_state_9 = equip_detail_9.findViewById(R.id.state);
+        bar_next_9 = equip_detail_9.findViewById(R.id.bar_next);
+        map_9 = equip_detail_9.findViewById(R.id.map);
+        bar_next_9.setVisibility(View.GONE);
+        map_9.setVisibility(View.GONE);
+        equip_detail_title_9.setText("出厂时间");
+
+        equip_detail_10 = findViewById(R.id.detail_10);
+        equip_detail_title_10 = equip_detail_10.findViewById(R.id.title);
+        equip_detail_state_10 = equip_detail_10.findViewById(R.id.state);
+        bar_next_10 = equip_detail_10.findViewById(R.id.bar_next);
+        map_10 = equip_detail_10.findViewById(R.id.map);
+        bar_next_10.setVisibility(View.GONE);
+        map_10.setVisibility(View.GONE);
+        equip_detail_title_10.setText("备案有效期限");
+
+        equip_detail_11 = findViewById(R.id.detail_11);
+        equip_detail_title_11 = equip_detail_11.findViewById(R.id.title);
+        equip_detail_state_11 = equip_detail_11.findViewById(R.id.state);
+        bar_next_11 = equip_detail_11.findViewById(R.id.bar_next);
+        map_11 = equip_detail_11.findViewById(R.id.map);
+        bar_next_11.setVisibility(View.GONE);
+        map_11.setVisibility(View.GONE);
+        equip_detail_title_11.setText("备案时间");
+
+        equip_detail_12 = findViewById(R.id.detail_12);
+        equip_detail_title_12 = equip_detail_12.findViewById(R.id.title);
+        equip_detail_state_12 = equip_detail_12.findViewById(R.id.state);
+        bar_next_12 = equip_detail_12.findViewById(R.id.bar_next);
+        map_12 = equip_detail_12.findViewById(R.id.map);
+        bar_next_12.setVisibility(View.GONE);
+        map_12.setVisibility(View.GONE);
+        equip_detail_title_12.setText("备注");
 
     }
 
@@ -173,43 +336,44 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-        jsonObject.addProperty("equipmentId", info.equipmentId);
-        jsonObject.addProperty("recordId", info.recordId);
+        jsonObject.addProperty("id", info.recordId);
 
         String s = jsonObject.toString();
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
 
-        mCall = addCheck.getEquipmentDoc(requestBody);
+        mCall = addCheck.getAlreadyRecordsListDetail(requestBody);
 
         mCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
                 isLoading = false;
-                mSwipeRefreshLayout.setRefreshing(false);
 
                 if (response.isSuccessful()) {
-
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().toString());
                         if (jsonObject.has("code")) {
                             int code = jsonObject.optInt("code");
                             if (code == 0) {
-                                JSONArray object = jsonObject.optJSONArray("data");
-                                ArrayList<EquipmentDetail> arrayList = new ArrayList<>();
-                                if (object != null && object.length() > 0) {
-                                    for (int i = 0; i < object.length(); i++) {
-                                        JSONObject object1 = object.optJSONObject(i);
-                                        EquipmentDetail supervisionProjectList = new Gson().fromJson(object1.toString(), EquipmentDetail.class);
-                                        arrayList.add(supervisionProjectList);
+
+                                JSONObject object = jsonObject.optJSONObject("data");
+                                if (object != null) {
+                                    EquipmentDetail supervisionProjectList = new Gson().fromJson(object.toString(), EquipmentDetail.class);
+                                    if (supervisionProjectList != null) {
+                                        equip_detail_state.setText(supervisionProjectList.manufacturer);
+                                        equip_detail_state_1.setText(supervisionProjectList.equipmentName);
+                                        equip_detail_state_2.setText(supervisionProjectList.specificationModel);
+                                        equip_detail_state_3.setText(supervisionProjectList.manufacturingNum);
+
+                                        equip_detail_state_8.setText(supervisionProjectList.manufactureLicense);
+                                        equip_detail_state_9.setText(supervisionProjectList.outManufactureTime);
+                                        equip_detail_state_10.setText(supervisionProjectList.recordValidTime);
+                                        equip_detail_state_11.setText(supervisionProjectList.recordTime);
+
+
                                     }
                                 }
 
-                                if (arrayList.size() > 0) {
-                                    data.clear();
-                                    data.addAll(arrayList);
-                                    mAdapter.notifyDataSetChanged();
-                                }
                             }
                         }
                     } catch (JSONException e) {
@@ -223,7 +387,6 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 t.printStackTrace();
                 isLoading = false;
-                mSwipeRefreshLayout.setRefreshing(false);
 
                 ToastUtil.Short("数据获取失败");
 
@@ -243,67 +406,6 @@ public class AllEquipmentDetailActivity extends BaseSystemBarTintActivity {
         onRefresh();
     }
 
-
-    private void setYseOrNo(boolean yes) {
-        if (isLoading) {
-            return;
-        }
-        isLoading = true;
-
-        mRetrofit = NetRequest.getInstance().init("").getmRetrofit();
-        addCheck = mRetrofit.create(Constans.Equipment.class);
-
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("userId", SecurityApplication.mUser.id);
-        jsonObject.addProperty("equipmentId", info.equipmentId);
-        jsonObject.addProperty("recordId", info.recordId);
-        jsonObject.addProperty("accept", yes);
-
-        String s = jsonObject.toString();
-        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
-
-        mCall = addCheck.recordDocAudit(requestBody);
-
-        mCall.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-                isLoading = false;
-                mSwipeRefreshLayout.setRefreshing(false);
-
-                if (response.isSuccessful()) {
-
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        if (jsonObject.has("code")) {
-                            int code = jsonObject.optInt("code");
-                            if (code == 0) {
-                                ToastUtil.Short("数据提交成功");
-                                onRefresh();
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        ToastUtil.Short("数据提交失败");
-                    }
-                } else {
-                    ToastUtil.Short("数据提交失败");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                t.printStackTrace();
-                isLoading = false;
-                mSwipeRefreshLayout.setRefreshing(false);
-
-                ToastUtil.Short("数据提交失败");
-
-            }
-        });
-
-
-    }
 
 
 

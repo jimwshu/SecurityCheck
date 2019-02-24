@@ -15,6 +15,7 @@ import security.zw.com.securitycheck.MyCheckDetailActivity;
 import security.zw.com.securitycheck.MySupervisionProjectListActivity;
 import security.zw.com.securitycheck.ProjectDetailActivity;
 import security.zw.com.securitycheck.R;
+import security.zw.com.securitycheck.SecurityApplication;
 import security.zw.com.securitycheck.bean.MyCheckProjectDetail;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.utils.LogUtils;
@@ -27,6 +28,15 @@ import security.zw.com.securitycheck.utils.LogUtils;
 
 public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.ProjectViewHolder> {
 
+    public interface OnClick {
+        void onClick(int pos);
+    }
+
+    public OnClick onClick;
+
+    public void setOnClick(OnClick onClick) {
+        this.onClick = onClick;
+    }
 
     private ArrayList<ProjectInfo> mData;
 
@@ -58,7 +68,7 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
         public TextView des;
         public ImageView check;
         public RelativeLayout rel;
-
+        public TextView changeStatus;
         public ProjectViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.circle);
@@ -66,6 +76,7 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
             des = itemView.findViewById(R.id.des);
             check = itemView.findViewById(R.id.remind);
             rel = itemView.findViewById(R.id.rel);
+            changeStatus = itemView.findViewById(R.id.change_status);
         }
     }
 
@@ -73,7 +84,6 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
     public void onBindViewHolder(MyProjectAdapter.ProjectViewHolder holder, final int position) {
         final ProjectInfo p = mData.get(position);
         holder.name.setText(p.name);
-        LogUtils.e(" " + p.state);
         if (p.state == ProjectInfo.TYPE_NEED_CHANGE) {
             holder.des.setText("需要整改项目");
             holder.icon.setBackgroundResource(R.drawable.red_circle);
@@ -88,10 +98,30 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
             holder.icon.setBackgroundResource(R.drawable.grey_circle);
         }
 
+        if (type == -1) {
+            if (SecurityApplication.mUser.type == 1) {
+                holder.changeStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.changeStatus.setVisibility(View.GONE);
+            }
+        } else {
+            holder.changeStatus.setVisibility(View.GONE);
+        }
+
+
+        holder.changeStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClick != null) {
+                    onClick.onClick(position);
+                }
+            }
+        });
+
         if (p.supervise == 0) {
-            holder.check.setVisibility(View.VISIBLE);
+            holder.check.setVisibility(View.INVISIBLE);
         } else if (p.supervise == 1) {
-            holder.check.setVisibility(View.GONE);
+            holder.check.setVisibility(View.VISIBLE);
         }
         if (type == -1) {
             holder.rel.setOnClickListener(new View.OnClickListener() {

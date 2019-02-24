@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:background="#f4f4f4"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <ScrollView
+            android:layout_above="@+id/check"
+            android:layout_below="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_1"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_2"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_3"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_4"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_5"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_6"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_7"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_8"
+            ></include>
+
+
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_9"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_10"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_11"
+            ></include>
+
+            <include
+                    android:visibility="visible"
+                    layout="@layout/item_project_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/detail_12"
+            ></include>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
+
