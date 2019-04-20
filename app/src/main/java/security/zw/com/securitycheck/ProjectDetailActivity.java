@@ -669,7 +669,7 @@ public class ProjectDetailActivity extends BaseSystemBarTintActivity implements 
     @Override
     public void getProjectSucc(final ProjectDetail detail) {
         this.detail = detail;
-        if (detail.supervise == 0) {
+        if (detail.supervise == 1) {
             is_checked_state.setTextColor(0xffd0021b);
             is_checked_state.setText("是");
         } else {

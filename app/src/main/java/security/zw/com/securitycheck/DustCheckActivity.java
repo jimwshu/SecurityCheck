@@ -218,7 +218,7 @@ public class DustCheckActivity extends BaseSystemBarTintActivity {
         unfit2 = findViewById(R.id.check_result_unfit_2);
         check_result_rel.setVisibility(View.VISIBLE);
         unfit.setVisibility(View.GONE);
-
+        unfit2.setVisibility(View.VISIBLE);
         illegel = findViewById(R.id.illegal);
         basic = findViewById(R.id.basic);
         basic.setText(checkItem.demand);

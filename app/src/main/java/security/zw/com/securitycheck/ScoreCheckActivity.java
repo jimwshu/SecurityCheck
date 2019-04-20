@@ -231,12 +231,17 @@ public class ScoreCheckActivity extends BaseSystemBarTintActivity {
         fit = findViewById(R.id.check_result_fit);
         unfit = findViewById(R.id.check_result_unfit);
         unfit2 = findViewById(R.id.check_result_unfit_2);
+
+
+
         check_result_rel = findViewById(R.id.check_result_rel);
         count_rel = findViewById(R.id.count_rel);
 
         if (detail.check_type == ProjectDetail.CHECK_TYPE_EVERY) {
             check_result_rel.setVisibility(View.VISIBLE);
             count_rel.setVisibility(View.GONE);
+            unfit.setVisibility(View.VISIBLE);
+
         } else if (detail.check_type == ProjectDetail.CHECK_TYPE_COUNT){
             check_result_rel.setVisibility(View.GONE);
             count_rel.setVisibility(View.VISIBLE);

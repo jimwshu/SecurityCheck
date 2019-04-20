@@ -78,7 +78,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int HOME_MY_STOP_WORKER = 3;    //停工复工：
     public int HOME_MY_REMINGDER = 5;    //录控提醒：
     public int HOME_MY_Head_WORKER = 4;    //人员库：
-    public int HOME_MY_DEVICE = 7;    //设备一览：
+    public int HOME_MY_DEVICE = 7;    //使用记录：
     public int HOME_MY_COMPANY = 8;    //企业库：企
     public static int HOME_MY_NOTICE = 6; //通知：发布
 
@@ -99,6 +99,9 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static int HOME_MY_CHECKER_COMPANY   = 17; //检测单位一览
 
     public static int HOME_ALL_EQUPMENT = 18;//所有设备
+
+    public static int HOME_MY_RECORDS   = 19; //使用记录
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -191,12 +194,12 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 });
             } else if (item.type == HOME_MY_DEVICE) {
-                viewHolder.name.setText("设备使用登记");
+                viewHolder.name.setText("使用记录");
                 viewHolder.icon.setImageResource(R.mipmap.t_g);
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        security.zw.com.securitycheck.usedEqupment.allEqupment.InstallEquipmentListActivity.launch(view.getContext(), 0);
+                        security.zw.com.securitycheck.recordEqupment.allEqupment.AllEquipmentListActivity.launch(view.getContext(), 0);
                     }
                 });
             } else if (item.type == HOME_MY_COMPANY) {

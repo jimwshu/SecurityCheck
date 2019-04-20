@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -154,7 +156,7 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
                 if (TextUtils.isEmpty(editText.getText().toString())) {
                     ToastUtil.Short("请输入拒绝申请理由");
                 } else {
-                    setYseOrNo(false);
+                    setYseOrNo(false, "-1");
                 }
             }
         });
@@ -162,10 +164,36 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
         checkYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setYseOrNo(true);
+
+
+
+                alert_edit(v);
             }
         });
 
+    }
+
+    public void alert_edit(View view){
+        final EditText et = new EditText(this);
+        new AlertDialog.Builder(this).setTitle("请输入设备备案编号")
+                .setView(et)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //按下确定键后的事件
+                        if (TextUtils.isEmpty(et.getText().toString())) {
+                            ToastUtil.Short("请输入设备备案编号");
+                        } else {
+                            setYseOrNo(true, et.getText().toString());
+                        }
+                        dialogInterface.dismiss();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
 
@@ -256,7 +284,7 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
     }
 
 
-    private void setYseOrNo(boolean yes) {
+    private void setYseOrNo(boolean yes, String id) {
         if (isLoading) {
             return;
         }
@@ -282,6 +310,8 @@ public class EquipmentDetailActivity extends BaseSystemBarTintActivity {
         jsonObject.add("equipmentRecordDocReqVOS", jsonArray);
         if (!yes) {
             jsonObject.addProperty("reason", editText.getText().toString());
+        } else {
+            jsonObject.addProperty("recordCode", id);
         }
 
         String s = jsonObject.toString();

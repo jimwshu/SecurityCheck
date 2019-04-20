@@ -273,6 +273,15 @@ public class Constans {
         @POST("/supervisorDiamond/equipmentProperty/detail")
         public Call<String> getAlreadyRecordsListDetail(@Body RequestBody route);
 
+
+        @POST("/supervisorDiamond/equipment/usedInProjects")
+        public Call<String> usedInProjects(@Body RequestBody route);
+
+        @POST("/supervisorDiamond/equipment/usedDetail")
+        public Call<String> getUsedDetail(@Body RequestBody route);
+
+
+
     }
 
 
