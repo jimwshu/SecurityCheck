@@ -223,10 +223,10 @@ public class Constans {
         @POST("/supervisorDiamond/equipment/uninstalled")
         public Call<String> getEquipmentUninstall(@Body RequestBody route);
 
-        @POST("/supervisorDiamond/equipment/uninstalledDoc")
+        @POST("/supervisorDiamond/equipment/unInstallDoc")
         public Call<String> getEquipmentUninstallDoc(@Body RequestBody route);
 
-        @POST("/supervisorDiamond/equipment/uninstalledDocAudit")
+        @POST("/supervisorDiamond/equipment/unInstallDocAudit")
         public Call<String> getEquipmentUninstallDocAudit(@Body RequestBody route);
 
 
@@ -280,7 +280,8 @@ public class Constans {
         @POST("/supervisorDiamond/equipment/usedDetail")
         public Call<String> getUsedDetail(@Body RequestBody route);
 
-
+        @POST("/supervisorDiamond/company/checkCompanyList")
+        public Call<String> checkCompanyList(@Body RequestBody route);
 
     }
 

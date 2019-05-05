@@ -26,6 +26,7 @@ import retrofit2.Retrofit;
 import security.zw.com.securitycheck.adapter.MySupervisionListForOneCheckAdapter;
 import security.zw.com.securitycheck.adapter.MySupervisionProjectListAdapter;
 import security.zw.com.securitycheck.base.BaseSystemBarTintActivity;
+import security.zw.com.securitycheck.bean.Company;
 import security.zw.com.securitycheck.bean.ProjectInfo;
 import security.zw.com.securitycheck.bean.SupervisionProjectList;
 import security.zw.com.securitycheck.utils.net.NetRequest;
@@ -34,6 +35,7 @@ import security.zw.com.securitycheck.utils.toast.ToastUtil;
 // 整改列表（相对于单次检查）
 public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTintActivity {
 
+    public Company company;
 
     public static void launch(Context ctx, SupervisionProjectList info) {
         Intent intent = new Intent(ctx, MySupervisionProjectListForOneCheckActivity.class);
@@ -113,7 +115,13 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postResult(1);
+
+                if (company == null) {
+                    CheckCompanyList.launch(MySupervisionProjectListForOneCheckActivity.this, 1001, info);
+                } else {
+                    postResult(1);
+                }
+
             }
         });
 
@@ -227,6 +235,15 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
             jsonObject.addProperty("checkMode", info.checkMode);
             jsonObject.addProperty("checkType", info.checkType);
 
+            if (status == 1) {
+                if (company != null) {
+                    jsonObject.addProperty("company_id", company.id);
+                } else {
+                    ToastUtil.Short("请先选择检测单位");
+                    return;
+                }
+            }
+
             String s = jsonObject.toString();
             RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), s);
             mCall = addCheck.updateSupervisionListDetailForProject(requestBody);
@@ -241,14 +258,20 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
                             if (jsonObject.has("code")) {
                                 int code = jsonObject.optInt("code");
                                 if (code == 0) {
+                                    company = null;
                                     ToastUtil.Long("修改状态成功");
                                     loadData();
+                                } else {
+                                    ToastUtil.Long("修改状态失败");
                                 }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             ToastUtil.Long("修改状态失败");
 
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            ToastUtil.Long("修改状态失败");
                         }
                     } else {
                         ToastUtil.Long("修改状态失败");
@@ -269,5 +292,15 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 1001 && resultCode == 99) {
+            Company newCompany = (Company) data.getSerializableExtra("company");
+            this.company = newCompany;
+            postResult(1);
+        }
+
+    }
 }

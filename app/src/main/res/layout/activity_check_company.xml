@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+>
+
+
+    <include
+            android:visibility="visible"
+            layout="@layout/common_title_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/action_bar"
+    ></include>
+
+
+    <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/action_bar"
+            android:textColor="#ff0000"
+            android:textSize="16dp"
+            android:id="@+id/check_company"
+            android:text="选择的单位为："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <TextView
+            android:id="@+id/company_name"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:layout_toRightOf="@+id/check_company"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="#0f86ff"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="开始选择"
+            android:id="@+id/finish_check"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+
+        <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/company_name"
+                android:layout_above="@+id/finish_check"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+

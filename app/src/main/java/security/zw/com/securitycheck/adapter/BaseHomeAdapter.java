@@ -100,9 +100,6 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static int HOME_ALL_EQUPMENT = 18;//所有设备
 
-    public static int HOME_MY_RECORDS   = 19; //使用记录
-
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {

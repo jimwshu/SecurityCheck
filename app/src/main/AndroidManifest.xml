@@ -343,6 +343,12 @@
                 android:windowSoftInputMode="stateAlwaysHidden"
         />
 
+
+        <activity
+                android:name=".CheckCompanyList"
+                android:screenOrientation="portrait"
+        ></activity>
+
         <activity
                 android:name=".widget.imagepreview.UserImagePreviewActivity"
                 android:screenOrientation="portrait"
