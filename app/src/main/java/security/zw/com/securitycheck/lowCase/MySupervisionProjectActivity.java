@@ -165,7 +165,7 @@ public class MySupervisionProjectActivity extends BaseSystemBarTintActivity {
                             if (code == 0) {
                                 JSONObject object = jsonObject.optJSONObject("data");
                                 hasMore = jsonObject.optBoolean("has_more");
-                                JSONArray data1 = object.optJSONArray("projects");
+                                JSONArray data1 = object.optJSONArray("autoProjects");
                                 ArrayList<ProjectInfo> arrayList = new ArrayList<>();
                                 if (data1 != null && data1.length() > 0) {
                                     for (int i = 0; i < data1.length(); i++) {

@@ -296,9 +296,6 @@ public class MySupervisionProjectListForOneCheckActivity extends BaseSystemBarTi
                 JsonArray jsonArray = new JsonArray();
                 for (int i = 0; i < imagePaths.size(); i++) {
                     jsonArray.add(images[i]);
-                   /* JsonObject j = new JsonObject();
-                    j.add("url", images[i]);
-                    jsonArray.add(j);*/
                 }
                 jsonObject.add("interviewRecord", jsonArray);
             }

@@ -92,7 +92,7 @@ public class MyProjectAdapter extends RecyclerView.Adapter<MyProjectAdapter.Proj
             holder.icon.setBackgroundResource(R.drawable.grey_circle);
         }
 
-
+        holder.changeStatus.setVisibility(View.GONE);
         if (p.supervise == 0) {
             holder.check.setVisibility(View.INVISIBLE);
         } else if (p.supervise == 1) {
