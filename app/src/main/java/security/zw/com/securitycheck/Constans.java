@@ -97,6 +97,40 @@ public class Constans {
         @POST("/supervisorDiamond/recordControl/update")
         public Call<String> changeRemind(@Body RequestBody route);
 
+
+        // 执法项目列表
+        @POST("/supervisorDiamond/enforceLaw/projectList")
+        public Call<String> enforceLawProjectList(@Body RequestBody route);
+
+        // 项目为单位下的执法列表
+        @POST("/supervisorDiamond/enforceLaw/enforceLawList")
+        public Call<String> getEnforceLawListForProject(@Body RequestBody route);
+
+        // 获取执法人员
+        @POST("/supervisorDiamond/enforceLaw/personnel")
+        public Call<String> getEnforceLawPersonal(@Body RequestBody route);
+
+        // 分配执法
+        @POST("/supervisorDiamond/enforceLaw/assign")
+        public Call<String> enforceLawPersonalAssign(@Body RequestBody route);
+
+        // 执法详情
+        @POST("/supervisorDiamond/enforceLaw/enforceLawDetail")
+        public Call<String> enforceLawDetail(@Body RequestBody route);
+
+        // 处理执法
+        @POST("/supervisorDiamond/enforceLaw/dealDetail")
+        public Call<String> enforceLawDetailDeal(@Body RequestBody route);
+
+
+        // 立案项目列表
+        @POST("/supervisorDiamond/lawCase/projectList")
+        public Call<String> lawCaseProjectList(@Body RequestBody route);
+
+
+        // 项目为单位下的立案列表
+        @POST("/supervisorDiamond/lawCase/caseList")
+        public Call<String> getLawCaseListForProject(@Body RequestBody route);
     }
 
     public interface GetCheckItemList {

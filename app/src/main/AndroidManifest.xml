@@ -358,6 +358,48 @@
                 android:name=".zxing.ScanActivity"
                 android:screenOrientation="portrait"
         ></activity>
+
+
+        <activity
+                android:name=".enforceLow.MySupervisionProjectActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".enforceLow.MySupervisionProjectListActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".enforceLow.MySupervisionProjectDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".enforceLow.MySupervisionProjectListForOneCheckActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+
+        <activity
+                android:name=".lowCase.MySupervisionProjectActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".lowCase.MySupervisionProjectListActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".lowCase.MySupervisionProjectDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
+
+        <activity
+                android:name=".lowCase.MySupervisionAddProjectDetailActivity"
+                android:screenOrientation="portrait"
+        ></activity>
         <service
                 android:enabled="true"
                 android:process=":pushservice"

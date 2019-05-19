@@ -160,6 +160,7 @@ public class UserInfo extends JSONAble {
      监督整改（包括标化考评生成的整改）	设备一览	执法一览
      通知（发起接受标化考评也在此）	企业库	人员库
 
+     执法列表
 
      * 综合科|6|
      */

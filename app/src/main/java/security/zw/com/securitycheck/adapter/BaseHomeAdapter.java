@@ -29,6 +29,7 @@ import security.zw.com.securitycheck.bean.Item;
 import security.zw.com.securitycheck.bean.Person;
 import security.zw.com.securitycheck.bean.UserInfo;
 import security.zw.com.securitycheck.installEqupment.allEqupment.InstallEquipmentListActivity;
+import security.zw.com.securitycheck.lowCase.MySupervisionProjectListActivity;
 import security.zw.com.securitycheck.utils.toast.ToastUtil;
 
 
@@ -99,6 +100,9 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static int HOME_MY_CHECKER_COMPANY   = 17; //检测单位一览
 
     public static int HOME_ALL_EQUPMENT = 18;//所有设备
+
+    public static int HOME_MY_LOW_CASE = 20;//我的案件
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -259,7 +263,7 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder.rel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ToastUtil.Short("相关执法");
+                        security.zw.com.securitycheck.enforceLow.MySupervisionProjectActivity.launch(view.getContext());
                     }
                 });
             } else if (item.type == HOME_MY_FILING) {
@@ -314,6 +318,15 @@ public class BaseHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onClick(View view) {
                         AllEquipmentListActivity.launch(view.getContext(), 0);
+                    }
+                });
+            } else if (item.type == HOME_MY_LOW_CASE) {
+                viewHolder.name.setText("我的案件");
+                viewHolder.icon.setImageResource(R.mipmap.t_z);
+                viewHolder.rel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        security.zw.com.securitycheck.lowCase.MySupervisionProjectActivity.launch(view.getContext());
                     }
                 });
             }
